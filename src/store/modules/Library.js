@@ -7,7 +7,9 @@ const state = {
   icd10Rule: [],
   icd10Page: 1,
   icd9Page: 1,
-  libraryMenu: ''
+  libraryMenu: '',
+  // version: 'BJ',
+  mdc: ''
 }
 
 const mutations = {
@@ -31,6 +33,12 @@ const mutations = {
   },
   SET_icd9_page (state, x) {
     state.icd9Page = x
+  },
+  // SET_version (state, x) {
+  //   state.version = x
+  // },
+  SET_mdc (state, x) {
+    state.mdc = x
   },
   SET_library_menu (state, x) {
     state.libraryMenu = x
@@ -65,6 +73,8 @@ const actions = {
     commit('SET_icd10_rule')
     commit('SET_icd10_page')
     commit('SET_icd9_page')
+    // commit('SET_version')
+    commit('SET_mdc')
   }
 }
 

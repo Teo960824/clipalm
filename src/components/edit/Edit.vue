@@ -1,13 +1,16 @@
 <template>
   <div class="demo" @swipe="swipe" style="height:1000px;">
-    <text class="demo-title">{{wxcCellTitle}}</text>
     <list class="list" @loadmore="fetch" loadmoreoffset="20">
-      <cell class="cell" v-for="(num, index) in wt4Case" v-bind:key="index">
-        <wxc-cell
-                  :label="num.drg"
-                  @wxcCellClicked="wxcCellClicked(num)"
-                  :has-margin="false"
-                  :extraContent="num.extraContent"></wxc-cell>
+      <text class="demo-title" v-if="showTitle">{{title}}</text>
+      <cell class="cell" v-for="(wt4, index) in wt4Case" v-bind:key="index">
+        <div class="panel" @longpress="longpress(wt4)">
+          <wxc-cell
+            :label="wt4.disease_name"
+            :has-margin="false"
+            @wxcCellClicked="wxcCellClicked(wt4)"
+            :extraContent="wt4.extraContent">
+          </wxc-cell>
+        </div>
       </cell>
     </list>
   </div>
@@ -33,15 +36,43 @@ export default {
       get () {
         const data = this.$store.state.Edit.wt4Case.map((x) => {
           const obj = x
-          obj.extraContent = `${x.gender}·${x.age}岁·${x.total_expense}元·${x.acctual_days}天·${x.disease_code}`
+          let extraContent = ``
+          switch (this.$store.state.Edit.editMenu) {
+            case '未入组病历':
+              extraContent = `${x.diags_code}`
+              break
+            case 'QY病历':
+              extraContent = `${x.opers_code}`
+              break
+            case '高CV病历':
+              extraContent = `${x.total_expense}元·入组DRG平均费用`
+              break
+            default:
+              extraContent = `${x.gender}·${x.age}岁·${x.total_expense}元·${x.acctual_days}天·${x.drg}`
+          }
+          if (extraContent === '') {
+            obj.extraContent = '无'
+          } else {
+            obj.extraContent = extraContent
+          }
           return obj
         })
         return data
       }
     },
-    wxcCellTitle: {
+    showTitle: {
       get () {
-        return this.$store.state.Edit.editMenu
+        let show = false
+        if (this.$store.state.Edit.wt4Info !== '') {
+          show = true
+        }
+        return show
+      }
+    },
+    title: {
+      get () {
+        const data = this.$store.state.Edit.wt4Info
+        return `病历数:${data.count} 平均费用${data.fee_avg} 平均住院天数${data.day_avg}`
       }
     }
   },
@@ -56,14 +87,9 @@ export default {
       this.$store.commit('SET_infoLevel', 1)
       const details = getDetails(menu, e)
       this.$store.commit('SET_infoPage', details)
-      // this.$store.commit('SET_info', e)
     },
     swipe (e) {
-      const page = this.$store.state.Edit.wt4Page
-      if (e.direction === 'up') {
-        this.$store.commit('SET_wt4Page', page + 1)
-        getServer(this, 'all', this.$store.state.Edit.editMenu)
-      } else if (e.direction === 'left' && this.$store.state.Home.infoPage1.info !== '') {
+      if (e.direction === 'left' && this.$store.state.Home.infoPage1.info !== '') {
         this.$store.commit('SET_infoMenu', this.wxcCellTitle)
         this.$store.commit('SET_menu', [this.$store.state.Home.activeTab, '病案详情'])
         this.$store.commit('SET_infoLevel', 1)
@@ -73,51 +99,27 @@ export default {
       this.$store.commit('SET_wt4Page', this.$store.state.Edit.wt4Page + 1)
       getServer(this, 'all', this.$store.state.Edit.editMenu)
       modal.toast({ message: '加载下一页', duration: 1 })
+    },
+    longpress (wt4) {
+      modal.toast({ message: '跳转论坛', duration: 1 })
+      this.$store.commit('SET_showForum', true)
+      this.$store.commit('SET_menus', ['论坛', '自定义查询'])
+      this.$store.commit('SET_menu', [4, '论坛'])
+      this.$store.commit('SET_post', [])
+      this.$store.commit('SET_forumPage', 1)
+      getServer(this, 'all', '论坛', wt4)
     }
   }
 }
 </script>
 
 <style scoped>
-  /* .refresh {
-    width: 750;
-    display: -ms-flex;
-    display: -webkit-flex;
-    display: flex;
-    -ms-flex-align: center;
-    -webkit-align-items: center;
-    -webkit-box-align: center;
-    align-items: center;
-  } */
-  /* .indicator-text {
-    color: #888888;
-    font-size: 42px;
-    text-align: center;
-  } */
-  /* .indicator {
-    margin-top: 16px;
-    height: 40px;
-    width: 40px;
-    color: blue;
-  } */
-  /* .panel {
-    width: 600px;
-    height: 250px;
-    margin-left: 75px;
-    margin-top: 35px;
-    margin-bottom: 35px;
-    flex-direction: column;
-    justify-content: center;
-    border-width: 2px;
-    border-style: solid;
-    border-color: #DDDDDD;
-    background-color: #F5F5F5;
-  } */
   .demo-title {
     font-size: 30px;
   }
   .demo {
     width: 750px;
     height: 1250px;
+    margin-top: 91px;
   }
 </style>

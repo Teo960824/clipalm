@@ -4,24 +4,36 @@ const state = {
   menus: [],
   menu: ['用户登陆', '数据展示', '数据展示', '数据展示', '数据展示'],
   notice: '未注册用户！',
-  user: { login: false, data: {} },
+  user: { login: false, data: { clipalm_version: 'BJ编码版' } },
   isBottomShow: false,
   infoLevel: 0,
   infoMenu: '',
   infoPage1: { info: '', details: [], infoTitle: '', gridList: [], buttonText: '', isBottomShow: false, isInfoButtonShow: false },
   infoPage2: { info: '', details: [], infoTitle: '', gridList: [], buttonText: '', isBottomShow: false, isInfoButtonShow: false },
   infoPage3: { info: '', details: [], infoTitle: '', gridList: [], buttonText: '', isBottomShow: false, isInfoButtonShow: false },
-  infoPage4: { info: '', details: [], infoTitle: '', gridList: [], buttonText: '', isBottomShow: false, isInfoButtonShow: false }
+  infoPage4: { info: '', details: [], infoTitle: '', gridList: [], buttonText: '', isBottomShow: false, isInfoButtonShow: false },
+  isLoadingShow: false,
+  isMiniShow: false,
+  showForum: false,
+  // 发布版本修改
+  version: '0.0.1',
+  serverVersion: { version: '0.0.1' }
 }
 
 const mutations = {
   SET_visible (state, x) {
     state.visible = x
   },
+  SET_showForum (state, x) {
+    state.showForum = x
+  },
   SET_activeTab (state, x) {
     state.activeTab = x
   },
   SET_menus (state, x) {
+    if (!x.includes('论坛')) {
+      state.showForum = false
+    }
     state.menus = x
   },
   SET_menu (state, x) {
@@ -30,8 +42,14 @@ const mutations = {
   SET_user (state, x) {
     state.user = x
   },
+  SET_userData (state, x) {
+    state.user.data = x
+  },
   SET_isBottomShow (state, x) {
     state.isBottomShow = x
+  },
+  SET_isLoadingShow (state, x) {
+    state.isLoadingShow = x
   },
   SET_info (state, x) {
     switch (state.infoLevel) {
@@ -52,6 +70,14 @@ const mutations = {
   SET_infoMenu (state, x) {
     state.infoMenu = x
   },
+  SET_infoPageClear (state) {
+    const clear = { info: '', details: [], infoTitle: '', gridList: [], buttonText: '', isBottomShow: false, isInfoButtonShow: false }
+    state.infoLevel = 0
+    state.infoPage1 = clear
+    state.infoPage2 = clear
+    state.infoPage3 = clear
+    state.infoPage4 = clear
+  },
   SET_infoPage (state, x) {
     switch (state.infoLevel) {
       case 1:
@@ -70,22 +96,34 @@ const mutations = {
   },
   SET_infoLevel (state, x) {
     state.infoLevel = x
+  },
+  SET_isMiniShow (state, x) {
+    state.isMiniShow = x
+  },
+  SET_serverVersion (state, x) {
+    state.serverVersion = x
   }
 }
 
 const actions = {
   someAsyncTask ({ commit }) {
+    commit('SET_showForum')
+    commit('SET_serverVersion')
     commit('SET_visible')
     commit('SET_activeTab')
     commit('SET_menus')
     commit('SET_menu')
     commit('SET_user')
+    commit('SET_userData')
     commit('SET_labelDetails')
     commit('SET_isBottomShow')
+    commit('SET_isLoadingShow')
     commit('SET_info')
     commit('SET_infoMenu')
     commit('SET_infoPage')
     commit('SET_infoLevel')
+    commit('SET_isMiniShow')
+    commit('SET_infoPageClear')
   }
 }
 

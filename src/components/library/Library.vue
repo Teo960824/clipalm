@@ -84,6 +84,13 @@ export default {
     popupOverlayBottomClick () {
       this.$store.commit('SET_isBottomShow', false)
     },
+    swipe (e) {
+      if (e.direction === 'left' && this.$store.state.Home.infoPage1.info !== '') {
+        this.$store.commit('SET_infoMenu', '规则详情')
+        this.$store.commit('SET_menu', [this.$store.state.Home.activeTab, this.menu])
+        this.$store.commit('SET_infoLevel', 1)
+      }
+    },
     fetch () {
       if (this.menu === 'ICD10') {
         this.$store.commit('SET_icd10_page', this.$store.state.Library.icd10Page + 1)
@@ -97,10 +104,8 @@ export default {
 }
 </script>
 <style scoped>
-.demo-title {
-  font-size: 30px;
-}
-.demo {
+.container {
+  margin-top: 91px;
   width: 750px;
   height: 1250px;
 }

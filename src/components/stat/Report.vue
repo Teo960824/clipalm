@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" @swipe="swipe">
     <wxc-indexlist :normal-list="stats"
                    @wxcIndexlistItemClicked="wxcIndexlistItemClicked"
                    :show-index="true"></wxc-indexlist>
@@ -37,7 +37,15 @@ export default {
       this.$store.commit('SET_info', e.item)
       this.$store.commit('SET_infoLevel', 1)
       this.$store.commit('SET_menu', [this.$store.state.Home.activeTab, '分析详情'])
+      this.$store.commit('SET_infoMenu', '统计分析')
       this.$store.commit('SET_infoPage', getDetails(`分析详情`, e.item))
+    },
+    swipe (e) {
+      if (e.direction === 'left' && this.$store.state.Home.infoPage1.info !== '') {
+        this.$store.commit('SET_infoMenu', '分析详情')
+        this.$store.commit('SET_menu', [this.$store.state.Home.activeTab, '分析详情'])
+        this.$store.commit('SET_infoLevel', 1)
+      }
     },
     openBottomPopup () {
       this.isBottomShow = true
@@ -56,5 +64,8 @@ export default {
   .text {
     color: #666666;
     font-size: 32px;
+  }
+  .container {
+    margin-top: 91px;
   }
 </style>

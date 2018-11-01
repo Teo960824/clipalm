@@ -1,7 +1,8 @@
 const state = {
   wt4Case: [],
   editMenu: '',
-  wt4Page: 1
+  wt4Page: 1,
+  wt4Info: ''
 }
 
 const mutations = {
@@ -13,6 +14,9 @@ const mutations = {
   },
   SET_wt4Page (state, x) {
     state.wt4Page = x
+  },
+  SET_wt4Info (state, x) {
+    state.wt4Info = x
   }
 }
 
@@ -21,6 +25,7 @@ const actions = {
     commit('SET_wt4Case')
     commit('SET_editMenu')
     commit('SET_wt4Page')
+    commit('SET_wt4Info')
   }
 }
 

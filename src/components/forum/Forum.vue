@@ -1,86 +1,87 @@
 <template>
-  <div class="panel">
-    <wxc-rich-text :config-list="configList"
-                   @wxcRichTextLinkClick="wxcRichTextLinkClick"></wxc-rich-text>
-    <div class="special-rich">
-       <wxc-special-rich-text :config-list="specialConfigList"></wxc-special-rich-text>
+  <div class="container">
+    <div class="special-rich" v-for="(specialList, index) in specialConfigList" v-bind:key="index">
+      <div class="panel" @click="wxcRichTextLinkClick(index)">
+        <wxc-rich-text :config-list="specialList"></wxc-rich-text>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import { WxcRichText, WxcSpecialRichText } from 'weex-ui'
-
+import { getServer } from '../../utils/server'
 export default {
   components: { WxcRichText, WxcSpecialRichText },
   data: () => ({
-    configList: [{
-      type: 'icon',
-      src: '//gw.alicdn.com/tfs/TB1RRVWQXXXXXasXpXXXXXXXXXX-24-22.png',
-      style: {
-        height: 22
-      }
-    }, {
-      type: 'text',
-      value: '论坛话题',
-      theme: 'yellow'
-    }, {
-      type: 'tag',
-      value: '自定义标签',
-      style: {
-        fontSize: 26,
-        color: '#ffffff',
-        borderColor: '#3d3d3d',
-        backgroundColor: '#546E7A',
-        height: 36
-      }
-    }],
-    specialConfigList: [
-      {
-        type: 'tag',
-        value: '论坛话题',
-        style: {
-          fontSize: 24,
-          color: '#3D3D3D',
-          borderColor: '#FFC900',
-          backgroundColor: '#FFC900',
-          borderRadius: 14
-        }
-      },
-      {
-        type: 'text',
-        value: '春秋旅游广州-泰国曼谷6天往返单机票自由行自由春秋旅游广州-泰国曼谷6天往返单机票自由行自由行…',
-        theme: 'black',
-        style: {
-          fontSize: 28
-        }
-      }
-    ]
   }),
+  computed: {
+    posts () {
+      return this.$store.state.Forum.post
+    },
+    specialConfigList () {
+      const configs = []
+      this.posts.map((x) => {
+        const config = [
+          {
+            type: 'tag',
+            value: x.label,
+            style: {
+              fontSize: 34,
+              color: '#3D3D3D',
+              borderColor: '#FFC900',
+              backgroundColor: '#FFC900',
+              borderRadius: 14
+            }
+          },
+          {
+            type: 'text',
+            value: x.title,
+            theme: 'black',
+            style: { fontSize: 35 }
+          }
+        ]
+        configs.push(config)
+      })
+      return configs
+    }
+  },
+  created: function () {
+  },
   methods: {
-    wxcRichTextLinkClick () {}
+    wxcRichTextLinkClick (i) {
+      // this.$store.commit('SET_isBottomShow', true)
+      // this.$store.commit('SET_visible', false)
+      const menu = '帖子'
+      this.$store.commit('SET_menu', [this.$store.state.Home.activeTab, menu])
+      // this.$store.commit('SET_infoMenu', this.wxcCellTitle)
+      // this.$store.commit('SET_infoLevel', 1)
+      getServer(this, 'forumOne', '帖子', this.posts[i])
+    }
   }
 }
 </script>
 
 <style scoped>
-  .wrapper {
-    /* flex-direction: column; */
-    justify-content: center;
-  }
   .panel {
     width: 750px;
     background-color: #f2f3f4;
-    align-items: center;
-    justify-content: center;
-    margin-left: 0px;
-    border-width: 2px;
+    font-size: 30px;
     border-style: solid;
-    border-color: #BBBBBB;
+    border-left-width: 0px;
+    border-right-width: 0px;
+    border-top-width: 0px;
+    border-bottom-width: 1px;
+    border-bottom-color: gray;
     padding-top: 15px;
     padding-bottom: 15px;
     padding-left: 15px;
     padding-right: 15px;
-    margin-bottom: 30px;
   }
+.container {
+  margin-top: 91px;
+  width: 750px;
+  height: 1250px;
+  font-size: 30px;
+}
 </style>

@@ -1,12 +1,5 @@
 <template>
   <div class="panel">
-    <!--<wxc-minibar :title="user.username"
-      leftButton = ""
-      background-color="#009ff0"
-      text-color="#FFFFFF"
-      right-text="返回登陆"
-      @wxcMinibarRightButtonClicked="minibarRightButtonClick">
-    </wxc-minibar> -->
     <category title="--选择用户功能--"></category>
     <wxc-grid-select
       :single="true"
@@ -37,7 +30,8 @@
 <script>
 import { WxcMinibar, WxcGridSelect } from 'weex-ui'
 import Category from '../common/category.vue'
-
+import { updateUser } from '../../utils/server'
+const modal = weex.requireModule('modal')
 export default {
   name: 'user-doc',
   components: { WxcMinibar, WxcGridSelect, Category },
@@ -46,12 +40,6 @@ export default {
       { title: '专家用户', value: 1, checked: true },
       { title: '机构用户', value: 2 },
       { title: '个人用户', value: 3 }
-    ],
-    list_2: [
-      { title: 'BJ编码版', value: 1, checked: true },
-      { title: 'GB编码版', value: 2 },
-      { title: 'CC编码版', value: 3 },
-      { title: '术语版', value: 4 }
     ],
     customStyles: {
       width: '150px',
@@ -73,11 +61,28 @@ export default {
         return this.$store.state.Home.user.data
       }
     },
+    list_2: {
+      get () {
+        const versions = {
+          BJ编码版: { title: 'BJ编码版', value: 1 },
+          GB编码版: { title: 'GB编码版', value: 1 },
+          CC编码版: { title: 'CC编码版', value: 1 },
+          术语版: { title: '术语版', value: 4 }
+        }
+        let serverVersion = ''
+        if (this.$store.state.Home.user.data.clipalm_version) {
+          serverVersion = this.$store.state.Home.user.data.clipalm_version
+        } else {
+          serverVersion = 'BJ编码版'
+        }
+        versions[serverVersion].checked = true
+        return Object.values(versions)
+      }
+    },
     mdcs: {
       get () {
         const arr = this.$store.state.Home.user.data.mdc
         if (arr) {
-          console.log(arr)
           return arr.map((value, index) => { return {'title': 'MDC' + value} })
         }
         return []
@@ -89,8 +94,20 @@ export default {
       this.$store.commit('SET_menu', [0, '用户登陆'])
     },
     onSelect (params, type) {
-      console.log(type)
-      console.log(params)
+      const user = {}
+      switch (type) {
+        case 'mdc':
+          const mdc = this.mdcs[params.selectIndex].title
+          this.$store.commit('SET_mdc', mdc)
+          user.clipalm_mdc = mdc
+          break
+        case 'version':
+          let version = this.list_2[params.selectIndex].title
+          user.clipalm_version = version
+          modal.toast({ message: `已设置${version}为默认查询版本`, duration: 1 })
+          break
+      }
+      updateUser(this, user)
     }
   }
 }
@@ -102,14 +119,12 @@ export default {
   }
   .panel {
     margin-left: 0px;
-    /* border-width: 2px;
-    border-style: solid; */
     border-color: #BBBBBB;
     padding-top: 0;
     padding-bottom: 15px;
     padding-left: 15px;
     padding-right: 15px;
-    /* margin-bottom: 30px; */
+    margin-top: 91px;
   }
   .text {
     color: #666666;

@@ -1,11 +1,12 @@
 <template>
   <div class="demo"
     :show="infoPage.isBottomShow" @swipe="swipe">
-      <wxc-button :text="infoPage.buttonText"
-            v-if="infoPage.isInfoButtonShow"
-            size="full"
-            @wxcButtonClicked="wxcButtonClicked"></wxc-button>
-      <div class="demo-content">
+    <list class="list" :show="true">
+      <cell class="cell">
+        <wxc-button :text="infoPage.buttonText"
+              v-if="infoPage.isInfoButtonShow"
+              size="full"
+              @wxcButtonClicked="wxcButtonClicked"></wxc-button>
         <wxc-cell v-for="(detail, index) in infoPage.details"
           :key="index"
           :label="detail.label"
@@ -13,12 +14,13 @@
           :has-arrow="false"
           @LongPress="LongPress(detail)"
           @wxcCellClicked="wxcCellClicked(detail)"
-          :has-margin="true"></wxc-cell>
+          ></wxc-cell>
         <wxc-grid-select
             :single="true"
-            :cols="2"
+            :cols="1"
             :list="infoPage.gridList"></wxc-grid-select>
-      </div>
+      </cell>
+    </list>
   </div>
 </template>
 <script>
@@ -110,44 +112,10 @@ export default {
 }
 </script>
 <style scoped>
-  .wxc-demo {
-    width: 750px;
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
-    bottom: 0;
-    background-color: #ffffff;
-  }
-  .container {
-    flex: 1;
-  }
   .demo {
     width: 750px;
+    height: 1250px;
     background-color: #f2f3f4;
-  }
-  .category {
-    margin-top: 40px;
-  }
-  .default {
-    color: #000000;
-  }
-  .active {
-    color: #FFC900;
-  }
-  .red {
-    color: #C3413D;
-  }
-  .image {
-    width: 80px;
-    height: 80px;
-    margin-right: 20px;
-  }
-  .demo-title {
-    font-size: 30px;
-    color: #333333;
-    margin-top: 30px;
-    margin-left: 30px;
-    margin-bottom: 16px;
+    margin-top: 91px;
   }
 </style>

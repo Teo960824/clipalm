@@ -81,6 +81,9 @@ export default {
       }
     }
   },
+  created: function () {
+    // this.test()
+  },
   methods: {
     login () {
       stream.fetch({
@@ -104,12 +107,12 @@ export default {
             getServer(this, 'all', 'ICD9')
             this.$store.commit('SET_library_menu', 'MDC')
           } else {
-            this.info = '- 账号或密码错误 -'
-            this.$store.commit('SET_user', { login: false })
+            modal.toast({ 'message': '账号或密码错误', 'duration': 1 })
+            this.$store.commit('SET_user', { login: false, data: { clipalm_version: 'BJ编码版' } })
           }
         } else {
-          this.$store.commit('SET_user', { login: false })
-          this.info = '- 网络连接失败 -'
+          this.$store.commit('SET_user', { login: false, data: { clipalm_version: 'BJ编码版' } })
+          modal.toast({ 'message': '网络连接失败', 'duration': 1 })
         }
       })
     },
@@ -121,6 +124,9 @@ export default {
         this.pwd = ''
         this.visible = true
       }
+    },
+    test () {
+      console.log('dsadasdsadwqeqweqwrqw')
     },
     NameOnFocus () {
       this.value = '用户名输入中。。。'
@@ -141,7 +147,6 @@ export default {
     NameOnReturn () {
       modal.toast({ 'message': 'return.click', 'duration': 1 })
     },
-
     PwdOnFocus () {
       this.value = '密码输入中。。。'
       modal.toast({ 'message': 'onfocus', 'duration': 1 })
@@ -182,6 +187,7 @@ export default {
     padding-left: 15px;
     padding-right: 15px;
     margin-bottom: 30px;
+    margin-top: 0px;
   }
   .text {
     color: #666666;
