@@ -1,27 +1,25 @@
 <template>
-  <wxc-popup popup-color="#FFFFFF"
-            :show="visible"
-            @wxcPopupOverlayClicked="popupOverlayBottomClick"
-            pos="bottom"
-            :height="height"
-            width="540">
-    <div class="demo-content">
-    <wxc-cell v-for="(menu, index) in menus" :key="index"
+  <div class="demo">
+    <wxc-button class="submits"
+      v-for="(menu, index) in menus" :key="index"
+      :text="menu"
+      type="white"
+      @wxcButtonClicked="wxcButtonClicked(menu)"></wxc-button>
+    <!-- <wxc-cell
         :label="menu"
         :title="menu"
         :has-arrow="false"
         :has-margin="true"
-        @wxcCellClicked="wxcCellClicked(menu)"></wxc-cell>
-    </div>
-  </wxc-popup>
+        @wxcCellClicked="wxcCellClicked(menu)"></wxc-cell> -->
+  </div>
 </template>
 
 <script>
-import { WxcPopup, WxcCell, Utils } from 'weex-ui'
+import { WxcPopup, WxcCell, Utils, WxcButton } from 'weex-ui'
 import { getServer } from '../../utils/server'
 
 export default {
-  components: { WxcPopup, WxcCell },
+  components: { WxcPopup, WxcCell, WxcButton },
   data () {
     return {
       height: Utils.env.getPageHeight() - 120
@@ -41,10 +39,11 @@ export default {
     popupOverlayBottomClick () {
       this.$store.commit('SET_visible', false)
     },
-    wxcCellClicked (menu) {
+    wxcButtonClicked (menu) {
       this.$store.commit('SET_visible', false)
       const i = this.$store.state.Home.activeTab
       this.$store.commit('SET_menu', [i, menu])
+      this.$store.commit('SET_miniBarTitle', `${menu}`)
       if (['未入组病历', '低风险死亡病历', '高CV病历', 'QY病历', '单条分组'].includes(menu)) {
         this.$store.commit('SET_editMenu', menu)
         this.$store.commit('SET_wt4Page', 1)
@@ -67,3 +66,28 @@ export default {
   }
 }
 </script>
+<style scoped>
+  .demo-title {
+    font-size: 28px;
+    background-color: #C6E2FF;
+    text-align: center;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 14px;
+    padding: 10px;
+  }
+  .demo {
+    width: 750px;
+    height: 1250px;
+    margin-top: 140px;
+  }
+  .row {
+    width: 750px;
+  }
+  .submits{
+    position: relative;
+    left: 23px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+</style>

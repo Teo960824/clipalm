@@ -1,15 +1,20 @@
 <template>
-  <div class="container" @swipe="swipe">
-    <wxc-indexlist :normal-list="stats"
-                   @wxcIndexlistItemClicked="wxcIndexlistItemClicked"
-                   :show-index="true"></wxc-indexlist>
- </div>
-
+  <div class="container">
+      <list class="list" @loadmore="fetch" loadmoreoffset="30000">
+        <cell class="cell" v-for="(stat, index) in stats" v-bind:key="index">
+          <wxc-cell :label="stat.code"
+              @wxcCellClicked="wxcIndexlistItemClicked(stat)"
+              :has-margin="false"
+              :extraContent="stat.desc"></wxc-cell>
+        </cell>
+      </list>
+  </div>
 </template>
 
 <script>
 import { WxcIndexlist, WxcPopup, WxcCell } from 'weex-ui'
 import { getDetails } from '../../utils/details'
+import { getServer } from '../../utils/server'
 export default {
   components: { WxcIndexlist, WxcPopup, WxcCell },
   created: function () {
@@ -47,6 +52,10 @@ export default {
         this.$store.commit('SET_infoLevel', 1)
       }
     },
+    fetch () {
+      this.$store.commit('SET_statPage', this.$store.state.Stat.statPage + 1)
+      getServer(this, 'all', '统计分析')
+    },
     openBottomPopup () {
       this.isBottomShow = true
     },
@@ -58,14 +67,9 @@ export default {
 </script>
 
 <style scoped>
-  .wrapper {
-    justify-content: center;
-  }
-  .text {
-    color: #666666;
-    font-size: 32px;
-  }
-  .container {
-    margin-top: 91px;
-  }
+.container {
+  margin-top: 91px;
+  width: 750px;
+  height: 1250px;
+}
 </style>

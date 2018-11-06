@@ -1,7 +1,7 @@
 <template>
   <div class="demo" @swipe="swipe" style="height:1000px;">
+    <text class="demo-title" v-if="showTitle">{{title}}</text>
     <list class="list" @loadmore="fetch" loadmoreoffset="20">
-      <text class="demo-title" v-if="showTitle">{{title}}</text>
       <cell class="cell" v-for="(wt4, index) in wt4Case" v-bind:key="index">
         <div class="panel" @longpress="longpress(wt4)">
           <wxc-cell
@@ -86,6 +86,7 @@ export default {
       this.$store.commit('SET_infoMenu', this.wxcCellTitle)
       this.$store.commit('SET_infoLevel', 1)
       const details = getDetails(menu, e)
+      this.$store.commit('SET_miniBarTitle', `病案ID-${e.b_wt4_v1_id}病案详情`)
       this.$store.commit('SET_infoPage', details)
     },
     swipe (e) {
@@ -98,14 +99,16 @@ export default {
     fetch () {
       this.$store.commit('SET_wt4Page', this.$store.state.Edit.wt4Page + 1)
       getServer(this, 'all', this.$store.state.Edit.editMenu)
-      modal.toast({ message: '加载下一页', duration: 1 })
+      // modal.toast({ message: '加载下一页', duration: 1 })
     },
     longpress (wt4) {
       modal.toast({ message: '跳转论坛', duration: 1 })
       this.$store.commit('SET_showForum', true)
       this.$store.commit('SET_menus', ['论坛', '自定义查询'])
       this.$store.commit('SET_menu', [4, '论坛'])
+      this.$store.commit('SET_forumMenu', `关于病案${wt4.b_wt4_v1_id}帖子`)
       this.$store.commit('SET_post', [])
+      this.$store.commit('SET_forumLabel', wt4.b_wt4_v1_id)
       this.$store.commit('SET_forumPage', 1)
       getServer(this, 'all', '论坛', wt4)
     }
@@ -115,7 +118,13 @@ export default {
 
 <style scoped>
   .demo-title {
-    font-size: 30px;
+    font-size: 28px;
+    background-color: #C6E2FF;
+    text-align: center;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 14px;
+    padding: 10px;
   }
   .demo {
     width: 750px;

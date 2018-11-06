@@ -3,6 +3,7 @@ const state = {
   post: [],
   forumPage: 1,
   forumMenu: '',
+  forumLabel: '',
   forumContent: {}
 }
 
@@ -22,6 +23,9 @@ const mutations = {
     }
     state.forumContent = x
   },
+  SET_forumLabel (state, x) {
+    state.forumLabel = x
+  },
   SET_forumMenu (state, x) {
     state.forumMenu = x
   }
@@ -34,6 +38,7 @@ const actions = {
     commit('SET_forumPage')
     commit('SET_forumContent')
     commit('SET_forumMenu')
+    commit('SET_forumLabel')
   }
 }
 

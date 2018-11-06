@@ -25,13 +25,13 @@ export function getServer (obj, type, menu, value = null) {
   if (type === 'all') {
     switch (menu) {
       case 'MDC':
-        url = `rule_bj_mdc?plat=client&version=${version}`
+        url = `rule_bj_mdc?plat=client&version=${version}&page=${obj.$store.state.Library.mdcPage}`
         break
       case 'ADRG':
-        url = `rule_bj_adrg?plat=client&version=${version}`
+        url = `rule_bj_adrg?plat=client&version=${version}&page=${obj.$store.state.Library.adrgPage}`
         break
       case 'DRG':
-        url = `rule_bj_drg?plat=client&version=${version}`
+        url = `rule_bj_drg?plat=client&version=${version}&page=${obj.$store.state.Library.drgPage}`
         break
       case 'ICD9':
         url = `rule_bj_icd9?plat=client&page=${obj.$store.state.Library.icd9Page}&version=${version}`
@@ -40,7 +40,7 @@ export function getServer (obj, type, menu, value = null) {
         url = `rule_bj_icd10?plat=client&page=${obj.$store.state.Library.icd10Page}&version=${version}`
         break
       case '统计分析':
-        url = 'wt4_stat_cv?plat=client'
+        url = `wt4_stat_cv?plat=client&page=${obj.$store.state.Stat.statPage}`
         break
       case 'QY病历':
         url = `wt4_2017?plat=client&drg=QY&page=${obj.$store.state.Edit.wt4Page}`
@@ -75,13 +75,15 @@ export function getServer (obj, type, menu, value = null) {
   if (url) {
     // 先取storage
     storage.getItem(url, e => {
-      const a = '[]'
-      // if (e.result === 'success') {
-      if (a === 'success') {
+      if (e.result === 'success!') {
         const edata = JSON.parse(e.data)
         setStore(obj, menu, edata)
       } else {
         obj.$store.commit('SET_isLoadingShow', true)
+        setTimeout(() => {
+          // 正常使用时候直接设置即可，不需setTimeout
+          obj.$store.commit('SET_isLoadingShow', false)
+        }, 30000)
         stream.fetch({
           method: 'GET',
           type: 'json',
@@ -93,8 +95,9 @@ export function getServer (obj, type, menu, value = null) {
             storage.setItem(url, JSON.stringify(res.data), e => {
               console.log('storage success')
             })
-            setStore(obj, menu, res.data)
+            setStore(obj, menu, type, res.data)
           } else {
+            obj.$store.commit('SET_isLoadingShow', false)
             obj.info = '- 网络连接失败 -'
           }
         })
@@ -153,7 +156,29 @@ export function updateUser (obj, user) {
   })
 }
 
-function setStore (obj, menu, rdata) {
+export function createForum (obj, forum) {
+  stream.fetch({
+    method: 'POST',
+    type: 'json',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+    responseType: 'json',
+    url: `${urlConfig.http}:${urlConfig.port}/${urlConfig.router}/forum`,
+    body: qs.stringify(forum)
+  }, res => {
+    if (res.ok) {
+      obj.$store.commit('SET_showForum', true)
+      obj.$store.commit('SET_menus', ['论坛', '自定义查询'])
+      obj.$store.commit('SET_menu', [4, '论坛'])
+      obj.$store.commit('SET_post', [])
+      obj.$store.commit('SET_forumPage', 1)
+      getServer(obj, 'all', '论坛')
+    } else {
+      obj.info = '- 网络连接失败 -'
+    }
+  })
+}
+
+function setStore (obj, menu, type, rdata) {
   obj.$store.commit('SET_isLoadingShow', false)
   let data = []
   switch (menu) {
@@ -163,41 +188,59 @@ function setStore (obj, menu, rdata) {
       break
     case 'ADRG':
       obj.$store.commit('SET_library_menu', menu)
-      obj.$store.commit('SET_adrg_rule', rdata.data)
+      data = obj.$store.state.Library.adrgRule
+      if (type === 'adrgOne') {
+        data = rdata.data
+        obj.$store.commit('SET_libraryPage', ['ADRG', 1])
+      } else {
+        data = data.concat(rdata.data)
+      }
+      obj.$store.commit('SET_adrg_rule', data)
       break
     case 'DRG':
       obj.$store.commit('SET_library_menu', menu)
-      obj.$store.commit('SET_drg_rule', rdata.data)
+      data = obj.$store.state.Library.drgRule
+      if (type === 'adrgOne') {
+        data = rdata.data
+        obj.$store.commit('SET_libraryPage', ['DRG', 1])
+      } else {
+        data = data.concat(rdata.data)
+      }
+      obj.$store.commit('SET_drg_rule', data)
       break
     case 'ICD9':
       obj.$store.commit('SET_library_menu', menu)
-      obj.$store.commit('SET_icd9_page', parseInt(rdata.page))
+      obj.$store.commit('SET_libraryPage', ['ICD9', parseInt(rdata.page)])
       obj.$store.commit('SET_icd9_rule', rdata.data)
       break
     case 'ICD10':
       obj.$store.commit('SET_library_menu', menu)
-      obj.$store.commit('SET_icd10_page', parseInt(rdata.page))
+      obj.$store.commit('SET_libraryPage', ['ICD10', parseInt(rdata.page)])
       obj.$store.commit('SET_icd10_rule', rdata.data)
       break
     case 'icd10One':
-      obj.$store.commit('SET_icd10_page', parseInt(rdata.page))
+      obj.$store.commit('SET_libraryPage', ['ICD9', parseInt(rdata.page)])
       data = obj.$store.state.Library.icd10Rule
       data = data.concat(rdata.data)
       obj.$store.commit('SET_icd10_rule', data)
       break
     case 'icd9One':
-      obj.$store.commit('SET_icd9_page', parseInt(rdata.page))
+      obj.$store.commit('SET_libraryPage', ['ICD9', parseInt(rdata.page)])
       data = obj.$store.state.Library.icd9Rule
       data = data.concat(rdata.data)
       obj.$store.commit('SET_icd9_rule', data)
       break
     case '统计分析':
-      obj.$store.commit('SET_statDrg', rdata.data)
+      console.log(rdata)
+      obj.$store.commit('SET_statPage', parseInt(rdata.page))
+      data = obj.$store.state.Stat.statDrg
+      data = data.concat(rdata.data)
+      obj.$store.commit('SET_statDrg', data)
       break
     case '未入组病历':
-      if (obj.$store.state.Edit.wt4Page === 1) {
-        obj.$store.commit('SET_wt4Info', rdata.info)
-      }
+      // if (obj.$store.state.Edit.wt4Page === 1) {
+      //   obj.$store.commit('SET_wt4Info', rdata.info)
+      // }
       data = obj.$store.state.Edit.wt4Case
       data = data.concat(rdata.data)
       obj.$store.commit('SET_wt4Case', data)
@@ -229,7 +272,7 @@ function setStore (obj, menu, rdata) {
     case '论坛':
       data = obj.$store.state.Forum.post
       data = data.concat(rdata.data)
-      obj.$store.commit('SET_icd9_page', parseInt(rdata.page))
+      // obj.$store.commit('SET_icd9_page', parseInt(rdata.page))
       obj.$store.commit('SET_post', data)
       break
     case '帖子':

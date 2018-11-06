@@ -15,10 +15,16 @@
           @LongPress="LongPress(detail)"
           @wxcCellClicked="wxcCellClicked(detail)"
           ></wxc-cell>
-        <wxc-grid-select
-            :single="true"
-            :cols="1"
-            :list="infoPage.gridList"></wxc-grid-select>
+        <div v-for="(gridList, index) in infoPage.gridList"
+              :key="index">
+          <text class="text">{{index}}</text>
+          <wxc-grid-select
+              v-if="Object.keys(gridList).length !== 0"
+              :single="true"
+              :cols="1"
+              :list="gridList"></wxc-grid-select>
+          <text v-else>无</text>
+        </div>
       </cell>
     </list>
   </div>
@@ -27,7 +33,7 @@
 import { WxcPopup, WxcCell, WxcButton, WxcGridSelect } from 'weex-ui'
 import { getServer } from '../../utils/server'
 import { getDetails } from '../../utils/details'
-
+const modal = weex.requireModule('modal')
 export default {
   components: { WxcPopup, WxcCell, WxcButton, WxcGridSelect },
   data () {
@@ -57,6 +63,24 @@ export default {
           break
       }
       return result
+    },
+    returnMenu () {
+      let menu = ''
+      switch (this.$store.state.Home.activeTab) {
+        case 1:
+          menu = this.$store.state.Edit.editMenu
+          break
+        case 2:
+          menu = this.$store.state.Library.libraryMenu
+          break
+        case 3:
+          menu = '报表'
+          break
+        case 4:
+          menu = '论坛'
+          break
+      }
+      return menu
     }
   },
   methods: {
@@ -72,6 +96,7 @@ export default {
           const drg = this.infoPage.info[detail.title]
           this.$store.commit('SET_infoLevel', this.infoLevel + 1)
           this.$store.commit('SET_infoPage', details)
+          this.$store.commit('SET_miniBarTitle', `入组DRG-${drg}分析详情`)
           getServer(this, 'statOne', 'info', drg)
           break
         default:
@@ -79,29 +104,42 @@ export default {
       }
     },
     wxcButtonClicked () {
+      let menu = ''
       switch (this.infoPage.infoTitle) {
         case 'MDC规则详情':
+          menu = 'ADRG'
           getServer(this, 'adrgOne', 'ADRG', this.infoPage.info)
+          this.$store.commit('SET_miniBarTitle', `${menu}`)
           break
         case 'ADRG规则详情':
+          menu = 'DRG'
           getServer(this, 'drgOne', 'DRG', this.infoPage.info)
+          this.$store.commit('SET_miniBarTitle', `${menu}`)
           break
         default :
           break
       }
       this.$store.commit('SET_infoLevel', 0)
       this.$store.commit('SET_isBottomShow', false)
-      this.$store.commit('SET_menu', [this.$store.state.Home.activeTab, this.$store.state.Home.infoMenu])
+      this.$store.commit('SET_library_menu', menu)
+      this.$store.commit('SET_menu', [this.$store.state.Home.activeTab, menu])
     },
     swipe (e) {
       if (e.direction === 'right') {
         const i = this.$store.state.Home.activeTab
         if (this.infoLevel === 1) {
           this.$store.commit('SET_infoLevel', 0)
-          this.$store.commit('SET_menu', [i, this.$store.state.Home.infoMenu])
+          this.$store.commit('SET_menu', [i, this.returnMenu])
         } else {
           this.$store.commit('SET_infoLevel', this.infoLevel - 1)
         }
+        modal.toast({ message: '上一页', duration: 1 })
+      } else if (e.direction === 'left') {
+        if (this.infoLevel === 0) {
+          this.$store.commit('SET_menu', [this.$store.state.Home.activeTab, '详情'])
+        }
+        this.$store.commit('SET_infoLevel', this.infoLevel + 1)
+        modal.toast({ message: '下一页', duration: 1 })
       }
     },
     LongPress (e) {
@@ -117,5 +155,8 @@ export default {
     height: 1250px;
     background-color: #f2f3f4;
     margin-top: 91px;
+  }
+  .text {
+    font-size: 35px;
   }
 </style>

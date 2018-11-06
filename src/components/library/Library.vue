@@ -1,14 +1,13 @@
 <template>
-  <div class="container" v-if="['MDC', 'ADRG', 'DRG'].includes(menu)">
+  <!-- <div class="container" v-if="['MDC', 'ADRG', 'DRG'].includes(menu)">
       <wxc-indexlist :normal-list="rules"
                     @wxcIndexlistItemClicked="wxcIndexlistItemClicked"
                     :show-index="true"></wxc-indexlist>
-  </div>
-  <div class="container" v-else>
+  </div> -->
+  <div class="container">
       <list class="list" @loadmore="fetch" loadmoreoffset="30000">
         <cell class="cell" v-for="(rule, index) in rules" v-bind:key="index">
-          <wxc-cell
-                    :label="rule.code"
+          <wxc-cell :label="rule.code"
                     @wxcCellClicked="wxcIndexlistItemClicked(rule)"
                     :has-margin="false"
                     :extraContent="rule.desc"></wxc-cell>
@@ -69,13 +68,11 @@ export default {
   },
   methods: {
     wxcIndexlistItemClicked (e) {
-      if (['MDC', 'ADRG', 'DRG'].includes(this.menu)) {
-        e = e.item
-      }
       this.$store.commit('SET_isBottomShow', true)
       this.$store.commit('SET_info', e)
       this.$store.commit('SET_infoLevel', 1)
       this.$store.commit('SET_menu', [this.$store.state.Home.activeTab, '规则详情'])
+      this.$store.commit('SET_miniBarTitle', `${this.menu}-${e.code}规则详情`)
       this.$store.commit('SET_infoPage', getDetails(`${this.menu}规则详情`, e))
     },
     openBottomPopup () {
@@ -92,13 +89,24 @@ export default {
       }
     },
     fetch () {
-      if (this.menu === 'ICD10') {
-        this.$store.commit('SET_icd10_page', this.$store.state.Library.icd10Page + 1)
-      } else {
-        this.$store.commit('SET_icd9_page', this.$store.state.Library.icd9Page + 1)
+      switch (this.menu) {
+        case 'ADRG':
+          this.$store.commit('SET_libraryPage', ['ADRG', this.$store.state.Library.adrgPage + 1])
+          break
+        case 'DRG':
+          this.$store.commit('SET_libraryPage', ['DRG', this.$store.state.Library.drgPage + 1])
+          break
+        case 'ICD10':
+          this.$store.commit('SET_libraryPage', ['ICD10', this.$store.state.Library.icd10Page + 1])
+          break
+        case 'ICD9':
+          this.$store.commit('SET_libraryPage', ['ICD9', this.$store.state.Library.icd9Page + 1])
+          break
       }
-      getServer(this, 'all', this.menu)
-      modal.toast({ message: '加载下一页', duration: 1 })
+      modal.toast({ message: `${this.$store.state.Library.adrgPage}`, duration: 1 })
+      if (this.menu !== 'MDC') {
+        getServer(this, 'all', this.menu)
+      }
     }
   }
 }

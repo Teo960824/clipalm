@@ -1,6 +1,8 @@
 <template>
   <div class="panel">
-    <text class="text">掌上医助</text>
+    <div class="row">
+      <image style="width:344px;height:177px" src="http://210.75.199.113/images/clipalm.png"></image>
+    </div>
     <wxc-searchbar ref="wxc-searchbar"
       input-type='text'
       v-model = 'user.username'
@@ -9,12 +11,7 @@
       placeholder='用户名'
       theme='yellow'
       :bar-style='barStyle'
-      @wxcSearchbarCancelClicked="NameOnCancel"
-      @wxcSearchbarInputReturned="NameOnReturn"
-      @wxcSearchbarInputOnInput="NameOnInput"
-      @wxcSearchbarCloseClicked="NameOnClose"
-      @wxcSearchbarInputOnFocus="NameOnFocus"
-      @wxcSearchbarInputOnBlur="NameOnBlur">
+      @wxcSearchbarInputOnInput="NameOnInput">
     </wxc-searchbar>
 
     <wxc-searchbar ref="wxc-searchbar"
@@ -22,34 +19,14 @@
       v-model = 'user.password'
       :default-value='pwd'
       cancel-label='密码'
+      placeholder='密码'
       theme='yellow'
       :bar-style='barStyle'
-      @wxcSearchbarCancelClicked="PwdOnCancel"
-      @wxcSearchbarInputReturned="PwdOnReturn"
-      @wxcSearchbarInputOnInput="PwdOnInput"
-      @wxcSearchbarCloseClicked="PwdOnClose"
-      @wxcSearchbarInputOnFocus="PwdOnFocus"
-      @wxcSearchbarInputOnBlur="PwdOnBlur">
-    </wxc-searchbar>
-
-    <wxc-searchbar ref="wxc-searchbar"
-      input-type='password'
-      default-value=''
-      cancel-label='重复密码'
-      placeholder='重复密码'
-      v-if="visible"
-      theme='yellow'
-      :bar-style='barStyle'
-      @wxcSearchbarCancelClicked="PwdOnCancel"
-      @wxcSearchbarInputReturned="PwdOnReturn"
-      @wxcSearchbarInputOnInput="PwdOnInput"
-      @wxcSearchbarCloseClicked="PwdOnClose"
-      @wxcSearchbarInputOnFocus="PwdOnFocus"
-      @wxcSearchbarInputOnBlur="PwdOnBlur">
+      @wxcSearchbarInputOnInput="PwdOnInput">
     </wxc-searchbar>
     <div class="row">
-      <wxc-button type="blue" text="登陆" size="big" :btnStyle="btnStyle" @wxcButtonClicked="login"></wxc-button>
-      <wxc-button text="注册" size="big" :btnStyle="btnStyle" @wxcButtonClicked="register"></wxc-button>
+      <wxc-button type="blue" text="登录" size="null" :btnStyle="btnStyle" @wxcButtonClicked="login"></wxc-button>
+      <!-- <wxc-button text="注册" size="big" :btnStyle="btnStyle" @wxcButtonClicked="register"></wxc-button> -->
     </div>
   </div>
 </template>
@@ -59,6 +36,7 @@ import { WxcButton, WxcSearchbar } from 'weex-ui'
 import { getServer } from '../../utils/server'
 const qs = require('qs')
 const stream = weex.requireModule('stream')
+const storage = weex.requireModule('storage')
 const modal = weex.requireModule('modal')
 const urlConfig = require('../../utils/config.js')
 
@@ -69,6 +47,8 @@ export default {
     return {
       info: '...',
       value: '输入框内容。。。',
+      // name: '',
+      // pwd: '',
       name: 'hitb',
       pwd: '123456',
       visible: false,
@@ -106,6 +86,7 @@ export default {
             getServer(this, 'all', 'ICD10')
             getServer(this, 'all', 'ICD9')
             this.$store.commit('SET_library_menu', 'MDC')
+            storage.setItem('user', JSON.stringify(res.data))
           } else {
             modal.toast({ 'message': '账号或密码错误', 'duration': 1 })
             this.$store.commit('SET_user', { login: false, data: { clipalm_version: 'BJ编码版' } })
@@ -117,54 +98,14 @@ export default {
       })
     },
     register () {
-      if (this.visible) {
-        this.info = '- 调用远程方法注册新用户 -'
-      } else {
-        this.name = ''
-        this.pwd = ''
-        this.visible = true
-      }
-    },
-    test () {
-      console.log('dsadasdsadwqeqweqwrqw')
-    },
-    NameOnFocus () {
-      this.value = '用户名输入中。。。'
-      modal.toast({ 'message': 'onfocus', 'duration': 1 })
-    },
-    NameOnBlur () {
-      modal.toast({ 'message': 'onbulr', 'duration': 1 })
-    },
-    NameOnClose () {
-      modal.toast({ 'message': 'close.click', 'duration': 1 })
+      const i = this.$store.state.Home.activeTab
+      this.$store.commit('SET_menu', [i, '注册用户'])
     },
     NameOnInput (e) {
       this.value = e.value
     },
-    NameOnCancel () {
-      modal.toast({ 'message': 'cancel.click', 'duration': 1 })
-    },
-    NameOnReturn () {
-      modal.toast({ 'message': 'return.click', 'duration': 1 })
-    },
-    PwdOnFocus () {
-      this.value = '密码输入中。。。'
-      modal.toast({ 'message': 'onfocus', 'duration': 1 })
-    },
-    PwdOnBlur () {
-      modal.toast({ 'message': 'onbulr', 'duration': 1 })
-    },
-    PwdOnClose () {
-      modal.toast({ 'message': 'close.click', 'duration': 1 })
-    },
     PwdOnInput (e) {
       this.value = e.value
-    },
-    PwdOnCancel () {
-      modal.toast({ 'message': 'cancel.click', 'duration': 1 })
-    },
-    PwdOnReturn () {
-      modal.toast({ 'message': 'return.click', 'duration': 1 })
     }
   }
 }
