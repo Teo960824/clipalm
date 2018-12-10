@@ -8,7 +8,7 @@
           <wxc-cell
             :key="index"
             :label="detail.label"
-            :title="infoPage.info[detail.title]"
+            :title="`${infoPage.info[detail.title]}`"
             :has-arrow="detail.hasArrow"
             @wxcCellClicked="wxcCellClicked(detail)"
             ></wxc-cell>
@@ -27,19 +27,45 @@
           <text class="title" style="font-size: 20px;" v-else >无</text>
         </div>
         <div v-if="infoPage.showSubRule">
-          <category v-if="infoPage.showSubRuleTitle" :title="`--${infoPage.subRuleTitle}--`"></category>
+          <category :title="`--${infoPage.subRuleTitle}--`"></category>
           <wxc-cell v-for="(rule, index) in infoPage.subRule"
             :key="index"
             :label="rule.label"
             :title="rule.title"
             :has-arrow="rule.hasArrow"
-            @wxcCellClicked="wxcCellClicked2(rule)">
+            @wxcCellClicked="wxcCellClicked1(rule)">
           </wxc-cell>
+          <category v-if="infoPage.showSubRuleTitle2" :title="`--${infoPage.subRuleTitle2}--`"></category>
+          <wxc-cell v-for="(rule, index) in infoPage.subRule2"
+            :key="`sub2-${index}`"
+            :label="rule.label"
+            :title="rule.title"
+            :has-arrow="rule.hasArrow"
+            @wxcCellClicked="wxcCellClicked1(rule)">
+          </wxc-cell>
+        </div>
+        <!-- 部位表现特例 -->
+        <div v-if="infoPage.showDissRule">
+          <category :title="`--${infoPage.dissRuleTitle}--`"></category>
+          <wxc-grid-select
+            :single="true"
+            :cols="5"
+            :list="infoPage.dissRule"
+            @select="params => wxcCellClicked2(params)">
+          </wxc-grid-select>
+          </wxc-cell>
+          <category v-if="infoPage.showDissRuleTitle2" :title="`--${infoPage.dissRuleTitle2}--`"></category>
+          <wxc-grid-select
+              v-if="infoPage.showDissRuleTitle2"
+              :single="true"
+              :cols="5"
+              :list="infoPage.dissRule2"
+              @select="params => wxcCellClicked2(params)"></wxc-grid-select>
         </div>
         <div style="height:200px"></div>
       </cell>
     </list>
-    <mini-bar :title="title" rightIcon="home" rightButtonShow="true"></mini-bar>
+    <mini-bar :title="title" rightIcon="home" leftIcon="left" rightButtonShow="true"></mini-bar>
   </div>
 </template>
 <script>
@@ -96,17 +122,21 @@ export default {
   },
   methods: {
     wxcCellClicked (detail) {
-      switch (detail.label) {
-        case '入组DRG':
-          const drg = this.infoPage.info[detail.title]
-          getServer(this, this.activeTab, 'statInfo', drg)
-          break
-        default:
-          break
-      }
+      console.log(detail)
+      // switch (detail.label) {
+      //   case '入组DRG':
+      //     const drg = this.infoPage.info[detail.title]
+      //     getServer(this, this.activeTab, 'statInfo', drg)
+      //     break
+      //   default:
+      //     break
+      // }
     },
-    wxcCellClicked2 (e) {
+    wxcCellClicked1 (e) {
       getServer(this, this.activeTab, `${e.menu}`, e.all)
+    },
+    wxcCellClicked2 ({selectIndex, checked, checkedList}) {
+      getServer(this, this.activeTab, `${checkedList[0].menu}`, checkedList[0].all)
     }
   }
 }
@@ -114,7 +144,7 @@ export default {
 <style scoped>
   .demo {
     width: 750px;
-    background-color: #f2f3f4;
+    /* background-color: #f2f3f4; */
   }
   .text {
     font-size: 35px;

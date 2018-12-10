@@ -1,14 +1,14 @@
 <template>
-  <div class="demo" @swipe="swipe" v-bind:style="panel">
-    <div class="count">
-      <wxc-cell v-for="(item, index) in title" v-bind:key="index"
+  <div class="demo" v-bind:style="panel">
+    <div class="count" v-if="showStat">
+      <wxc-cell v-for="(item, index) in stat" v-bind:key="index"
                 :title="index"
-                :desc="item"
+                :desc="`${item}`"
                 :cell-style="cellStyle"
-                :extraContent="aa(title, index)"></wxc-cell>
+                :extraContent="aa(stat, index)"></wxc-cell>
     </div>
     <!-- <text class="demo-title"  v-if="wt4Case.length !== 0">{{title.count}}</text> -->
-    <list class="list" @loadmore="fetch" loadmoreoffset="20">
+    <list class="list" @loadmore="fetch" loadmoreoffset="20" v-if="showData">
       <cell v-for="(wt4, index) in wt4Case" v-bind:key="index" @longpress="test">
         <div class="panel" @longpress="longpress(wt4)">
           <wxc-cell
@@ -21,14 +21,28 @@
           </wxc-cell>
         </div>
       </cell>
-      <cell style="height:200px" v-if="wt4Case.length !== 0">
+      <cell style="height:200px" v-if="showMore">
         <wxc-button text="加载更多"
           class="submits"
           size="big"
           @wxcButtonClicked="fetch"></wxc-button>
       </cell>
     </list>
-    <mini-bar :title="menu" rightIcon="home" rightButtonShow="true"></mini-bar>
+    <list class="list" loadmoreoffset="20" v-else>
+      <cell style="height:91px">
+      </cell>
+      <cell>
+        <div class="panel" @longpress="longpress(wt4)">
+          <wxc-cell
+            title="无数据"
+            :has-margin="false"
+            :has-arrow="false"
+            :arrow-icon="arrawSrc">
+          </wxc-cell>
+        </div>
+      </cell>
+    </list>
+    <mini-bar :title="menu" rightIcon="home" leftIcon="left" rightButtonShow="true"></mini-bar>
   </div>
 </template>
 
@@ -37,16 +51,18 @@ import { WxcRichText, WxcSpecialRichText, WxcPopup, WxcCell, WxcIndexlist, WxcLo
 import { getServer } from '../../utils/server'
 import { getDetails } from '../../utils/details'
 import MiniBar from '../common/MiniBar.vue'
+const urlConfig = require('../../utils/config.js')
 export default {
   components: { WxcIndexlist, WxcRichText, WxcSpecialRichText, WxcPopup, WxcCell, WxcLoading, WxcPartLoading, WxcButton, MiniBar },
   data () {
     return {
       forceValue: 0,
       refreshing: false,
-      arrawSrc: 'http://210.75.199.113/images/more.png',
+      arrawSrc: `${urlConfig.static}/images/more.png`,
       cellStyle: {
-        backgroundColor: '#C6E2FF'
-      }
+        backgroundColor: '#F8F8FF'
+      },
+      showData: true
     }
   },
   created () {
@@ -133,17 +149,21 @@ export default {
         return data
       }
     },
-    title: {
-      get () {
-        const data = this.$store.state.Edit.wt4Info
-        const obj = {
-          '病历数': `${data.count}`,
-          '平均费用': `${data.fee_avg}`,
-          '平均住院天数': `${data.day_avg}`
-        }
-        return obj
-        // return `病历数:${data.count} 平均费用${data.fee_avg} 平均住院天数${data.day_avg}`
+    showStat () {
+      let show = false
+      if (this.wt4Case.length > 0) {
+        show = true
       }
+      return show
+    },
+    showMore () {
+      return this.$store.state.Home.showMore
+    },
+    user () {
+      return this.$store.state.Home.user
+    },
+    stat () {
+      return this.$store.state.Edit.wt4Info
     },
     panel: {
       get () {
@@ -160,8 +180,11 @@ export default {
     getData () {
       const i = this.$store.state.Home.activeTab
       const menu = this.$store.state.Home.menu[i]
-      if (this.wt4Case.length === 0) {
+      if (this.wt4Case.length === 0 && this.user.data.type !== '个人用户') {
         getServer(this, i, menu)
+        this.showData = true
+      } else if (this.user.data.type === '个人用户') {
+        this.showData = false
       }
     },
     wxcCellClicked (e) {
@@ -189,7 +212,7 @@ export default {
 <style scoped>
   .demo-title {
     font-size: 28px;
-    background-color: #C6E2FF;
+    background-color: #F8F8FF;
     text-align: center;
     border-style: solid;
     border-width: 1px;
@@ -208,6 +231,6 @@ export default {
     flex-direction: row;
     justify-content: space-around;
     margin-top: 91px;
-    background-color: #C6E2FF;
+    background-color: #F8F8FF;
   }
 </style>

@@ -4,10 +4,10 @@ const details = [
   {'label': '年份', 'title': 'year', 'hasArrow': false},
   {'label': '版本', 'title': 'version', 'hasArrow': false},
   {'label': '手术室手术', 'title': 'p_type', 'hasArrow': false},
-  {'label': '入组DRG', 'title': 'drg', 'hasArrow': true},
+  {'label': '入组DRG', 'title': 'drg', 'hasArrow': false},
   {'label': '病案ID', 'title': 'b_wt4_v1_id', 'hasArrow': false},
-  {'label': '主要诊断编码', 'title': 'disease_code', 'hasArrow': false},
-  {'label': '主要诊断名称', 'title': 'disease_name', 'hasArrow': false},
+  {'label': '主要诊断', 'title': 'disease_code', 'hasArrow': false},
+  // {'label': '主要诊断名称', 'title': 'disease_name', 'hasArrow': false},
   {'label': '其他诊断', 'title': 'diags_code', 'hasArrow': false},
   {'label': '手术/操作', 'title': 'opers_code', 'hasArrow': false},
   {'label': '住院天数', 'title': 'acctual_days', 'hasArrow': false},
@@ -27,7 +27,8 @@ const details = [
   {'label': '病历数', 'title': 'num_sum', 'hasArrow': false},
   {'label': 'MCC', 'title': 'mcc', 'hasArrow': false},
   {'label': 'CC', 'title': 'cc', 'hasArrow': false},
-  {'label': '手术室手术', 'title': 'p_type', 'hasArrow': false}]
+  {'label': '手术室手术', 'title': 'p_type', 'hasArrow': false},
+  {'label': '机构', 'title': 'org_id', 'hasArrow': false}]
 function caseInfo (result, data) {
   result.title = '病案详情'
   result.info = data
@@ -50,6 +51,45 @@ function statInfo (result, data, menu) {
       return obj
     })
   }
+  result.details = result.details.filter(x => x.label !== '名称')
+  return result
+}
+function statInfoDd (result, data, menu) {
+  result.details = []
+  result.title = '偏差分布详情'
+  result.showSubRule = true
+  result.subRuleTitle = `${menu}列表`
+  result.showSubRuleTitle = false
+  if (data.stat && data.stat.length > 0) {
+    result.subRule = data.stat.map((x) => {
+      const obj = {'label': x.code, 'title': x.name, 'hasArrow': true, menu: `${menu}分析`, all: x}
+      return obj
+    })
+  } else {
+    result.subRule = [{'label': '无数据', 'title': '无数据', 'hasArrow': true, menu: `${menu}分析`, all: []}]
+  }
+  return result
+}
+function statInfoOrg (result, data, menu) {
+  result.title = '分析详情'
+  if (data.stat && data.stat.length > 0) {
+    result.showSubRule = true
+    result.subRuleTitle = `${menu}列表`
+    result.showSubRuleTitle = true
+    result.subRule = data.stat.map((x) => {
+      const obj = {'label': x.code, 'title': `机构: ${x.name}`, 'hasArrow': true, menu: `${menu}分析`, all: x}
+      return obj
+    })
+  }
+  result.details = [
+    {'label': '时间', 'title': 'code', 'hasArrow': false},
+    {'label': '机构', 'title': 'name', 'hasArrow': false},
+    {'label': '费用变异系数', 'title': 'fee_cv', 'hasArrow': false},
+    {'label': '时间变异系数', 'title': 'day_cv', 'hasArrow': false},
+    {'label': '权重', 'title': 'weight', 'hasArrow': false},
+    {'label': '平均费用', 'title': 'fee_avg', 'hasArrow': false},
+    {'label': '平均住院天数', 'title': 'day_avg', 'hasArrow': false},
+    {'label': '病历数', 'title': 'num_sum', 'hasArrow': false}]
   return result
 }
 function drgInfo (obj, result, data, title) {
@@ -121,10 +161,17 @@ function compResultInfo (result, data) {
 function subRule (result, data, title) {
   result.details = []
   result.title = title
-  if (['诊断术语-部位', '操作术语-部位'].includes(title) && data.dissect) {
-    result.showSubRule = true
-    result.subRuleTitle = title
-    result.subRule = data.dissect.map((x) => {
+  if (['诊断术语', '操作术语'].includes(title) && data.dissect) {
+    result.showDissRule = true
+    result.showDissRuleTitle = true
+    result.dissRuleTitle = `${title}部位`
+    result.dissRule = data.dissect.map((x) => {
+      const obj = {'label': '', 'title': x, 'hasArrow': true, menu: title, all: {name: x, mdc: data.mdc}}
+      return obj
+    })
+    result.showDissRuleTitle2 = true
+    result.dissRuleTitle2 = `${title}表现`
+    result.dissRule2 = data.dissect2.map((x) => {
       const obj = {'label': '', 'title': x, 'hasArrow': true, menu: title, all: {name: x, mdc: data.mdc}}
       return obj
     })
@@ -132,7 +179,7 @@ function subRule (result, data, title) {
     result.showSubRule = true
     result.subRuleTitle = title
     result.subRule = data.icd.map((x) => {
-      const obj = {'label': x.code, 'title': x.name, 'hasArrow': true, menu: title, all: x}
+      const obj = {'label': x.code, 'title': x.code, 'hasArrow': true, menu: title, all: x}
       return obj
     })
   }
@@ -147,6 +194,9 @@ export function getDetails (obj, menu, data) {
       menu = 'ICD9'
     } else if (['BJ-ICD9', 'GB-ICD9'].includes(menu)) {
       menu = 'ICD9'
+    }
+    if (['DRG机构分析-年', 'DRG机构分析-半年', 'DRG机构分析-季度', 'DRG机构分析-年'].includes(menu)) {
+      menu = 'DRG机构分析'
     }
     switch (menu) {
       case '病案详情':
@@ -183,18 +233,18 @@ export function getDetails (obj, menu, data) {
         result = icdInfo(result, data, 'ICD9')
         break
       case '疾病分类/诊断术语':
-        result = subRule(result, data, '诊断术语-部位')
+        result = subRule(result, data, '诊断术语')
         break
-      case '诊断术语-部位':
+      case '诊断术语':
         result = subRule(result, data, 'ICD10细目')
         break
       case '临床手术/操作术语':
-        result = subRule(result, data, '操作术语-部位')
+        result = subRule(result, data, '操作术语')
         break
-      case '操作术语-部位':
+      case '操作术语':
         result = subRule(result, data, 'ICD9细目')
         break
-      case 'MDC分析':
+      case 'DRG基础':
         result = statInfo(result, data, 'ADRG')
         break
       case 'ADRG分析':
@@ -202,6 +252,21 @@ export function getDetails (obj, menu, data) {
         break
       case 'DRG分析':
         result = statInfo(result, data, '')
+        break
+      case '主诊未入组':
+        result = statInfo(result, data, '主诊未入组')
+        break
+      case '手术QY':
+        result = statInfo(result, data, '手术QY')
+        break
+      case '偏差分布':
+        result = statInfoDd(result, data, '')
+        break
+      case '偏差分布详情':
+        result = statInfoDd(result, data, '')
+        break
+      case 'DRG机构分析':
+        result = statInfoOrg(result, data, '')
         break
     }
   }

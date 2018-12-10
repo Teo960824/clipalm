@@ -23,9 +23,9 @@ export default {
     },
     url: {
       get () {
-        let u = `${urlConfig.http}:${urlConfig.port}/drgwork/charts_page`
+        let u = `${urlConfig.static}:${urlConfig.port}/drgwork/charts_page`
         if (this.chartType === '用户报表') {
-          u = `${urlConfig.http}:${urlConfig.port}/drgwork/user_charts_page`
+          u = `${urlConfig.static}:${urlConfig.port}/drgwork/user_charts_page`
         }
         return u
       }

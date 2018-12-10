@@ -18,7 +18,7 @@
       更新时间：{{serverVersion.datetime}}
       更新日志：{{serverVersion.record}}
     </text>
-    <wxc-button text="复制下载链接到剪贴板"
+    <wxc-button text="复制下载链接到剪帖板"
           :show="true"
           size="full"
           @wxcButtonClicked="wxcButtonClicked"></wxc-button>
@@ -55,7 +55,7 @@ export default {
       this.hasAnimation = false
     },
     wxcButtonClicked () {
-      modal.toast({ message: '已复制到剪贴板，请打开浏览器粘贴下载', duration: 3 })
+      modal.toast({ message: '已复制到剪帖板，请打开浏览器粘帖下载', duration: 3 })
       clipboard.setString(`${this.serverVersion.path}`)
     }
   }

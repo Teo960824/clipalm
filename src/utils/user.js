@@ -2,6 +2,7 @@ const stream = weex.requireModule('stream')
 const storage = weex.requireModule('storage')
 const urlConfig = require('./config.js')
 const qs = require('qs')
+const modal = weex.requireModule('modal')
 
 export function analyse (obj) {
   stream.fetch({
@@ -18,6 +19,7 @@ export function analyse (obj) {
 }
 
 export function userLogin (obj, user) {
+  user.plat = 'clipalm'
   stream.fetch({
     method: 'POST',
     type: 'json',
@@ -48,6 +50,26 @@ export function userLogin (obj, user) {
         }
       })
       obj.$store.commit('SET_menu_all', ['用户登录', '介绍', '介绍', '介绍', '介绍'])
+    }
+  })
+}
+export function register (obj, user) {
+  stream.fetch({
+    method: 'POST',
+    type: 'json',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+    responseType: 'json',
+    url: `${urlConfig.http}:${urlConfig.port}/${urlConfig.router}/drg_admin_user`,
+    body: qs.stringify({ drg_admin_user: user })
+  }, res => {
+    if (res.ok) {
+      if (res.status === 201) {
+        userLogin(obj, { username: user.username, password: user.password })
+      } else if (res.status === 200) {
+        obj.$store.commit('SET_loginResult', '手机号码已经注册,请更换手机号码')
+      }
+    } else {
+      obj.$store.commit('SET_user', { loginResult: '网络连接失败', login: false, data: { clipalm_version: 'BJ编码版' } })
     }
   })
 }
@@ -86,13 +108,35 @@ export function updateUser (obj, user) {
   })
 }
 
-function butyingPoint (user) {
+export function forgetPassword (obj, user) {
   stream.fetch({
     method: 'POST',
     type: 'json',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
     responseType: 'json',
-    url: `${urlConfig.http}:${urlConfig.port}/${urlConfig.router}/butying_point`,
-    body: qs.stringify({ butying_point: {action_info: 'login', username: user.username, plat: 'clipalm'} })
+    url: `${urlConfig.http}:${urlConfig.port}/${urlConfig.router}/forget_password`,
+    body: qs.stringify({ drg_admin_user: user, id: obj.$store.state.Home.user.data.id })
+  }, res => {
+    if (res.ok) {
+      if (res.data.is_success) {
+        modal.toast({ message: '密码修改成功', duration: 2 })
+        obj.$store.commit('SET_menu', [0, '用户登录'])
+      } else {
+        obj.$store.commit('SET_loginResult', res.data.log)
+      }
+    }
   })
+}
+
+function butyingPoint (user) {
+  if (user.username !== 'hitb') {
+    stream.fetch({
+      method: 'POST',
+      type: 'json',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+      responseType: 'json',
+      url: `${urlConfig.http}:${urlConfig.port}/${urlConfig.router}/butying_point`,
+      body: qs.stringify({ butying_point: {action_info: 'login', username: user.username, plat: 'clipalm'} })
+    })
+  }
 }

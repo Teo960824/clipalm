@@ -54,15 +54,16 @@
         </div>
         <div>
           <text class="title">其他诊断编码</text>
-          <textarea placeholder="请输入其他诊断编码，中间以逗号分隔，如'B25.901,B25.902" rows='3' name="diags_code"></textarea>
+          <textarea class="textarea" placeholder="请输入其他诊断编码，中间以逗号分隔，如'B25.901,B25.902" rows='3' name="diags_code"></textarea>
         </div>
         <div>
           <text class="title">手术/操作编码</text>
-          <textarea placeholder="请输入手术/操作编码，中间以逗号分隔，如'B25.901,B25.902" rows='3' name="opers_code"></textarea>
+          <textarea class="textarea" placeholder="请输入手术/操作编码，中间以逗号分隔，如'B25.901,B25.902" rows='3' name="opers_code"></textarea>
         </div>
         <div class="sub">
           <wxc-button text="提交分组"
             class="submits"
+            type="blue"
             @wxcButtonClicked='submit'></wxc-button>
         </div>
         <div class="cell">
@@ -71,7 +72,7 @@
         <div style="height:400px"></div>
       </cell>
     </list>
-    <mini-bar :title="menu" rightIcon="home" rightButtonShow="true"></mini-bar>
+    <mini-bar :title="menu" rightIcon="home" leftIcon="left" rightButtonShow="true"></mini-bar>
   </div>
 </template>
 
@@ -192,8 +193,7 @@ export default {
   height: 50px;
   width: 350px;
   border-width: 1px;
-  border-color: #ffffff;
-  border-radius: 40px;
+  border-color: #000000;
 }
 .title {
   text-align: center;
@@ -210,13 +210,6 @@ export default {
   justify-content: space-around;
   padding-bottom: 20px;
 }
-.textarea {
-  font-size: 15px;
-  width: 750px;
-  border-width: 1px;
-  border-color: #aaa;
-  border-radius: 40px;
-}
 .submits {
   position: relative;
   left: 23px;
@@ -227,5 +220,18 @@ export default {
 }
 .cell {
   background-color: #C6e2FF;
+}
+.textarea {
+  font-size: 30px;
+  width: 750px;
+  height: 80px;
+  margin-top: 0px;
+  margin-left: 0px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #000000;
 }
 </style>

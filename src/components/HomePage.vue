@@ -13,9 +13,11 @@
     @wxcTabBarCurrentTabSelected="wxcTabBarCurrentTabSelected">
     <!-- user页 -->
     <div class="panel" v-bind:class="panel">
-      <Analyse v-if="infoLevel[0] > 0"></Analyse>
+      <Analyse v-if="menu[0] == '用户统计'"></Analyse>
+      <Personal v-else-if="menu[0] == '完善个人信息'"></Personal>
       <Login v-else-if="menu[0] == '用户登录'"></Login>
-      <User v-if="menu[0] == '个人信息'"></User>
+      <User v-else-if="menu[0] == '个人信息'"></User>
+      <Retrieve v-else-if="menu[0] == '找回密码'"><text>></text></Retrieve>
     </div>
     <!-- edit页 -->
     <div class="panel" v-bind:class="panel">
@@ -65,45 +67,47 @@
   import SingleGroup from './edit/SingleGroup'
   import ForumContent from './forum/ForumContent'
   import Forum from './forum/Forum'
-  // import New from './forum/New'
   import Library from './library/Library'
   import Report from './stat/Report'
   import Charts from './stat/Charts'
   import Analyse from './user/Analyse'
   import User from './user/User'
   import Login from './user/Login'
+  import Personal from './user/Personal'
+  import Retrieve from './user/Retrieve'
   import { userLogin } from '../utils/user'
   const storage = weex.requireModule('storage')
   const modal = weex.requireModule('modal')
+  const urlConfig = require('../utils/config.js')
   export default {
-    components: { WxcTabBar, WxcLoading, User, Login, Edit, SingleGroup, Library,
+    components: { WxcTabBar, WxcLoading, User, Login, Personal, Retrieve, Edit, SingleGroup, Library,
       Report, Forum, PopRight, ForumContent, Version, Charts, HomeMenu, Introduce, Analyse },
     data: () => ({
       tabs: [{
         title: '用户',
-        menu:  [{'用户': ['用户登录', '个人信息']}],
-        icon: 'http://210.75.199.113/images/user.png',
-        activeIcon: 'http://210.75.199.113/images/user_fill.png'
+        menu:  [{'用户': ['用户登录', '个人信息', '完善个人信息', '找回密码']}],
+        icon: `${urlConfig.static}/images/user.png`,
+        activeIcon: `${urlConfig.static}/images/user_fill.png`
         }, {
           title: '病案',
-          menu: [{'病案查询': [['未入组病历', 'QY病历', '低风险死亡病历'], ['费用异常病历']], '单条分组': [['单条分组']]}],
-          icon: 'http://210.75.199.113/images/edit.png',
-          activeIcon: 'http://210.75.199.113/images/edit_fill.png'
+          menu: [{'病案查询': ['未入组病历', 'QY病历', '低风险死亡病历', '费用异常病历', '填报异常病历'], '单条分组': ['单条分组'], '我的病案': ['我的病案']}],
+          icon: `${urlConfig.static}/images/edit.png`,
+          activeIcon: `${urlConfig.static}/images/edit_fill.png`
         }, {
           title: '字典',
-          menu: [{'DRG': [['CN-DRG', 'BJ-ICD10', 'BJ-ICD9'], ['GB-ICD10', 'GB-ICD9']], '疾病': [['疾病分类/诊断术语']], '手术': [['临床手术/操作术语']]}],
-          icon: 'http://210.75.199.113/images/library.png',
-          activeIcon: 'http://210.75.199.113/images/library_fill.png'
+          menu: [{'DRG': ['CN-DRG'], '疾病': ['疾病分类/诊断术语', 'GB-ICD10', 'BJ-ICD10'], '手术': ['临床手术/操作术语', 'GB-ICD9', 'BJ-ICD9']}],
+          icon: `${urlConfig.static}/images/library.png`,
+          activeIcon: `${urlConfig.static}/images/library_fill.png`
         }, {
           title: 'DRG分析',
-          menu: [{'DRG基础': [['DRG基础']], 'DRG专家': [['偏差分布', '主诊未入组', '手术QY']], 'DRG机构': [['年', '半年', '季度', '月']]}],
-          icon: 'http://210.75.199.113/images/stat.png',
-          activeIcon: 'http://210.75.199.113/images/stat_fill.png'
+          menu: [{'DRG基础': ['DRG基础'], 'DRG专家': ['主诊未入组', '手术QY'], 'DRG机构': ['年', '半年', '季度', '月']}],
+          icon: `${urlConfig.static}/images/stat.png`,
+          activeIcon: `${urlConfig.static}/images/stat_fill.png`
         }, {
           title: '论坛',
-          menu: [{'论坛版块': [['用户反馈', '病案讨论', '字典交流'], ['DRG分析', '论坛建议']], '帖子': [['我的帖子', '最新帖子']]}],
-          icon: 'http://210.75.199.113/images/forum.png',
-          activeIcon: 'http://210.75.199.113/images/forum_fill.png'
+          menu: [{'论坛版块': ['用户反馈', '病案讨论', '字典交流', 'DRG分析', '论坛建议'], '帖子': ['我的帖子', '最新帖子']}],
+          icon: `${urlConfig.static}/images/forum.png`,
+          activeIcon: `${urlConfig.static}/images/forum_fill.png`
         }],
       tabStyles: {
         bgColor: '#FFFFFF',
@@ -234,7 +238,7 @@
   }
   .panel {
     width: 750px;
-    background-color: #C6e2FF;
+    background-color: #F8F8FF;
     align-items: center;
     margin-left: 0px;
     border-color: #BBBBBB;

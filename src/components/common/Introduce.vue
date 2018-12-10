@@ -1,169 +1,22 @@
 <template>
   <scroller v-bind:style="scroller">
     <div class="panel" v-bind:style="panel">
-      <div v-if="activeTab === 1">
-        <wxc-rich-text :config-list='caseConfigTitle'
+      <div v-if="show">
+        <wxc-rich-text :config-list='introduce.title'
                     :has-text-margin="true"
-                   @wxcRichTextLinkClick='wxcRichTextLinkClick'></wxc-rich-text>
+                   ></wxc-rich-text>
         <div class="type-container">
           <wxc-rich-text class="special-rich"
-                         :config-list="caseConfigString"></wxc-rich-text>
+            :config-list="introduce.text"></wxc-rich-text>
         </div>
-        <wxc-rich-text :config-list='caseConfigHeader1'
-                    :has-text-margin="true"
-                   @wxcRichTextLinkClick='wxcRichTextLinkClick'></wxc-rich-text>
-        <wxc-special-rich-text class="special-rich"
-                                 :config-list="caseConfigContent1"></wxc-special-rich-text>
-        <wxc-rich-text :config-list='caseConfigHeader2'
-                    :has-text-margin="true"
-                   @wxcRichTextLinkClick='wxcRichTextLinkClick'></wxc-rich-text>
-        <wxc-special-rich-text class="special-rich"
-                                 :config-list="caseConfigContent2"></wxc-special-rich-text>
-        <wxc-rich-text :config-list='caseConfigHeader3'
-                    :has-text-margin="true"
-                   @wxcRichTextLinkClick='wxcRichTextLinkClick'></wxc-rich-text>
-        <wxc-special-rich-text class="special-rich"
-                                 :config-list="caseConfigContent3"></wxc-special-rich-text>
-        <wxc-rich-text :config-list='caseConfigHeader4'
-                    :has-text-margin="true"
-                   @wxcRichTextLinkClick='wxcRichTextLinkClick'></wxc-rich-text>
-        <wxc-special-rich-text class="special-rich"
-                                 :config-list="caseConfigContent4"></wxc-special-rich-text>
-        <wxc-rich-text :config-list='caseConfigHeader5'
-                    :has-text-margin="true"
-                   @wxcRichTextLinkClick='wxcRichTextLinkClick'></wxc-rich-text>
-        <wxc-rich-text :config-list='caseConfigHeader6'
-                    :has-text-margin="true"
-                    class="rich"
-                   @wxcRichTextLinkClick='wxcRichTextLinkClick'></wxc-rich-text>
-        <wxc-special-rich-text class="special-rich"
-                                 :config-list="caseConfigContent6"></wxc-special-rich-text>
-        <wxc-rich-text :config-list='caseConfigHeader7'
-                    :has-text-margin="true"
-                   @wxcRichTextLinkClick='wxcRichTextLinkClick'></wxc-rich-text>
-        <wxc-special-rich-text class="special-rich"
-                                 :config-list="caseConfigContent7"></wxc-special-rich-text>
-        <wxc-special-rich-text class="special-rich"
-                                 :config-list="caseConfigContent8"></wxc-special-rich-text>
-        <wxc-special-rich-text class="special-rich"
-                                 :config-list="caseConfigContent9"></wxc-special-rich-text>
-        <wxc-special-rich-text class="special-rich"
-                                 :config-list="caseConfigContent10"></wxc-special-rich-text>
-        <wxc-special-rich-text class="special-rich"
-                                 :config-list="caseConfigContent11"></wxc-special-rich-text>
-        <wxc-special-rich-text class="special-rich"
-                                 :config-list="caseConfigContent12"></wxc-special-rich-text>
-        <wxc-special-rich-text class="special-rich"
-                                 :config-list="caseConfigContent13"></wxc-special-rich-text>
-        <wxc-special-rich-text class="special-rich"
-                                 :config-list="caseConfigContent14"></wxc-special-rich-text>
-        <wxc-special-rich-text class="special-rich"
-                                 :config-list="caseConfigContent15"></wxc-special-rich-text>
-        <wxc-special-rich-text class="special-rich"
-                                 :config-list="caseConfigContent16"></wxc-special-rich-text>
-        <wxc-special-rich-text class="special-rich"
-                                 :config-list="caseConfigContent17"></wxc-special-rich-text>
-        <wxc-rich-text :config-list='caseConfigHeader18'
-                    :has-text-margin="true"
-                   @wxcRichTextLinkClick='wxcRichTextLinkClick'></wxc-rich-text>
-        <wxc-rich-text :config-list='caseConfigHeader19'
-                    :has-text-margin="true"
-                    class="rich"
-                   @wxcRichTextLinkClick='wxcRichTextLinkClick'></wxc-rich-text>
-        <wxc-special-rich-text class="special-rich"
-                                 :config-list="caseConfigContent19"></wxc-special-rich-text>
-      </div>
-      <div v-if="activeTab === 2">
-        <wxc-rich-text :config-list='libConfigTitle'
-                    :has-text-margin="true"
-                   @wxcRichTextLinkClick='wxcRichTextLinkClick'></wxc-rich-text>
-        <div class="type-container">
-          <wxc-rich-text class="special-rich"
-                         :config-list="libConfigString"></wxc-rich-text>
+        <div v-for="(data, indexs) in introduce.contents" v-bind:key="indexs">
+          <wxc-rich-text :config-list="data.header"
+            :has-text-margin="true"></wxc-rich-text>
+          <div v-for="(c, index) in data.content" v-bind:key="`c${index}`">
+            <wxc-special-rich-text class="special-rich"
+              :config-list="c"></wxc-special-rich-text>
+          </div>
         </div>
-        <wxc-rich-text :config-list='libConfigHeader1'
-                    :has-text-margin="true"
-                   @wxcRichTextLinkClick='wxcRichTextLinkClick'></wxc-rich-text>
-        <wxc-special-rich-text class="special-rich"
-                                 :config-list="libConfigContent1"></wxc-special-rich-text>
-        <wxc-rich-text :config-list='libConfigHeader2'
-                    :has-text-margin="true"
-                   @wxcRichTextLinkClick='wxcRichTextLinkClick'></wxc-rich-text>
-        <wxc-special-rich-text class="special-rich"
-                                 :config-list="libConfigContent2"></wxc-special-rich-text>
-        <wxc-rich-text :config-list='libConfigHeader3'
-                    :has-text-margin="true"
-                   @wxcRichTextLinkClick='wxcRichTextLinkClick'></wxc-rich-text>
-        <wxc-special-rich-text class="special-rich"
-                                 :config-list="libConfigContent3"></wxc-special-rich-text>
-      </div>
-      <div v-if="activeTab === 3">
-        <wxc-rich-text :config-list='drgConfigTitle'
-                    :has-text-margin="true"
-                   @wxcRichTextLinkClick='wxcRichTextLinkClick'></wxc-rich-text>
-        <div class="type-container">
-          <wxc-rich-text class="special-rich"
-                         :config-list="drgConfigString"></wxc-rich-text>
-        </div>
-        <wxc-rich-text :config-list='drgConfigHeader1'
-                    :has-text-margin="true"
-                   @wxcRichTextLinkClick='wxcRichTextLinkClick'></wxc-rich-text>
-        <wxc-special-rich-text class="special-rich"
-                                 :config-list="drgConfigContent1"></wxc-special-rich-text>
-        <wxc-rich-text :config-list='drgConfigHeader2'
-                    :has-text-margin="true"
-                   @wxcRichTextLinkClick='wxcRichTextLinkClick'></wxc-rich-text>
-        <wxc-special-rich-text class="special-rich"
-                                 :config-list="drgConfigContent2"></wxc-special-rich-text>
-        <wxc-rich-text :config-list='drgConfigHeader3'
-                    :has-text-margin="true"
-                   @wxcRichTextLinkClick='wxcRichTextLinkClick'></wxc-rich-text>
-        <wxc-special-rich-text class="special-rich"
-                                 :config-list="drgConfigContent3"></wxc-special-rich-text>
-      </div>
-      <div v-if="activeTab === 4">
-        <wxc-rich-text :config-list='forConfigTitle'
-                    :has-text-margin="true"
-                   @wxcRichTextLinkClick='wxcRichTextLinkClick'></wxc-rich-text>
-        <div class="type-container">
-          <wxc-rich-text class="special-rich"
-                         :config-list="forConfigString"></wxc-rich-text>
-        </div>
-        <wxc-rich-text :config-list='forConfigHeader1'
-                    :has-text-margin="true"
-                   @wxcRichTextLinkClick='wxcRichTextLinkClick'></wxc-rich-text>
-        <wxc-special-rich-text class="special-rich"
-                                 :config-list="forConfigContent1"></wxc-special-rich-text>
-        <wxc-rich-text :config-list='forConfigHeader2'
-                    :has-text-margin="true"
-                   @wxcRichTextLinkClick='wxcRichTextLinkClick'></wxc-rich-text>
-        <wxc-special-rich-text class="special-rich"
-                                 :config-list="forConfigContent2"></wxc-special-rich-text>
-        <wxc-rich-text :config-list='forConfigHeader3'
-                    :has-text-margin="true"
-                   @wxcRichTextLinkClick='wxcRichTextLinkClick'></wxc-rich-text>
-        <wxc-special-rich-text class="special-rich"
-                                 :config-list="forConfigContent3"></wxc-special-rich-text>
-        <wxc-rich-text :config-list='forConfigHeader4'
-                    :has-text-margin="true"
-                   @wxcRichTextLinkClick='wxcRichTextLinkClick'></wxc-rich-text>
-        <wxc-special-rich-text class="special-rich"
-                                 :config-list="forConfigContent4"></wxc-special-rich-text>
-        <wxc-rich-text :config-list='forConfigHeader5'
-                    :has-text-margin="true"
-                   @wxcRichTextLinkClick='wxcRichTextLinkClick'></wxc-rich-text>
-        <wxc-special-rich-text class="special-rich"
-                                 :config-list="forConfigContent5"></wxc-special-rich-text>
-        <wxc-rich-text :config-list='forConfigHeader6'
-                    :has-text-margin="true"
-                   @wxcRichTextLinkClick='wxcRichTextLinkClick'></wxc-rich-text>
-        <wxc-special-rich-text class="special-rich"
-                                 :config-list="forConfigContent6"></wxc-special-rich-text>
-        <wxc-rich-text :config-list='forConfigHeader7'
-                    :has-text-margin="true"
-                   @wxcRichTextLinkClick='wxcRichTextLinkClick'></wxc-rich-text>
-        <wxc-special-rich-text class="special-rich"
-                                 :config-list="forConfigContent7"></wxc-special-rich-text>
       </div>
     </div>
   </scroller>
@@ -525,7 +378,7 @@ export default {
       }],
       libConfigHeader3: [{
         type: 'tag',
-        value: '其他编码查询',
+        value: '术语名称查询',
         theme: 'blue',
         style: {
           fontSize: 26,
@@ -538,7 +391,7 @@ export default {
       },
       {
         type: 'text',
-        value: '卫统4字段查询，病理码查询等等。',
+        value: '用名称查询术语。',
         theme: 'black',
         style: {
           fontSize: 28
@@ -598,7 +451,7 @@ export default {
       }],
       drgConfigHeader3: [{
         type: 'tag',
-        value: '3.3 医保用户',
+        value: '3.3 个人用户',
         theme: 'blue',
         style: {
           fontSize: 26,
@@ -611,7 +464,7 @@ export default {
       },
       {
         type: 'text',
-        value: '借助DRG，对医保核算进行把控。',
+        value: '新注册用户可看到基础分析。',
         theme: 'black',
         style: {
           fontSize: 28
@@ -642,7 +495,7 @@ export default {
       },
       {
         type: 'text',
-        value: '涉及到用户注册、用户登录、字典交流、DRG分析、论坛建议相关发帖。',
+        value: '涉及到用户注册、用户登录相关发帖。',
         theme: 'black',
         style: {
           fontSize: 28
@@ -684,7 +537,7 @@ export default {
       },
       {
         type: 'text',
-        value: '各版本字典相关发贴。',
+        value: '各版本字典相关发帖。',
         theme: 'black',
         style: {
           fontSize: 28
@@ -705,7 +558,7 @@ export default {
       },
       {
         type: 'text',
-        value: 'DRG分析、DRG规则相关发贴。',
+        value: 'DRG分析、DRG规则相关发帖。',
         theme: 'black',
         style: {
           fontSize: 28
@@ -747,7 +600,7 @@ export default {
       },
       {
         type: 'text',
-        value: '自己发送的贴子都会在此处显示。',
+        value: '自己发送的帖子都会在此处显示。',
         theme: 'black',
         style: {
           fontSize: 28
@@ -780,6 +633,13 @@ export default {
     activeTab () {
       return this.$store.state.Home.activeTab
     },
+    show () {
+      if (this.activeTab === 0) {
+        return false
+      } else {
+        return true
+      }
+    },
     panel () {
       const tabPageHeight = weex.config.env.deviceHeight + 1
       const style = {
@@ -794,10 +654,57 @@ export default {
         width: '750px'
       }
       return style
+    },
+    introduce () {
+      let data = { title: {} }
+      switch (this.activeTab) {
+        case 1:
+          data.title = this.caseConfigTitle
+          data.text = this.caseConfigString
+          data.contents = [
+            { header: this.caseConfigHeader1, content: [this.caseConfigContent1] },
+            { header: this.caseConfigHeader2, content: [this.caseConfigContent2] },
+            { header: this.caseConfigHeader3, content: [this.caseConfigContent3] },
+            { header: this.caseConfigHeader4, content: [this.caseConfigContent4] },
+            { header: this.caseConfigHeader5, content: [] },
+            { header: this.caseConfigHeader6, content: [this.caseConfigContent6] },
+            { header: this.caseConfigHeader7, content: [this.caseConfigContent7, this.caseConfigContent8, this.caseConfigContent9, this.caseConfigContent10, this.caseConfigContent11, this.caseConfigContent12, this.caseConfigContent13, this.caseConfigContent14, this.caseConfigContent15, this.caseConfigContent16, this.caseConfigContent17] },
+            { header: this.caseConfigHeader18, content: [] },
+            { header: this.caseConfigHeader19, content: [this.caseConfigContent19] }]
+          break
+        case 2:
+          data.title = this.libConfigTitle
+          data.text = this.libConfigString
+          data.contents = [
+            { header: this.libConfigHeader1, content: [this.libConfigContent1] },
+            { header: this.libConfigHeader2, content: [this.libConfigContent2] },
+            { header: this.libConfigHeader3, content: [this.libConfigContent3] }]
+          break
+        case 3:
+          data.title = this.drgConfigTitle
+          data.text = this.drgConfigString
+          data.contents = [
+            { header: this.drgConfigHeader1, content: [this.drgConfigContent1] },
+            { header: this.drgConfigHeader2, content: [this.drgConfigContent2] },
+            { header: this.drgConfigHeader3, content: [this.drgConfigContent3] }]
+          break
+        case 4:
+          data.title = this.forConfigTitle
+          data.text = this.forConfigString
+          data.contents = [
+            { header: this.forConfigHeader1, content: [this.forConfigContent1] },
+            { header: this.forConfigHeader2, content: [this.forConfigContent2] },
+            { header: this.forConfigHeader3, content: [this.forConfigContent3] },
+            { header: this.forConfigHeader4, content: [this.forConfigContent4] },
+            { header: this.forConfigHeader5, content: [this.forConfigContent5] },
+            { header: this.forConfigHeader6, content: [this.forConfigContent6] },
+            { header: this.forConfigHeader7, content: [this.forConfigContent7] }]
+          break
+      }
+      return data
     }
   },
   methods: {
-    wxcRichTextLinkClick () {}
   }
 }
 </script>

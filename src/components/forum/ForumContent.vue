@@ -26,9 +26,14 @@
           size="full"
           type="blue"
           @wxcButtonClicked="wxcButtonClicked"></wxc-button>
+        <wxc-button text="删帖"
+          class="submits"
+          size="full"
+          type="blue"
+          @wxcButtonClicked="wxcDeleteButtonClicked"></wxc-button>
       </cell>
     </list>
-    <mini-bar :title="menu" rightIcon="home" rightButtonShow="true"></mini-bar>
+    <mini-bar :title="menu" rightIcon="home" leftIcon="left" rightButtonShow="true"></mini-bar>
   </div>
 
   <div class="demo" v-bind:style="panel" v-else>
@@ -76,15 +81,16 @@
           @wxcButtonClicked="wxcButtonClicked"></wxc-button>
       </cell>
     </list>
-    <mini-bar :title="menu" rightIcon="home" rightButtonShow="true"></mini-bar>
+    <mini-bar :title="menu" rightIcon="home" leftIcon="left" rightButtonShow="true"></mini-bar>
   </div>
 </template>
 <script>
 import { WxcPopup, WxcCell, WxcButton, WxcRichText, WxcSpecialRichText } from 'weex-ui'
 import MiniBar from '../common/MiniBar.vue'
 import Category from '../common/category.vue'
-import { createForum } from '../../utils/server'
+import { createForum, deleteForum } from '../../utils/forum'
 const modal = weex.requireModule('modal')
+const urlConfig = require('../../utils/config.js')
 export default {
   components: { WxcPopup, WxcCell, WxcButton, MiniBar, WxcRichText, WxcSpecialRichText, Category },
   data () {
@@ -97,7 +103,7 @@ export default {
       reply: [],
       replyId: null,
       replyIndex: null,
-      arrawSrc: 'http://210.75.199.113/images/massage.png'
+      arrawSrc: `${urlConfig.static}/images/massage.png`
     }
   },
   computed: {
@@ -128,6 +134,9 @@ export default {
     forumIndex () {
       return this.$store.state.Forum.forumIndex
     },
+    forumModule () {
+      return this.$store.state.Forum.forumModule
+    },
     panel () {
       const tabPageHeight = weex.config.env.deviceHeight
       const style = {
@@ -146,10 +155,10 @@ export default {
     wxcButtonClicked () {
       let ForumContent = {}
       if (this.$store.state.Home.user.login && this.infoLevel === 1) {
-        ForumContent = { forum_id: this.forum.id, content: this.textContent, username: this.username }
+        ForumContent = { forum_id: this.forum.id, content: this.textContent, username: this.username, module: this.forumModule }
         createForum(this, { forum_all: { forum_content: ForumContent } }, 'reply', this.activeTab)
       } else if (this.$store.state.Home.user.login && this.infoLevel === 2) {
-        ForumContent = { sid: this.forum.id, forum_content_id: this.replyId, content: this.textContent, username: this.username }
+        ForumContent = { sid: this.forum.id, forum_content_id: this.replyId, content: this.textContent, username: this.username, module: this.forumModule }
         createForum(this, { forum_all: { forum_content: ForumContent } }, 'reply', this.activeTab)
         this.$store.commit('SET_infoLevel', this.infoLevel - 1)
       } else {
@@ -163,6 +172,13 @@ export default {
       this.reply = data.reply
       this.replyId = data.id
       this.replyIndex = index
+    },
+    wxcDeleteButtonClicked () {
+      if (this.$store.state.Forum.forumContent.content.length > 1) {
+        modal.toast({ 'message': '该回复禁止删除', 'duration': 0.8 })
+      } else {
+        deleteForum(this, this.forum.id, this.forumModule)
+      }
     }
   }
 }
@@ -170,7 +186,7 @@ export default {
 <style scoped>
 .demo-title {
   font-size: 28px;
-  background-color: #C6E2FF;
+  background-color: #F8F8FF;
   text-align: center;
   border-style: solid;
   border-width: 1px;

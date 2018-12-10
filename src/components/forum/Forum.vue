@@ -1,31 +1,26 @@
 <template>
-  <div class="container">
-    <list class="list">
-      <div style="height:10px"></div>
-      <cell>
-        <div v-if="showNew">
-          <input class="input" type="text" placeholder="输入帖子标题" value="" @input="oninput"/>
-          <div class="wrapper">
-            <textarea class="textarea" placeholder="输入帖子内容" @input="oninput2" value="" ></textarea>
-          </div>
-          <wxc-button text="发布"
-                size="full"
-                type="blue"
-                class="submits"
-                @wxcButtonClicked="sumbit"></wxc-button>
-        </div>
-        <div v-if="!showNew" class="submits">
-          <wxc-button v-if="showNewButton"
-                text="发帖"
-                size="full"
-                type="blue"
-                class="submits"
-                @wxcButtonClicked="wxcButtonClicked"></wxc-button>
-        </div>
-      </cell>
-      <div style="height:10px"></div>
+  <div class="container" v-bind:style="panel">
+    <div v-if="showNew">
+      <input type="text" placeholder="输入帖子标题" class="top" :autofocus=true value="" @input="oninput"/>
+      <div class="wrapper">
+        <textarea class="textarea" placeholder="输入帖子内容" @input="oninput2" value="" ></textarea>
+      </div>
+      <wxc-button text="发布"
+            size="full"
+            type="blue"
+            class="submits"
+            @wxcButtonClicked="sumbit"></wxc-button>
+    </div>
+    <div v-if="!showNew" class="submit">
+      <wxc-button v-if="showNewButton"
+            text="发帖"
+            size="full"
+            type="blue"
+            @wxcButtonClicked="wxcButtonClicked"></wxc-button>
+    </div>
+    <list class="lists" v-if="showData">
       <cell v-for="(post, index) in posts" v-bind:key="index">
-        <div class="panel">
+        <div>
           <wxc-cell
             :title="post.title"
             :extraContent="`${post.content_count}`"
@@ -37,17 +32,30 @@
           </wxc-cell>
         </div>
       </cell>
-      <cell style="height:100px"> </cell>
     </list>
-    <mini-bar :title="forumModule" rightIcon="home" rightButtonShow="true"></mini-bar>
+    <list class="lists" v-else>
+      <cell v-if="!showNew">
+        <div class="panel">
+          <wxc-cell
+            title="无帖子"
+            :has-margin="false"
+            :has-arrow="false"
+            :arrow-icon="arrawSrc">
+          </wxc-cell>
+        </div>
+      </cell>
+    </list>
+    <mini-bar :title="forumModule" rightIcon="home" leftIcon="left" rightButtonShow="true"></mini-bar>
   </div>
 </template>
 
 <script>
 import { WxcSpecialRichText, WxcButton, WxcRichText, WxcCell } from 'weex-ui'
 import MiniBar from '../common/MiniBar.vue'
-import { getServer, createForum } from '../../utils/server'
+import { getServer } from '../../utils/server'
+import { createForum } from '../../utils/forum'
 const modal = weex.requireModule('modal')
+const urlConfig = require('../../utils/config.js')
 export default {
   components: { WxcSpecialRichText, WxcButton, WxcRichText, MiniBar, WxcCell },
   data: () => ({
@@ -55,7 +63,7 @@ export default {
     showNewButton: true,
     title: '',
     content: '',
-    arrawSrc: 'http://210.75.199.113/images/massage.png'
+    arrawSrc: `${urlConfig.static}/images/massage.png`
   }),
   computed: {
     user () {
@@ -66,6 +74,9 @@ export default {
     },
     menu () {
       return this.$store.state.Home.menu[this.activeTab]
+    },
+    showData () {
+      return this.$store.state.Home.showData
     },
     forumModule () {
       return this.$store.state.Forum.forumModule
@@ -169,12 +180,25 @@ export default {
 <style scoped>
 .demo-title {
   font-size: 28px;
-  background-color: #C6E2FF;
+  background-color: #F8F8FF;
   text-align: center;
   border-style: solid;
   border-width: 1px;
   border-radius: 14px;
   padding: 10px;
+}
+.input {
+  border-width: 1px;
+  border-style: solid;
+  border-color: #000000;
+  height: 80px;
+}
+.top {
+  border-width: 1px;
+  border-style: solid;
+  border-color: #000000;
+  margin-top: 100px;
+  height: 80px;
 }
 .container {
   width: 750px;
@@ -183,17 +207,20 @@ export default {
   margin-bottom: 0px;
   margin-top: 0px;
 }
-.list {
-  margin-top: 91px;
+.submit {
+  margin-left: 17px;
+  margin-bottom: 12px;
+  margin-bottom: 12px;
+  margin-top: 100px;
 }
 .wrapper {
-  margin-top: 91px;
+  margin-top: 10px;
 }
 .textarea {
   font-size: 40px;
-  width: 746px;
+  width: 750px;
   height: 400px;
-  margin-top: 50px;
+  margin-top: 0px;
   margin-left: 0px;
   padding-top: 20px;
   padding-bottom: 0px;
@@ -202,7 +229,7 @@ export default {
   color: #666666;
   border-width: 1px;
   border-style: solid;
-  border-color: #e3dbdb;
+  border-color: #000000;
 }
 .submits {
   color: #666666;

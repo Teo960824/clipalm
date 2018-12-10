@@ -15,7 +15,7 @@
       </cell>
       <cell style="height:100px"> </cell>
     </list>
-    <mini-bar title="用户分析" rightIcon="home" rightButtonShow="true"></mini-bar>
+    <mini-bar title="用户统计" rightIcon="home" leftIcon="left" rightButtonShow="true"></mini-bar>
   </div>
 </template>
 
@@ -63,7 +63,7 @@ export default {
     margin-left: 0px;
     border-color: #BBBBBB;
     padding-top: 0;
-    background-color: #C6e2FF;
+    background-color: #F8F8FF;
   }
   .text {
     color: #666666;
@@ -83,7 +83,7 @@ export default {
   }
   .demo-title {
     font-size: 28px;
-    background-color: #C6E2FF;
+    background-color: #F8F8FF;
     text-align: center;
     border-style: solid;
     border-width: 1px;

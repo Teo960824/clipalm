@@ -13,7 +13,7 @@
   padding-left: 24px;
   width: 750px;
   height: 50px;
-  background-color: #FFF8DC;
+  background-color: #87CEFA;
   justify-content: center;
 }
 

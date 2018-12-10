@@ -112,3 +112,6 @@ Multiple dex files define（jar包冲突）
   com/alibaba/weex/plugin/annotation/WeexAdapter
 
   Program type already present: com.alibaba.weex.plugin.annotation.WeexAdapter
+
+#### 参考
+  [hminghe/weex-amui](https://github.com/hminghe/weex-amui/)
