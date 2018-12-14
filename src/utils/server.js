@@ -178,6 +178,7 @@ function setStore (obj, activeTab, menu, rdata) {
 }
 
 export function customSearch (obj, value) {
+  let data = []
   switch (obj.$store.state.Home.activeTab) {
     case 1:
       value.tab = '病案'
@@ -206,7 +207,9 @@ export function customSearch (obj, value) {
       obj.$store.commit('SET_menu', [obj.$store.state.Home.activeTab, '自定义查询结果显示'])
       switch (obj.$store.state.Home.activeTab) {
         case 1:
-          obj.$store.commit('SET_wt4Case', res.data.data)
+          data = obj.$store.state.Edit.wt4Case
+          data = data.concat(res.data.data)
+          obj.$store.commit('SET_wt4Case', data)
           break
         case 2:
           obj.$store.commit('SET_rule', res.data.data)
