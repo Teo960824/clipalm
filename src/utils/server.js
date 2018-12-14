@@ -181,12 +181,15 @@ export function customSearch (obj, value) {
   switch (obj.$store.state.Home.activeTab) {
     case 1:
       value.tab = '病案'
+      value.page = obj.$store.state.Edit.wt4Page
       break
     case 2:
       value.tab = '字典'
+      value.page = obj.$store.state.Library.libraryPage
       break
     case 3:
       value.tab = 'DRG分析'
+      value.page = obj.$store.state.Stat.statPage
       break
     default:
       break
@@ -203,15 +206,12 @@ export function customSearch (obj, value) {
       obj.$store.commit('SET_menu', [obj.$store.state.Home.activeTab, '自定义查询结果显示'])
       switch (obj.$store.state.Home.activeTab) {
         case 1:
-          obj.$store.commit('SET_wt4Page', 1)
           obj.$store.commit('SET_wt4Case', res.data.data)
           break
         case 2:
-          obj.$store.commit('SET_libraryPage', 1)
           obj.$store.commit('SET_rule', res.data.data)
           break
         case 3:
-          obj.$store.commit('SET_statPage', 1)
           obj.$store.commit('SET_statDrg', res.data.data)
           break
         default:

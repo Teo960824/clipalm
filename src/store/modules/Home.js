@@ -89,7 +89,6 @@ const mutations = {
   },
   SET_customQuery (state, x) {
     state.customQuery[x[0]] = x[1]
-    console.log(state.customQuery)
   }
 }
 

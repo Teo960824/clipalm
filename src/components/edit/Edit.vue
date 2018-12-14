@@ -17,6 +17,12 @@
     <!-- <category v-if="customQueryShowType" :title="customQuery[0].query"></category> -->
     <!-- <text class="demo-title"  v-if="wt4Case.length !== 0">{{title.count}}</text> -->
     <list class="list" @loadmore="fetch" loadmoreoffset="20" v-if="showData">
+      <cell style="height:200px" v-if="showMore">
+        <wxc-button text="加载更多"
+          class="submits"
+          size="big"
+          @wxcButtonClicked="fetch"></wxc-button>
+      </cell>
       <cell v-for="(wt4, index) in wt4Case" v-bind:key="index" @longpress="test">
         <div class="panel" @longpress="longpress(wt4)">
           <wxc-cell
@@ -29,12 +35,12 @@
           </wxc-cell>
         </div>
       </cell>
-      <cell style="height:200px" v-if="showMore">
+      <!-- <cell style="height:200px" v-if="showMore">
         <wxc-button text="加载更多"
           class="submits"
           size="big"
           @wxcButtonClicked="fetch"></wxc-button>
-      </cell>
+      </cell> -->
     </list>
     <list class="list" loadmoreoffset="20" v-else>
       <cell style="height:91px">
@@ -56,7 +62,7 @@
 
 <script>
 import { WxcRichText, WxcSpecialRichText, WxcPopup, WxcCell, WxcIndexlist, WxcLoading, WxcPartLoading, WxcButton } from 'weex-ui'
-import { getServer } from '../../utils/server'
+import { getServer, customSearch } from '../../utils/server'
 import { getDetails } from '../../utils/details'
 import MiniBar from '../common/MiniBar.vue'
 import Category from '../common/category.vue'
@@ -216,7 +222,11 @@ export default {
     },
     fetch () {
       this.$store.commit('SET_wt4Page', this.$store.state.Edit.wt4Page + 1)
-      getServer(this, this.activeTab, this.menu)
+      if (this.menu === '自定义查询结果显示') {
+        customSearch(this, this.$store.state.Home.customQuery[0].query)
+      } else {
+        getServer(this, this.activeTab, this.menu)
+      }
     },
     aa (title, index) {
       const keys = Object.keys(title)
