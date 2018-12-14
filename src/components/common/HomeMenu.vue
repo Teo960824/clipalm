@@ -106,6 +106,7 @@ export default {
     },
     wxcButtonClicked (menu) {
       menu = menu.text
+      this.$store.commit('SET_customQuery', [this.activeTab - 1, {show: false, query: {}}])
       switch (this.activeTab) {
         case 1:
           this.$store.commit('SET_wt4Page', 1)
