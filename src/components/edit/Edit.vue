@@ -85,7 +85,7 @@ export default {
       const query = Object.keys(this.$store.state.Home.customQuery[0].query)
       const obj = {}
       query.map((x) => {
-        if (x !== 'tab') {
+        if (x !== 'tab' && x !== 'page') {
           obj[x] = this.$store.state.Home.customQuery[0].query[x]
         }
       })
