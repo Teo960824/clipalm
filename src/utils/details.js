@@ -6,6 +6,8 @@ const details = [
   {'label': '手术室手术', 'title': 'p_type', 'hasArrow': false},
   {'label': '入组DRG', 'title': 'drg', 'hasArrow': false},
   {'label': '病案ID', 'title': 'b_wt4_v1_id', 'hasArrow': false},
+  {'label': '诊断', 'title': 'disease', 'hasArrow': false},
+  {'label': '手术/操作', 'title': 'oper', 'hasArrow': false},
   {'label': '主要诊断', 'title': 'disease_code', 'hasArrow': false},
   // {'label': '主要诊断名称', 'title': 'disease_name', 'hasArrow': false},
   {'label': '其他诊断', 'title': 'diags_code', 'hasArrow': false},
