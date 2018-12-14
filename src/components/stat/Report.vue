@@ -1,5 +1,13 @@
 <template>
   <div class="container" v-bind:style="panel">
+    <div class="count1" v-if="customQueryShowType">
+      <wxc-cell v-for="(item, index) in customQuery" v-bind:key="index"
+                v-if="item !== undefined"
+                :title="index"
+                :desc="`${item}`"
+                :cell-style="cellStyle"
+                :extraContent="aa(stat, index)"></wxc-cell>
+    </div>
     <list class="list" @loadmore="fetch" loadmoreoffset="0" v-if="showData">
       <cell class="cell" v-for="(stat, index) in stats" v-bind:key="index">
         <wxc-cell :label="stat.code"
@@ -52,6 +60,19 @@ export default {
     }
   },
   computed: {
+    customQueryShowType () {
+      return this.$store.state.Home.customQuery[2].show
+    },
+    customQuery () {
+      const query = Object.keys(this.$store.state.Home.customQuery[2].query)
+      const obj = {}
+      query.map((x) => {
+        if (x !== 'tab' && x !== 'page') {
+          obj[x] = this.$store.state.Home.customQuery[2].query[x]
+        }
+      })
+      return obj
+    },
     user () {
       return this.$store.state.Home.user.data
     },
@@ -98,6 +119,15 @@ export default {
     fetch () {
       this.$store.commit('SET_statPage', this.$store.state.Stat.statPage + 1)
       getServer(this, this.activeTab, this.menu)
+    },
+    aa (title, index) {
+      const keys = Object.keys(title)
+      const lastKey = keys[keys.length - 1]
+      if (lastKey === index) {
+        return ''
+      } else {
+        return '       |'
+      }
     }
   }
 }
@@ -114,5 +144,10 @@ export default {
     position: relative;
     left: 210px;
     top: 1
+  }
+  .count1 {
+    flex-direction: row;
+    justify-content: space-around;
+    background-color: #F8F8FF;
   }
 </style>
