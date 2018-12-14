@@ -198,7 +198,7 @@ export function getDetails (obj, menu, data) {
     } else if (['BJ-ICD9', 'GB-ICD9'].includes(menu)) {
       menu = 'ICD9'
     }
-    if (['DRG机构分析-年', 'DRG机构分析-半年', 'DRG机构分析-季度', 'DRG机构分析-年'].includes(menu)) {
+    if (['DRG机构分析-年', 'DRG机构分析-半年', 'DRG机构分析-季度', 'DRG机构分析-月'].includes(menu)) {
       menu = 'DRG机构分析'
     }
     switch (menu) {
