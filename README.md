@@ -45,6 +45,16 @@ $ weex run android
 
 安装xcode
 
+安装ruby
+curl -sSL https://get.rvm.io | bash -s stable
+
+设置gem镜像
+gem sources --add https://gems.ruby-china.com/
+
+使用gem安装cocoapods
+sudo gem install cocoapods
+
+设置CommandLineTools
 xcode-Preferences-Locations-CommandLineTools-xcode
 
 $ weex platform add ios
