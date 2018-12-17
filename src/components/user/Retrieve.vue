@@ -162,6 +162,6 @@ export default {
     font-size: 36px;
     border-width: 0.5px;
     border-style: solid;
-    border-color: #000000;
+    border-color: #BBBBBB;
   }
 </style>
