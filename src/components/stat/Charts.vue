@@ -1,19 +1,33 @@
 <template>
   <div class="panel" style="margin-top:91px">
     <!-- <wxc-simple-flow :list="testData" :themeColor="themeColor"></wxc-simple-flow> -->
-    <web :src="url" style="width: 750px; height: 1250px"></web>
+    <canvas id="myChart" width="750" height="900"></canvas>
   </div>
 </template>
 <script>
 import { WxcSimpleFlow } from 'weex-ui'
+const F2 = require('@antv/f2')
 const urlConfig = require('../../utils/config.js')
 export default {
   components: { WxcSimpleFlow },
   data () {
     return {
-      height: 400,
-      isShow: false
+      data: [{ genre: 'Sports', sold: 275 },
+        { genre: 'Strategy', sold: 115 },
+        { genre: 'Action', sold: 120 },
+        { genre: 'Shooter', sold: 350 },
+        { genre: 'Other', sold: 150 }],
+      isShow: false,
+      chart: null
     }
+  },
+  mounted: function () {
+    this.chart = new F2.Chart({ id: 'myChart', pixelRatio: window.devicePixelRatio })
+    this.chart.source(this.data)
+    this.chart.interval().position('genre*sold').color('genre')
+    this.chart.render()
+  },
+  created: function () {
   },
   computed: {
     chartType: {
