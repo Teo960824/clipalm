@@ -8,9 +8,14 @@
       :customStyles="customStyles"
       :list="list"
       @select="params => onSelect(params)"></wxc-grid-select>
+    <wxc-grid-select
+      :single="true"
+      :cols="5"
+      :customStyles="customStyles"
+      :list="symbols"></wxc-grid-select>
     <div v-for="(text, i) in selection" :key="i">
       <text style="font-size: 35px;margin-left: 15px">{{text.key}}</text>
-      <input type="text" :placeholder="text.key" class="input" value="text.key" :autofocus=true @blur="onChange(text)" v-model="searchObj[text.key]"/>
+      <input type="text" :placeholder="text.key" class="input" :autofocus=true @blur="onChange(text)" v-model="searchObj[text.key]"/>
     </div>
     <wxc-button text="查询"
               type="blue"
@@ -57,6 +62,14 @@ export default {
         height: tabPageHeight
       }
       return style
+    },
+    symbols () {
+      const value = [
+        {'title': '>'},
+        {'title': '='},
+        {'title': '<'}
+      ]
+      return value
     },
     list () {
       let value = []
