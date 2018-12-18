@@ -96,7 +96,7 @@ export default {
             {'title': '版本'},
             {'title': '平均费用'},
             {'title': '平均住院天数'},
-            {'title': '病例数'},
+            {'title': '病历数'},
             {'title': '费用变异系数'},
             {'title': '时间变异系数'},
             {'title': '权重'}]

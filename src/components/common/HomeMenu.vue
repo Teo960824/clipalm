@@ -59,41 +59,6 @@ export default {
     },
     user () {
       return this.$store.state.Home.user
-    },
-    list () {
-      let value = []
-      switch (this.activeTab) {
-        case 1:
-          value = [
-            {'title': '入组DRG'},
-            {'title': '主要诊断'},
-            {'title': '其他诊断'},
-            {'title': '住院天数'},
-            {'title': '住院总费用'},
-            {'title': '年龄'}]
-          break
-        case 2:
-          value = [
-            {'title': '编码'},
-            {'title': '名称'},
-            {'title': '年份'}]
-          break
-        case 3:
-          value = [
-            {'title': '编码'},
-            {'title': '年份'},
-            {'title': '版本'},
-            {'title': '平均费用'},
-            {'title': '平均住院天数'},
-            {'title': '病例数'},
-            {'title': '费用变异系数'},
-            {'title': '时间变异系数'},
-            {'title': '权重'}]
-          break
-        default:
-          break
-      }
-      return value
     }
   },
   methods: {
