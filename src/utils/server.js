@@ -19,6 +19,7 @@ export function getServer (obj, activeTab, menu, value = null) {
       stream.fetch({
         method: 'GET',
         type: 'json',
+        timeout: 7000,
         headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
         responseType: 'json',
         url: url
