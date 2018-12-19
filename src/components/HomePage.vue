@@ -3,7 +3,7 @@
   <Version></Version>
 </div>
 <div class="homepage" v-bind:class="homepage" v-else>
-  <wxc-loading :show="isLoadingShow" type="default" interval="3" loading-text="正在查询"></wxc-loading>
+  <loading-gif :show="isLoadingShow"></loading-gif>
   <wxc-tab-bar
     ref="wxc-tab-bar"
     :tab-titles="tabs"
@@ -41,7 +41,7 @@
       <PopRight v-if="infoLevel[3] > 0"></PopRight>
       <HomeMenu v-else-if="menu[3] === 'DRG分析'"></HomeMenu>
       <Introduce v-else-if="menu[3] === '介绍'"></Introduce>
-      <Charts v-else-if="menu[3] == '报表'"></Charts>
+      <!-- <Charts v-else-if="menu[3] == '报表'"></Charts> -->
       <CustomSelect v-else-if="menu[3] == '自定义查询'"></CustomSelect>
       <Report v-else></Report>
     </div>
@@ -60,13 +60,14 @@
 </template>
 
 <script>
-  import { WxcTabBar, Utils, WxcLoading } from 'weex-ui';
+  import { WxcTabBar, Utils } from 'weex-ui'
   import { getServer, getLastVersion } from '../utils/server'
   import Version from './common/Version'
   import CustomSelect from './common/CustomSelect'
   import PopRight from './common/PopRight'
   import HomeMenu from './common/HomeMenu'
   import Introduce from './common/Introduce'
+  import LoadingGif from './common/LoadingGif'
   import Edit from './edit/Edit'
   import SingleGroup from './edit/SingleGroup'
   import ForumContent from './forum/ForumContent'
@@ -84,8 +85,8 @@
   const modal = weex.requireModule('modal')
   const urlConfig = require('../utils/config.js')
   export default {
-    components: { WxcTabBar, WxcLoading, User, Login, Personal, Retrieve, Edit, SingleGroup, Library,
-      Report, Forum, PopRight, ForumContent, Version, Charts, HomeMenu, Introduce, Analyse, CustomSelect },
+    components: { WxcTabBar, User, Login, Personal, Retrieve, Edit, SingleGroup, Library,
+      Report, Forum, PopRight, ForumContent, Version, Charts, HomeMenu, Introduce, Analyse, CustomSelect, LoadingGif },
     data: () => ({
       tabs: [{
         title: '用户',
