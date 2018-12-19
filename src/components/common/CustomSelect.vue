@@ -132,7 +132,6 @@ export default {
       const key = this.list[selectIndex].title
       if (this.selected.includes(key)) {
         delete this.condition[key]
-        console.log(key)
         this.selected = this.selected.filter(i => i !== key)
       } else {
         this.condition[key] = ''
@@ -141,6 +140,14 @@ export default {
     },
     onChange (e) {
       this.conditions[e.target.name] = e.target.value
+      const key1 = `${e.target.placeholder}1`
+      const key2 = `${e.target.placeholder}2`
+      if (!this.conditions[key1]) {
+        this.conditions[key1] = ''
+      }
+      if (!this.conditions[key2]) {
+        this.conditions[key2] = ''
+      }
     },
     wxcButtonClicked () {
       Object.keys(this.condition).map((key) => {
