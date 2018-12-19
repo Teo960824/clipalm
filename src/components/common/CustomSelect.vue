@@ -8,17 +8,18 @@
       :customStyles="customStyles"
       :list="list"
       @select="params => onSelect(params)"></wxc-grid-select>
-    <div v-for="(text, i) in selection" :key="i">
-      <div v-if="showStyle.includes(text.key)">
-        <text style="font-size: 35px;margin: 5px">{{text.key}}</text>
-        <input type="text" :placeholder="text.key" class="input" :autofocus=true @blur="onChange(text)" v-model="searchObj[text.key]"/>
+    {{selected}}
+    <div v-for="(value, key) in condition" :key="key">
+      <div v-if="showStyle.includes(key)">
+        <text style="font-size: 35px;margin: 5px">{{key}}</text>
+        <input type="text" :placeholder="key" class="input" :autofocus=true v-model="condition[key]"/>
       </div>
       <div v-else>
-        <text style="font-size: 35px;margin: 5px">{{text.key}}</text>
+        <text style="font-size: 35px;margin: 5px">{{key}}</text>
         <div class="numStyle">
-          <input type="text" :placeholder="text.key" class="input1" :autofocus=true @blur="onChange1(text, 'great')" v-model="searchObj[text.key]"/>
+          <input type="text" :placeholder="key" class="input1" :autofocus=true @input="onChange" :name="`${key}1`" />
           <text style="margin-top: 40px">   ---   </text>
-          <input type="text" :placeholder="text.key" class="input1" :autofocus=true @change="onChange1(text, 'less')" v-model="searchObj[text.key]"/>
+          <input type="text" :placeholder="key" class="input1" :autofocus=true @input="onChange" :name="`${key}2`"/>
         </div>
       </div>
     </div>
@@ -49,21 +50,13 @@ export default {
         backgroundColor: '#ffffff',
         checkedBackgroundColor: '#ffb200'
       },
-      selection: []
+      selected: [],
+      condition: {},
+      conditions: {},
+      showStyle: ['入组DRG', '主要诊断', '其他诊断', '编码', '名称', '年份', '版本']
     }
   },
   computed: {
-    showStyle () {
-      const arr = ['入组DRG', '主要诊断', '其他诊断', '编码', '名称', '年份', '版本']
-      // const value = this.selection.map((x) => {
-      //   if (arr.indexOf(x.key) > -1) {
-      //     return true
-      //   } else {
-      //     return false
-      //   }
-      // })
-      return arr
-    },
     menus () {
       return this.$store.state.Home.menus
     },
@@ -71,7 +64,7 @@ export default {
       return this.$store.state.Home.activeTab
     },
     menu () {
-      return this.$store.state.Home.menu[this.activeTab]
+      return this.menus[this.activeTab]
     },
     panel () {
       const tabPageHeight = weex.config.env.deviceHeight
@@ -91,12 +84,14 @@ export default {
             {'title': '住院天数'},
             {'title': '住院总费用'},
             {'title': '年龄'}]
+          // this.selection = { '入组DRG': '', '主要诊断': '', '其他诊断': '', '住院天数': '', '住院总费用': '', '年龄': ''}
           break
         case 2:
           value = [
             {'title': '编码'},
             {'title': '名称'},
             {'title': '年份'}]
+          // this.selection = { '编码': '', '名称': '', '年份': ''}
           break
         case 3:
           value = [
@@ -109,6 +104,7 @@ export default {
             {'title': '费用变异系数'},
             {'title': '时间变异系数'},
             {'title': '权重'}]
+          // this.selection = { '编码': '', '年份': '', '版本': '', '平均费用': '', '平均住院天数': '', '病历数': '', '费用变异系数': '', '时间变异系数': '', '权重': ''}
           break
         default:
           break
@@ -117,7 +113,7 @@ export default {
     },
     searchObj () {
       const obj = {}
-      this.selection.map((x) => {
+      this.selected.map((x) => {
         obj.key = x.key
         obj.great = x.great
         if (x.great) {
@@ -133,38 +129,28 @@ export default {
   },
   methods: {
     onSelect ({selectIndex, checked, checkedList}) {
-      let index = null
-      this.selection.map((x, i) => {
-        if (x.key === this.list[selectIndex].title) {
-          index = i
-        }
-      })
-      if (checked === false) {
-        this.selection.splice(index, 1)
+      const key = this.list[selectIndex].title
+      if (this.selected.includes(key)) {
+        delete this.condition[key]
+        console.log(key)
+        this.selected = this.selected.filter(i => i !== key)
       } else {
-        const obj = {}
-        obj.key = this.list[selectIndex].title
-        this.selection.push(obj)
+        this.condition[key] = ''
+        this.selected.push(key)
       }
     },
-    onChange (value) {
-      this.selection.map((x) => {
-        if (x.key === value.key) {
-          x.value = this.searchObj[value.key]
-        }
-      })
-    },
-    onChange1 (value, symbol) {
-      this.selection.map((x) => {
-        if (x.key === value.key) {
-          x[symbol] = this.searchObj[value.key]
-        }
-      })
+    onChange (e) {
+      this.conditions[e.target.name] = e.target.value
     },
     wxcButtonClicked () {
-      console.log(this.selection)
-      customSearch(this, this.selection[0])
-      const value = {show: true, query: this.searchObj}
+      Object.keys(this.condition).map((key) => {
+        if (!this.showStyle.includes(key)) {
+          this.condition[key] = [this.conditions[`${key}1`], this.conditions[`${key}2`]]
+        }
+      })
+      customSearch(this, this.condition)
+      // const value = {show: true, query: this.searchObj}
+      const value = {}
       this.$store.commit('SET_customQuery', [this.activeTab - 1, value])
     }
   }
