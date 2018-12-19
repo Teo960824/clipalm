@@ -8,14 +8,19 @@
       :customStyles="customStyles"
       :list="list"
       @select="params => onSelect(params)"></wxc-grid-select>
-    <wxc-grid-select
-      :single="true"
-      :cols="5"
-      :customStyles="customStyles"
-      :list="symbols"></wxc-grid-select>
     <div v-for="(text, i) in selection" :key="i">
-      <text style="font-size: 35px;margin-left: 15px">{{text.key}}</text>
-      <input type="text" :placeholder="text.key" class="input" :autofocus=true @blur="onChange(text)" v-model="searchObj[text.key]"/>
+      <div v-if="showStyle.includes(text.key)">
+        <text style="font-size: 35px;margin: 5px">{{text.key}}</text>
+        <input type="text" :placeholder="text.key" class="input" :autofocus=true @blur="onChange(text)" v-model="searchObj[text.key]"/>
+      </div>
+      <div v-else>
+        <text style="font-size: 35px;margin: 5px">{{text.key}}</text>
+        <div class="numStyle">
+          <input type="text" :placeholder="text.key" class="input1" :autofocus=true @blur="onChange1(text, 'great')" v-model="searchObj[text.key]"/>
+          <text style="margin-top: 40px">   ---   </text>
+          <input type="text" :placeholder="text.key" class="input1" :autofocus=true @change="onChange1(text, 'less')" v-model="searchObj[text.key]"/>
+        </div>
+      </div>
     </div>
     <wxc-button text="查询"
               type="blue"
@@ -29,6 +34,7 @@
 import { WxcButton, WxcGridSelect } from 'weex-ui'
 import MiniBar from './MiniBar.vue'
 import { customSearch } from '../../utils/server'
+// var modal = weex.requireModule('modal')
 export default {
   components: { WxcButton, WxcGridSelect, MiniBar },
   data () {
@@ -47,6 +53,17 @@ export default {
     }
   },
   computed: {
+    showStyle () {
+      const arr = ['入组DRG', '主要诊断', '其他诊断', '编码', '名称', '年份', '版本']
+      // const value = this.selection.map((x) => {
+      //   if (arr.indexOf(x.key) > -1) {
+      //     return true
+      //   } else {
+      //     return false
+      //   }
+      // })
+      return arr
+    },
     menus () {
       return this.$store.state.Home.menus
     },
@@ -62,14 +79,6 @@ export default {
         height: tabPageHeight
       }
       return style
-    },
-    symbols () {
-      const value = [
-        {'title': '>'},
-        {'title': '='},
-        {'title': '<'}
-      ]
-      return value
     },
     list () {
       let value = []
@@ -109,7 +118,14 @@ export default {
     searchObj () {
       const obj = {}
       this.selection.map((x) => {
-        obj[x.key] = x.value
+        obj.key = x.key
+        obj.great = x.great
+        if (x.great) {
+          obj.great = x.great
+        }
+        if (x.less) {
+          obj.less = x.less
+        }
         return obj
       })
       return obj
@@ -126,22 +142,30 @@ export default {
       if (checked === false) {
         this.selection.splice(index, 1)
       } else {
-        const obj = {key: '', value: ''}
+        const obj = {}
         obj.key = this.list[selectIndex].title
         this.selection.push(obj)
       }
     },
-    wxcButtonClicked () {
-      customSearch(this, this.searchObj)
-      const value = {show: true, query: this.searchObj}
-      this.$store.commit('SET_customQuery', [this.activeTab - 1, value])
-    },
     onChange (value) {
       this.selection.map((x) => {
         if (x.key === value.key) {
-          x.value = this.searchObj[value]
+          x.value = this.searchObj[value.key]
         }
       })
+    },
+    onChange1 (value, symbol) {
+      this.selection.map((x) => {
+        if (x.key === value.key) {
+          x[symbol] = this.searchObj[value.key]
+        }
+      })
+    },
+    wxcButtonClicked () {
+      console.log(this.selection)
+      customSearch(this, this.selection[0])
+      const value = {show: true, query: this.searchObj}
+      this.$store.commit('SET_customQuery', [this.activeTab - 1, value])
     }
   }
 }
@@ -162,11 +186,27 @@ export default {
     border-width: 0.5px;
     border-style: solid;
     border-color: #000000;
-    margin: 10px;
+    margin: 5px;
   }
-  .submits{
+  .input1 {
+    width: 350px;
+    height: 78px;
+    color: #606060;
+    background-color: #FFFFFF;
+    font-size: 36px;
+    border-width: 0.5px;
+    border-style: solid;
+    border-color: #000000;
+    /* margin: 10px; */
+  }
+  .submits {
     position: relative;
     left: 23px;
     top: 20px;
+  }
+  .numStyle {
+    width: 750px;
+    flex-direction: row;
+    justify-content: center;
   }
 </style>
