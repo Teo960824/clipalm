@@ -1,6 +1,6 @@
 <template>
   <scroller class="scroller">
-    <div class="cell" v-for="num in lists">
+    <div class="cell" v-for="num in lists" v-bind:key="num">
       <div class="panel">
         <text class="text">{{num}}</text>
       </div>
@@ -13,22 +13,21 @@
 </template>
 
 <script>
-  const modal = weex.requireModule('modal')
-
-  export default {
-    data () {
-      return {
-        loadinging: false,
-        lists: [1, 2, 3, 4, 5]
-      }
-    },
-    methods: {
-      onloading (event) {
-        modal.toast({ message: 'Loading', duration: 1 })
-        this.loadinging = true
-      },
+const modal = weex.requireModule('modal')
+export default {
+  data () {
+    return {
+      loadinging: false,
+      lists: [1, 2, 3, 4, 5]
+    }
+  },
+  methods: {
+    onloading (event) {
+      modal.toast({ message: 'Loading', duration: 1 })
+      this.loadinging = true
     }
   }
+}
 </script>
 
 <style scoped>
