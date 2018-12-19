@@ -7,6 +7,7 @@ export function createForum (obj, forum, type, activeTab) {
   stream.fetch({
     method: 'POST',
     type: 'json',
+    timeout: 7000,
     headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
     responseType: 'json',
     url: `${urlConfig.http}:${urlConfig.port}/${urlConfig.router}/forum`,
@@ -37,6 +38,7 @@ export function deleteForum (obj, id, module) {
   stream.fetch({
     method: 'get',
     type: 'json',
+    timeout: 7000,
     headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
     responseType: 'json',
     url: `${urlConfig.http}:${urlConfig.port}/${urlConfig.router}/forum_del?id=${id}`

@@ -40,6 +40,7 @@ export function getLastVersion (obj) {
   stream.fetch({
     method: 'GET',
     type: 'json',
+    timeout: 7000,
     headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
     responseType: 'json',
     url: `${urlConfig.http}:${urlConfig.port}/${urlConfig.router}/clipalm_last_version`
@@ -199,6 +200,7 @@ export function customSearch (obj, value) {
   stream.fetch({
     method: 'POST',
     type: 'json',
+    timeout: 7000,
     headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
     responseType: 'json',
     url: `${urlConfig.http}:${urlConfig.port}/${urlConfig.router}/custom_query`,

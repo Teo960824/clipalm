@@ -6,6 +6,7 @@ export function compDrg (obj, wt4, i) {
   stream.fetch({
     method: 'POST',
     type: 'json',
+    timeout: 7000,
     headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
     responseType: 'json',
     url: `${urlConfig.drgserver}:3001/comp_drg`,
@@ -35,6 +36,7 @@ export function compWt4 (obj, wt4, result) {
   stream.fetch({
     method: 'POST',
     type: 'json',
+    timeout: 7000,
     headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
     responseType: 'json',
     url: `${urlConfig.http}:${urlConfig.port}/${urlConfig.router}/wt4_comp`,
