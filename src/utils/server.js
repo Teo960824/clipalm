@@ -149,6 +149,11 @@ function setStore (obj, activeTab, menu, rdata) {
               x.name1 = `机构：${x.name}`
               return x
             })
+          } else if (['主诊未入组', '手术QY'].includes(menu)) {
+            rdata.data = rdata.data.map((x) => {
+              x.name1 = `病历数：${x.num_sum}`
+              return x
+            })
           } else {
             rdata.data = rdata.data.map((x) => {
               x.name1 = x.name

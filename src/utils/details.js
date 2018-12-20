@@ -87,7 +87,8 @@ function statInfoOrg (result, data, menu) {
   }
   result.details = [
     {'label': '时间', 'title': 'code', 'hasArrow': false},
-    {'label': '机构', 'title': 'name', 'hasArrow': false},
+    {'label': '名称', 'title': 'name', 'hasArrow': false},
+    {'label': '机构', 'title': 'org', 'hasArrow': false},
     {'label': '费用变异系数', 'title': 'fee_cv', 'hasArrow': false},
     {'label': '时间变异系数', 'title': 'day_cv', 'hasArrow': false},
     {'label': '权重', 'title': 'weight', 'hasArrow': false},
