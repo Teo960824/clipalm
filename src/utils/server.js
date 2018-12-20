@@ -144,6 +144,17 @@ function setStore (obj, activeTab, menu, rdata) {
           obj.$store.commit('SET_info', details)
           break
         default:
+          if (['DRG机构分析-年', 'DRG机构分析-半年', 'DRG机构分析-季度', 'DRG机构分析-月'].includes(menu)) {
+            rdata.data = rdata.data.map((x) => {
+              x.name1 = `机构：${x.name}`
+              return x
+            })
+          } else {
+            rdata.data = rdata.data.map((x) => {
+              x.name1 = x.name
+              return x
+            })
+          }
           data = obj.$store.state.Stat.statDrg
           data = data.concat(rdata.data)
           obj.$store.commit('SET_statDrg', data)
