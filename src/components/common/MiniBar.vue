@@ -74,31 +74,6 @@ export default {
     },
     user () {
       return this.$store.state.Home.user
-    },
-    leftButtonShow () {
-      let show = false
-      switch (this.menu) {
-        case '病案':
-          show = false
-          break
-        case '字典':
-          show = false
-          break
-        case 'DRG分析':
-          if (this.activeTab === 4) {
-            show = true
-          } else {
-            show = false
-          }
-          break
-        case '论坛':
-          show = false
-          break
-        default:
-          show = true
-          break
-      }
-      return show
     }
   },
   methods: {
@@ -128,6 +103,8 @@ export default {
           this.$store.commit('SET_menu', [0, '用户登录'])
         } else if (this.menu === '用户统计') {
           this.$store.commit('SET_menu', [0, '个人信息'])
+        } else if (this.menu === '自定义查询结果显示' && this.infoLevel === 0) {
+          this.$store.commit('SET_menu', [this.activeTab, '自定义查询'])
         } else if (this.infoLevel === 0) {
           this.$store.commit('SET_menu', [this.activeTab, menus[this.activeTab]])
         } else {
