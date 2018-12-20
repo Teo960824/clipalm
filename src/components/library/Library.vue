@@ -1,21 +1,31 @@
 <template>
   <div class="container" v-bind:class="container">
     <div class="count1" v-if="customQueryShowType">
-      <wxc-cell v-for="(item, index) in customQuery" v-bind:key="index"
+      <!-- <wxc-cell v-for="(item, index) in customQuery" v-bind:key="index"
                 v-if="item !== undefined"
                 :title="index"
                 :desc="`${item}`"
                 :cell-style="cellStyle"
-                :extraContent="aa(stat, index)"></wxc-cell>
+                :extraContent="aa(stat, index)"></wxc-cell> -->
+      <am-list-item
+        v-for="(item, index) in customQuery" v-bind:key="index"
+        v-if="item !== undefined"
+        :title="index"
+        :brief="`${item}`"
+        :extra="aa(stat, index)"></am-list-item>
     </div>
     <list class="list" @loadmore="fetch" loadmoreoffset="0" v-if="showData">
       <cell class="cell" v-for="(rule, index) in rules" v-bind:key="index">
-        <wxc-cell :label="rule.code"
+        <!-- <wxc-cell :label="rule.code"
                   @wxcCellClicked="wxcIndexlistItemClicked(rule)"
                   :has-margin="false"
                   :has-arrow="true"
                   :arrow-icon="arrawSrc"
-                  :extraContent="rule.desc"></wxc-cell>
+                  :extraContent="rule.desc"></wxc-cell> -->
+        <am-list-item
+          :title="rule.code"
+          :brief="rule.desc"
+          @click="wxcIndexlistItemClicked(rule)"></am-list-item>
       </cell>
       <cell style="height:200px">
         <wxc-button text="加载更多"
@@ -27,14 +37,18 @@
     </list>
     <list class="list" loadmoreoffset="20" v-else>
       <cell>
-        <div class="panel" @longpress="longpress(wt4)">
-          <wxc-cell
+        <div class="panel" @longpress="longpress(wt4)" style="font-size:10px;">
+          <!-- <wxc-cell
             title="此版本无数据"
             :desc="`当前版本:${user.clipalm_year}-${user.clipalm_version}  用户类型:${user.type}`"
             :has-margin="false"
             :has-arrow="false"
             :arrow-icon="arrawSrc">
-          </wxc-cell>
+          </wxc-cell> -->
+          <am-list-item
+            title="此版本无数据"
+            arrow="empty"
+            :brief="`当前版本:${user.clipalm_year}-${user.clipalm_version}  用户类型:${user.type}`"></am-list-item>
         </div>
       </cell>
     </list>
@@ -44,6 +58,7 @@
 
 <script>
 import { WxcCell, WxcButton } from 'weex-ui'
+import { AmListItem } from 'weex-amui'
 import { getDetails } from '../../utils/details'
 import { getServer } from '../../utils/server'
 import MiniBar from '../common/MiniBar.vue'
@@ -51,7 +66,7 @@ import PopRight from '../common/PopRight.vue'
 // const modal = weex.requireModule('modal')
 const icon = require('../../utils/icon.js')
 export default {
-  components: { WxcCell, MiniBar, PopRight, WxcButton },
+  components: { WxcCell, MiniBar, PopRight, AmListItem, WxcButton },
   data () {
     return {
       height: 400,
