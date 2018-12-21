@@ -10,6 +10,10 @@ export function getServer (obj, activeTab, menu, value = null) {
   // activeTab:页面, menu:判断查询菜单, value:查询条件
   // 先取storage
   const url = routers(obj, activeTab, menu, value)
+  let timeout = 7000
+  if (activeTab === 1) {
+    timeout = 30000
+  }
   storage.getItem(url, e => {
     if (e.result === 'success!') {
       const edata = JSON.parse(e.data)
@@ -19,7 +23,7 @@ export function getServer (obj, activeTab, menu, value = null) {
       stream.fetch({
         method: 'GET',
         type: 'json',
-        timeout: 7000,
+        timeout: timeout,
         headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
         responseType: 'json',
         url: url
