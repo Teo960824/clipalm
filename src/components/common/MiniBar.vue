@@ -11,6 +11,7 @@
                     @wxcMinibarRightButtonClicked="homeButtonClick"
                     @wxcMinibarLeftButtonClicked="leftButtonClick">
           <image :src="miniBarLeftIcon"
+                 v-if="leftButtonShow"
                  slot="left"
                  style="height: 48px;width: 88px;"></image>
           <image :src="miniBarRighttIcon"
@@ -74,6 +75,18 @@ export default {
     },
     user () {
       return this.$store.state.Home.user
+    },
+    leftButtonShow () {
+      let show = false
+      switch (this.menu) {
+        case '论坛':
+          show = false
+          break
+        default:
+          show = true
+          break
+      }
+      return show
     }
   },
   methods: {
