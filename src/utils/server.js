@@ -254,10 +254,18 @@ export function customSearch (obj, value) {
           obj.$store.commit('SET_wt4Case', data)
           break
         case 2:
-          obj.$store.commit('SET_rule', res.data.data)
+          data = obj.$store.state.Library.rule
+          data = data.concat(res.data.data)
+          obj.$store.commit('SET_rule', data)
           break
         case 3:
-          obj.$store.commit('SET_statDrg', res.data.data)
+          res.data.data = res.data.data.map((x) => {
+            x.name1 = x.name
+            return x
+          })
+          data = obj.$store.state.Stat.statDrg
+          data = data.concat(res.data.data)
+          obj.$store.commit('SET_statDrg', data)
           break
         default:
           break

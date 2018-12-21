@@ -1,21 +1,22 @@
 <template>
   <div class="container" v-bind:class="container">
-    <div class="count1" v-if="customQueryShowType">
+    <div class="count1"></div>
+    <div class="count" v-if="customQueryShowType">
       <wxc-cell v-for="(item, index) in customQuery" v-bind:key="index"
-                v-if="item !== undefined"
-                :title="index"
-                :desc="`${item}`"
-                :cell-style="cellStyle"
-                :extraContent="aa(customQuery, index)"></wxc-cell>
+        v-if="item !== undefined"
+        :title="index"
+        :desc="`${item}`"
+        :cell-style="cellStyle"
+        :extraContent="aa(customQuery, index)"></wxc-cell>
     </div>
-    <list class="list" @loadmore="fetch" loadmoreoffset="0" v-if="showData">
+    <list @loadmore="fetch" loadmoreoffset="20" v-if="showData">
       <cell class="cell" v-for="(rule, index) in rules" v-bind:key="index">
         <wxc-cell :label="rule.code"
                   @wxcCellClicked="wxcIndexlistItemClicked(rule)"
                   :has-margin="false"
                   :has-arrow="true"
                   :arrow-icon="arrawSrc"
-                  :extraContent="rule.desc"></wxc-cell>
+                  :extraContent="rule.name"></wxc-cell>
       </cell>
       <cell style="height:200px">
         <wxc-button text="加载更多"
@@ -136,7 +137,8 @@ export default {
       if (this.menu !== 'MDC') {
         this.$store.commit('SET_libraryPage', this.$store.state.Library.page + 1)
         if (this.menu === '自定义查询结果') {
-          customSearch(this, this.$store.state.Home.customQuery[0].query)
+          console.log(this.$store.state.Home.customQuery)
+          customSearch(this, this.$store.state.Home.customQuery[1].query)
         } else {
           getServer(this, this.activeTab, this.menu)
         }
@@ -171,5 +173,12 @@ export default {
     justify-content: space-around;
     background-color: #F8F8FF;
     margin-top: 91px;
+    margin-buttom: 0px;
+  }
+  .count {
+    flex-direction: row;
+    justify-content: space-around;
+    background-color: #F8F8FF;
+    margin-buttom: 0px;
   }
 </style>

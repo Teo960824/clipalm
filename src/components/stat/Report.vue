@@ -1,6 +1,7 @@
 <template>
   <div class="container" v-bind:style="panel">
-    <div class="count1" v-if="customQueryShowType">
+    <div class="count1"></div>
+    <div class="count" v-if="customQueryShowType">
       <wxc-cell v-for="(item, index) in customQuery" v-bind:key="index"
                 v-if="item !== undefined"
                 :title="index"
@@ -8,7 +9,7 @@
                 :cell-style="cellStyle"
                 :extraContent="aa(customQuery, index)"></wxc-cell>
     </div>
-    <list class="list" @loadmore="fetch" loadmoreoffset="0" v-if="showData">
+    <list @loadmore="fetch" loadmoreoffset="0" v-if="showData">
       <cell class="cell" v-for="(stat, index) in stats" v-bind:key="index">
         <wxc-cell :label="stat.code"
             @wxcCellClicked="wxcIndexlistItemClicked(stat)"
@@ -124,7 +125,7 @@ export default {
     fetch () {
       this.$store.commit('SET_statPage', this.$store.state.Stat.statPage + 1)
       if (this.menu === '自定义查询结果') {
-        customSearch(this, this.$store.state.Home.customQuery[0].query)
+        customSearch(this, this.$store.state.Home.customQuery[2].query)
       } else {
         getServer(this, this.activeTab, this.menu)
       }
@@ -146,7 +147,7 @@ export default {
   .container {
     width: 750px;
   }
-    .list {
+  .count1 {
     margin-top: 91px;
   }
   .submits{
@@ -154,10 +155,9 @@ export default {
     left: 210px;
     top: 1
   }
-  .count1 {
+  .count {
     flex-direction: row;
     justify-content: space-around;
     background-color: #F8F8FF;
-    margin-top: 91px;
   }
 </style>

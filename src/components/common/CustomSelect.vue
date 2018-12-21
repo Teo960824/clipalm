@@ -159,6 +159,20 @@ export default {
       } else if (this.activeTab === 3) {
         this.condition['分析'] = this.drg
       }
+      switch (this.activeTab) {
+        case 1:
+          this.$store.commit('SET_wt4Page', 1)
+          this.$store.commit('SET_wt4Case', [])
+          break
+        case 2:
+          this.$store.commit('SET_libraryPage', 1)
+          this.$store.commit('SET_rule', [])
+          break
+        case 3:
+          this.$store.commit('SET_statPage', 1)
+          this.$store.commit('SET_statDrg', [])
+          break
+      }
       customSearch(this, this.condition)
       this.$store.commit('SET_customQuery', [this.activeTab - 1, {show: true, query: this.condition}])
     }
