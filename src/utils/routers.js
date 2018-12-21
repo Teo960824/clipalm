@@ -2,7 +2,7 @@ const urlConfig = require('./config.js')
 const routers = function (obj, activeTab, menu, value) {
   let version = 'BJ'
   let year = '2017'
-  let icd = '6.0'
+  let icd = '6'
   let url = ''
   let router = urlConfig.router
   obj.$store.commit('SET_showData', true)
@@ -26,9 +26,9 @@ const routers = function (obj, activeTab, menu, value) {
   if (obj.$store.state.Home.user.data.clipalm_year) {
     year = obj.$store.state.Home.user.data.clipalm_year
   }
-  if (obj.$store.state.Home.user.data.clipalm_icd) {
-    icd = obj.$store.state.Home.user.data.clipalm_icd
-  }
+  // if (obj.$store.state.Home.user.data.clipalm_icd) {
+  //   icd = obj.$store.state.Home.user.data.clipalm_icd
+  // }
   if (value && !value.version) {
     value.version = 'CN'
   }
