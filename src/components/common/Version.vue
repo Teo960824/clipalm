@@ -17,8 +17,9 @@
         版本号：{{serverVersion.version}}
         更新时间：{{serverVersion.datetime}}
         更新日志：{{serverVersion.record}}
+        提示：请点击复制将下载链接复制到剪贴板后,打开浏览器下载新版本的软件,完成安装
       </text>
-      <wxc-button text="复制下载链接到剪帖板"
+      <wxc-button text="复制下载链接到剪贴板"
             :show="true"
             size="full"
             @wxcButtonClicked="wxcButtonClicked"></wxc-button>
