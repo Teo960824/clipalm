@@ -45,7 +45,7 @@
 <script>
 import { WxcCell, WxcButton } from 'weex-ui'
 import { getDetails } from '../../utils/details'
-import { getServer } from '../../utils/server'
+import { getServer, customSearch } from '../../utils/server'
 import MiniBar from '../common/MiniBar.vue'
 import PopRight from '../common/PopRight.vue'
 // const modal = weex.requireModule('modal')

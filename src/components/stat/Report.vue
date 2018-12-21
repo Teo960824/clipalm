@@ -43,7 +43,7 @@
 <script>
 import { WxcIndexlist, WxcPopup, WxcCell, WxcButton } from 'weex-ui'
 import { getDetails } from '../../utils/details'
-import { getServer } from '../../utils/server'
+import { getServer, customSearch } from '../../utils/server'
 import MiniBar from '../common/MiniBar.vue'
 const icon = require('../../utils/icon.js')
 export default {
