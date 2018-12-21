@@ -123,7 +123,11 @@ export default {
     },
     fetch () {
       this.$store.commit('SET_statPage', this.$store.state.Stat.statPage + 1)
-      getServer(this, this.activeTab, this.menu)
+      if (this.menu === '自定义查询结果') {
+        customSearch(this, this.$store.state.Home.customQuery[0].query)
+      } else {
+        getServer(this, this.activeTab, this.menu)
+      }
     },
     aa (title, index) {
       const keys = Object.keys(title)

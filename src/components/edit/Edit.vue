@@ -81,6 +81,9 @@ export default {
     customQueryShowType () {
       return this.$store.state.Home.customQuery[0].show
     },
+    custom () {
+      return this.$store.state.Home.customQuery
+    },
     customQuery () {
       const query = Object.keys(this.$store.state.Home.customQuery[0].query)
       const obj = {}
@@ -216,7 +219,7 @@ export default {
     },
     fetch () {
       this.$store.commit('SET_wt4Page', this.$store.state.Edit.wt4Page + 1)
-      if (this.menu === '自定义查询结果显示') {
+      if (this.menu === '自定义查询结果') {
         customSearch(this, this.$store.state.Home.customQuery[0].query)
       } else {
         getServer(this, this.activeTab, this.menu)
