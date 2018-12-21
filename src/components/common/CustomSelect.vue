@@ -8,7 +8,7 @@
       :customStyles="customStyles"
       :list="list"
       @select="params => onSelect(params)"></wxc-grid-select>
-    <category title="请选择DRG"></category>
+    <category v-if="activeTab === 2" title="请选择DRG"></category>
     <wxc-grid-select
       v-if="activeTab === 2"
       :single="true"
@@ -156,9 +156,11 @@ export default {
           this.condition[key] = [this.conditions[`${key}1`], this.conditions[`${key}2`]]
         }
       })
-      this.condition.drg = this.drg
+      if (this.activeTab === 2) {
+        this.condition.drg = this.drg
+      }
       customSearch(this, this.condition)
-      // this.$store.commit('SET_customQuery', [this.activeTab - 1, this.condition])
+      this.$store.commit('SET_customQuery', [this.activeTab - 1, {show: true, query: this.condition}])
     }
   }
 }

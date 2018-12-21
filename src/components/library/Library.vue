@@ -6,7 +6,7 @@
                 :title="index"
                 :desc="`${item}`"
                 :cell-style="cellStyle"
-                :extraContent="aa(stat, index)"></wxc-cell>
+                :extraContent="aa(customQuery, index)"></wxc-cell>
     </div>
     <list class="list" @loadmore="fetch" loadmoreoffset="0" v-if="showData">
       <cell class="cell" v-for="(rule, index) in rules" v-bind:key="index">
@@ -58,7 +58,10 @@ export default {
       isShow: false,
       arrawSrc: icon['more'],
       show: false,
-      page: {}
+      page: {},
+      cellStyle: {
+        backgroundColor: '#F8F8FF'
+      }
     }
   },
   created () {
@@ -121,7 +124,6 @@ export default {
         default:
           type = this.menu
       }
-      console.log(e)
       const details = getDetails(this, type, e)
       this.show = true
       this.page = details
@@ -150,9 +152,6 @@ export default {
   .container {
     width: 750px;
   }
-  .list {
-    margin-top: 90px;
-  }
   .submits{
     position: relative;
     left: 210px;
@@ -162,5 +161,6 @@ export default {
     flex-direction: row;
     justify-content: space-around;
     background-color: #F8F8FF;
+    margin-top: 91px;
   }
 </style>

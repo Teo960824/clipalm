@@ -6,7 +6,7 @@
                 :title="index"
                 :desc="`${item}`"
                 :cell-style="cellStyle"
-                :extraContent="aa(stat, index)"></wxc-cell>
+                :extraContent="aa(customQuery, index)"></wxc-cell>
     </div>
     <list class="list" @loadmore="fetch" loadmoreoffset="0" v-if="showData">
       <cell class="cell" v-for="(stat, index) in stats" v-bind:key="index">
@@ -56,7 +56,10 @@ export default {
       isBottomShow: false,
       height: 400,
       info: {},
-      arrawSrc: icon['more']
+      arrawSrc: icon['more'],
+      cellStyle: {
+        backgroundColor: '#F8F8FF'
+      }
     }
   },
   computed: {
@@ -137,9 +140,6 @@ export default {
   .container {
     width: 750px;
   }
-  .list {
-    margin-top: 91px;
-  }
   .submits{
     position: relative;
     left: 210px;
@@ -149,5 +149,6 @@ export default {
     flex-direction: row;
     justify-content: space-around;
     background-color: #F8F8FF;
+    margin-top: 91px;
   }
 </style>
