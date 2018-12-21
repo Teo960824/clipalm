@@ -72,7 +72,7 @@
         <div style="height:400px"></div>
       </cell>
     </list>
-    <mini-bar :title="menu" rightIcon="home" leftIcon="left" rightButtonShow="true"></mini-bar>
+    <mini-bar :title="menu" rightIcon="home" leftIcon="back"></mini-bar>
   </div>
 </template>
 

@@ -10,13 +10,12 @@
                     :use-default-return="false"
                     @wxcMinibarRightButtonClicked="homeButtonClick"
                     @wxcMinibarLeftButtonClicked="leftButtonClick">
-          <image :src="`${url.static}/images/${leftIcon}2.png`"
-                 slot="left"
+          <image :src="miniBarLeftIcon"
                  v-if="leftButtonShow"
+                 slot="left"
                  style="height: 48px;width: 88px;"></image>
-          <image :src="`${url.static}/images/${rightIcon}2.png`"
+          <image :src="miniBarRighttIcon"
                  slot="right"
-                 v-if="rightButtonShow"
                  style="height: 48px;width: 88px;"></image>
         </wxc-minibar>
       </div>
@@ -26,22 +25,31 @@
 
 <script>
 import { WxcMinibar } from 'weex-ui'
-// const modal = weex.requireModule('modal')
-const urlConfig = require('../../utils/config.js')
+const icon = require('../../utils/icon.js')
+
 export default {
   components: { WxcMinibar },
   props: {
-    title: '',
-    rightIcon: '',
-    leftIcon: '',
-    rightButtonShow: ''
+    title: {
+      type: String,
+      default: () => ' '
+    },
+    rightIcon: {
+      type: String,
+      default: () => 'home'
+    },
+    leftIcon: {
+      type: String,
+      default: () => 'setting'
+    }
   },
   data () {
     return {
       rightButton: '',
       leftButton: '',
       isBottomShow: false,
-      url: urlConfig
+      miniBarLeftIcon: icon(this.leftIcon),
+      miniBarRighttIcon: icon(this.rightIcon)
     }
   },
   created () {
@@ -71,15 +79,6 @@ export default {
     leftButtonShow () {
       let show = false
       switch (this.menu) {
-        case '病案':
-          show = false
-          break
-        case '字典':
-          show = false
-          break
-        case 'DRG分析':
-          show = false
-          break
         case '论坛':
           show = false
           break
@@ -107,17 +106,23 @@ export default {
       }
     },
     leftButtonClick () {
-      const menus = ['个人信息', '病案', '字典', 'DRG分析', '论坛']
-      if (this.menu === '个人信息') {
-        this.$store.commit('SET_menu', [0, '完善个人信息'])
-      } else if (this.menu === '找回密码') {
-        this.$store.commit('SET_menu', [0, '用户登录'])
-      } else if (this.menu === '用户统计') {
-        this.$store.commit('SET_menu', [0, '个人信息'])
-      } else if (this.infoLevel === 0) {
-        this.$store.commit('SET_menu', [this.activeTab, menus[this.activeTab]])
+      if (this.leftIcon === 'search') {
+        this.$store.commit('SET_menu', [this.activeTab, '自定义查询'])
       } else {
-        this.$store.commit('SET_infoLevel', this.infoLevel - 1)
+        const menus = ['个人信息', '病案', '字典', 'DRG分析', '论坛']
+        if (this.menu === '个人信息') {
+          this.$store.commit('SET_menu', [0, '完善个人信息'])
+        } else if (this.menu === '找回密码') {
+          this.$store.commit('SET_menu', [0, '用户登录'])
+        } else if (this.menu === '用户统计') {
+          this.$store.commit('SET_menu', [0, '个人信息'])
+        } else if (this.menu === '自定义查询结果' && this.infoLevel === 0) {
+          this.$store.commit('SET_menu', [this.activeTab, '自定义查询'])
+        } else if (this.infoLevel === 0) {
+          this.$store.commit('SET_menu', [this.activeTab, menus[this.activeTab]])
+        } else {
+          this.$store.commit('SET_infoLevel', this.infoLevel - 1)
+        }
       }
     }
   }
@@ -128,7 +133,6 @@ export default {
   .wxc-demo {
     position: absolute;
     top: 0;
-    background-color: #FFFFFF;
   }
   .scroller {
     flex: 1;

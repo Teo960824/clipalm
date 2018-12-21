@@ -336,7 +336,7 @@ export default {
       libConfigString: '提供现阶段临床上使用的所有疾病编码，肿瘤编码，DRG编码，病理编码等等，并提供编码的历史修订记录，可切换各版本。',
       libConfigHeader1: [{
         type: 'tag',
-        value: 'DRG字典',
+        value: '1.1 DRG字典',
         theme: 'blue',
         style: {
           fontSize: 26,
@@ -357,7 +357,7 @@ export default {
       }],
       libConfigHeader2: [{
         type: 'tag',
-        value: 'ICD字典',
+        value: '1.2 ICD字典',
         theme: 'blue',
         style: {
           fontSize: 26,
@@ -378,7 +378,7 @@ export default {
       }],
       libConfigHeader3: [{
         type: 'tag',
-        value: '术语名称查询',
+        value: '2.术语名称查询',
         theme: 'blue',
         style: {
           fontSize: 26,
@@ -409,7 +409,7 @@ export default {
       drgConfigString: '运用DRG对病历进行分组，从而进行分析。对不同的用户提供定制不同的分析文案。可以将数据进行同期对比，环比等等，各不同机构同样提供对比。',
       drgConfigHeader1: [{
         type: 'tag',
-        value: '3.1 专家用户',
+        value: '1.专家用户',
         theme: 'blue',
         style: {
           fontSize: 26,
@@ -430,7 +430,7 @@ export default {
       }],
       drgConfigHeader2: [{
         type: 'tag',
-        value: '3.2 机构用户',
+        value: '2.机构用户',
         theme: 'blue',
         style: {
           fontSize: 26,
@@ -451,7 +451,7 @@ export default {
       }],
       drgConfigHeader3: [{
         type: 'tag',
-        value: '3.3 个人用户',
+        value: '3.个人用户',
         theme: 'blue',
         style: {
           fontSize: 26,
@@ -482,7 +482,7 @@ export default {
       forConfigString: '本模块包括5个主题版块，即用户反馈、病案讨论、字典交流、DRG分析、论坛建议。',
       forConfigHeader1: [{
         type: 'tag',
-        value: '5.1 用户反馈',
+        value: '1.1 用户反馈',
         theme: 'blue',
         style: {
           fontSize: 26,
@@ -503,7 +503,7 @@ export default {
       }],
       forConfigHeader2: [{
         type: 'tag',
-        value: '5.2 病案讨论',
+        value: '1.2 病案讨论',
         theme: 'blue',
         style: {
           fontSize: 26,
@@ -524,7 +524,7 @@ export default {
       }],
       forConfigHeader3: [{
         type: 'tag',
-        value: '5.3字典交流',
+        value: '1.3字典交流',
         theme: 'blue',
         style: {
           fontSize: 26,
@@ -545,7 +545,7 @@ export default {
       }],
       forConfigHeader4: [{
         type: 'tag',
-        value: '5.4DRG分析',
+        value: '1.4DRG分析',
         theme: 'blue',
         style: {
           fontSize: 26,
@@ -566,7 +566,7 @@ export default {
       }],
       forConfigHeader5: [{
         type: 'tag',
-        value: '5.5论坛建议',
+        value: '1.5论坛建议',
         theme: 'blue',
         style: {
           fontSize: 26,
@@ -587,7 +587,7 @@ export default {
       }],
       forConfigHeader6: [{
         type: 'tag',
-        value: '6.1 我的帖子',
+        value: '2.1 我的帖子',
         theme: 'blue',
         style: {
           fontSize: 26,
@@ -608,7 +608,7 @@ export default {
       }],
       forConfigHeader7: [{
         type: 'tag',
-        value: '6.2 最新帖子',
+        value: '2.2 最新帖子',
         theme: 'blue',
         style: {
           fontSize: 26,

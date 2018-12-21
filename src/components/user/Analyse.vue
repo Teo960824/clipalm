@@ -6,7 +6,7 @@
         <wxc-cell
           v-for="(data, index) in value"
           v-bind:key="`${key}-${index}`"
-          :title="`${data.time}`"
+          :title="`${data.type}`"
           :desc="`${data.count}`"
           :has-margin="false"
           :has-arrow="false"
@@ -15,7 +15,7 @@
       </cell>
       <cell style="height:100px"> </cell>
     </list>
-    <mini-bar title="用户统计" rightIcon="home" leftIcon="left" rightButtonShow="true"></mini-bar>
+    <mini-bar title="用户统计" rightIcon="home" leftIcon="back"></mini-bar>
   </div>
 </template>
 
@@ -73,22 +73,8 @@ export default {
     margin-top: 20px;
     margin-bottom: 20px;
   }
-  .submits{
-    position: relative;
-    left: 23px;
-    top: 1px;
-  }
   .red{
     text-align: left;
-  }
-  .demo-title {
-    font-size: 28px;
-    background-color: #F8F8FF;
-    text-align: center;
-    border-style: solid;
-    border-width: 1px;
-    border-radius: 14px;
-    padding: 10px;
   }
   .category {
     margin-top: 91px;

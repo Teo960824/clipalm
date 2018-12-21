@@ -1,12 +1,21 @@
 <template>
   <div class="container" v-bind:style="panel">
-    <list class="list" @loadmore="fetch" loadmoreoffset="0" v-if="showData">
+    <div class="count1"></div>
+    <div class="count" v-if="customQueryShowType">
+      <wxc-cell v-for="(item, index) in customQuery" v-bind:key="index"
+                v-if="item !== undefined"
+                :title="index"
+                :desc="`${item}`"
+                :cell-style="cellStyle"
+                :extraContent="aa(customQuery, index)"></wxc-cell>
+    </div>
+    <list @loadmore="fetch" loadmoreoffset="0" v-if="showData">
       <cell class="cell" v-for="(stat, index) in stats" v-bind:key="index">
         <wxc-cell :label="stat.code"
             @wxcCellClicked="wxcIndexlistItemClicked(stat)"
             :has-margin="false"
             :has-arrow="true"
-            :extraContent="stat.desc"></wxc-cell>
+            :extraContent="stat.name1"></wxc-cell>
       </cell>
       <cell style="height:200px" v-if="showMore">
         <wxc-button text="加载更多"
@@ -19,23 +28,25 @@
       <cell>
         <div class="panel">
           <wxc-cell
-            title="无数据"
+            title="此版本无数据"
             :has-margin="false"
             :has-arrow="false"
+            :desc="`当前版本:${user.clipalm_year}-${user.clipalm_version}  用户类型:${user.type}`"
             :arrow-icon="arrawSrc">
           </wxc-cell>
         </div>
       </cell>
     </list>
-    <mini-bar :title="menu" rightIcon="home" leftIcon="left" rightButtonShow="true"></mini-bar>
+    <mini-bar :title="menu" rightIcon="home" leftIcon="back"></mini-bar>
   </div>
 </template>
 
 <script>
 import { WxcIndexlist, WxcPopup, WxcCell, WxcButton } from 'weex-ui'
 import { getDetails } from '../../utils/details'
-import { getServer } from '../../utils/server'
+import { getServer, customSearch } from '../../utils/server'
 import MiniBar from '../common/MiniBar.vue'
+const icon = require('../../utils/icon.js')
 export default {
   components: { WxcIndexlist, WxcPopup, WxcCell, MiniBar, WxcButton },
   created: function () {
@@ -45,10 +56,30 @@ export default {
     return {
       isBottomShow: false,
       height: 400,
-      info: {}
+      info: {},
+      arrawSrc: icon['more'],
+      cellStyle: {
+        backgroundColor: '#F8F8FF'
+      }
     }
   },
   computed: {
+    customQueryShowType () {
+      return this.$store.state.Home.customQuery[2].show
+    },
+    customQuery () {
+      const query = Object.keys(this.$store.state.Home.customQuery[2].query)
+      const obj = {}
+      query.map((x) => {
+        if (x !== 'tab' && x !== 'page') {
+          obj[x] = this.$store.state.Home.customQuery[2].query[x]
+        }
+      })
+      return obj
+    },
+    user () {
+      return this.$store.state.Home.user.data
+    },
     activeTab () {
       return this.$store.state.Home.activeTab
     },
@@ -80,8 +111,10 @@ export default {
   },
   methods: {
     getData () {
-      if (this.stats.length === 0) {
+      if (this.stats.length === 0 && this.menu !== '自定义查询结果') {
         getServer(this, this.activeTab, this.menu)
+      } else if (this.stats.length === 0 && this.menu === '自定义查询结果') {
+        this.$store.commit('SET_showData', false)
       }
     },
     wxcIndexlistItemClicked (e) {
@@ -91,7 +124,20 @@ export default {
     },
     fetch () {
       this.$store.commit('SET_statPage', this.$store.state.Stat.statPage + 1)
-      getServer(this, this.activeTab, this.menu)
+      if (this.menu === '自定义查询结果') {
+        customSearch(this, this.$store.state.Home.customQuery[2].query)
+      } else {
+        getServer(this, this.activeTab, this.menu)
+      }
+    },
+    aa (title, index) {
+      const keys = Object.keys(title)
+      const lastKey = keys[keys.length - 1]
+      if (lastKey === index) {
+        return ''
+      } else {
+        return '       |'
+      }
     }
   }
 }
@@ -101,12 +147,17 @@ export default {
   .container {
     width: 750px;
   }
-  .list {
+  .count1 {
     margin-top: 91px;
   }
   .submits{
     position: relative;
     left: 210px;
     top: 1
+  }
+  .count {
+    flex-direction: row;
+    justify-content: space-around;
+    background-color: #F8F8FF;
   }
 </style>

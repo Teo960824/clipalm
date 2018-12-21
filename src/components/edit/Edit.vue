@@ -7,6 +7,14 @@
                 :cell-style="cellStyle"
                 :extraContent="aa(stat, index)"></wxc-cell>
     </div>
+    <div class="count1" v-if="customQueryShowType">
+      <wxc-cell v-for="(item, index) in customQuery" v-bind:key="index"
+                v-if="item !== undefined"
+                :title="index"
+                :desc="`${item}`"
+                :cell-style="cellStyle"
+                :extraContent="aa(customQuery, index)"></wxc-cell>
+    </div>
     <!-- <text class="demo-title"  v-if="wt4Case.length !== 0">{{title.count}}</text> -->
     <list class="list" @loadmore="fetch" loadmoreoffset="20" v-if="showData">
       <cell v-for="(wt4, index) in wt4Case" v-bind:key="index" @longpress="test">
@@ -42,23 +50,24 @@
         </div>
       </cell>
     </list>
-    <mini-bar :title="menu" rightIcon="home" leftIcon="left" rightButtonShow="true"></mini-bar>
+    <mini-bar :title="menu" rightIcon="home" leftIcon="back"></mini-bar>
   </div>
 </template>
 
 <script>
 import { WxcRichText, WxcSpecialRichText, WxcPopup, WxcCell, WxcIndexlist, WxcLoading, WxcPartLoading, WxcButton } from 'weex-ui'
-import { getServer } from '../../utils/server'
+import { getServer, customSearch } from '../../utils/server'
 import { getDetails } from '../../utils/details'
 import MiniBar from '../common/MiniBar.vue'
-const urlConfig = require('../../utils/config.js')
+import Category from '../common/category.vue'
+const icon = require('../../utils/icon.js')
 export default {
-  components: { WxcIndexlist, WxcRichText, WxcSpecialRichText, WxcPopup, WxcCell, WxcLoading, WxcPartLoading, WxcButton, MiniBar },
+  components: { WxcIndexlist, WxcRichText, WxcSpecialRichText, WxcPopup, WxcCell, WxcLoading, WxcPartLoading, WxcButton, MiniBar, Category },
   data () {
     return {
       forceValue: 0,
       refreshing: false,
-      arrawSrc: `${urlConfig.static}/images/more.png`,
+      arrawSrc: icon['more'],
       cellStyle: {
         backgroundColor: '#F8F8FF'
       },
@@ -69,6 +78,22 @@ export default {
     this.getData()
   },
   computed: {
+    customQueryShowType () {
+      return this.$store.state.Home.customQuery[0].show
+    },
+    custom () {
+      return this.$store.state.Home.customQuery
+    },
+    customQuery () {
+      const query = Object.keys(this.$store.state.Home.customQuery[0].query)
+      const obj = {}
+      query.map((x) => {
+        if (x !== 'tab' && x !== 'page') {
+          obj[x] = this.$store.state.Home.customQuery[0].query[x]
+        }
+      })
+      return obj
+    },
     specialConfigList () {
       const configs = []
       this.wt4Case.map((x) => {
@@ -194,7 +219,11 @@ export default {
     },
     fetch () {
       this.$store.commit('SET_wt4Page', this.$store.state.Edit.wt4Page + 1)
-      getServer(this, this.activeTab, this.menu)
+      if (this.menu === '自定义查询结果') {
+        customSearch(this, this.$store.state.Home.customQuery[0].query)
+      } else {
+        getServer(this, this.activeTab, this.menu)
+      }
     },
     aa (title, index) {
       const keys = Object.keys(title)
@@ -210,15 +239,6 @@ export default {
 </script>
 
 <style scoped>
-  .demo-title {
-    font-size: 28px;
-    background-color: #F8F8FF;
-    text-align: center;
-    border-style: solid;
-    border-width: 1px;
-    border-radius: 14px;
-    padding: 10px;
-  }
   .demo {
     width: 750px;
   }
@@ -231,6 +251,11 @@ export default {
     flex-direction: row;
     justify-content: space-around;
     margin-top: 91px;
+    background-color: #F8F8FF;
+  }
+  .count1 {
+    flex-direction: row;
+    justify-content: space-around;
     background-color: #F8F8FF;
   }
 </style>

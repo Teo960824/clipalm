@@ -45,7 +45,7 @@
         </div>
       </cell>
     </list>
-    <mini-bar :title="forumModule" rightIcon="home" leftIcon="left" rightButtonShow="true"></mini-bar>
+    <mini-bar :title="forumModule" rightIcon="home" leftIcon="back"></mini-bar>
   </div>
 </template>
 
@@ -55,7 +55,7 @@ import MiniBar from '../common/MiniBar.vue'
 import { getServer } from '../../utils/server'
 import { createForum } from '../../utils/forum'
 const modal = weex.requireModule('modal')
-const urlConfig = require('../../utils/config.js')
+const icon = require('../../utils/icon.js')
 export default {
   components: { WxcSpecialRichText, WxcButton, WxcRichText, MiniBar, WxcCell },
   data: () => ({
@@ -63,7 +63,7 @@ export default {
     showNewButton: true,
     title: '',
     content: '',
-    arrawSrc: `${urlConfig.static}/images/massage.png`
+    arrawSrc: icon['message']
   }),
   computed: {
     user () {
@@ -178,15 +178,6 @@ export default {
 </script>
 
 <style scoped>
-.demo-title {
-  font-size: 28px;
-  background-color: #F8F8FF;
-  text-align: center;
-  border-style: solid;
-  border-width: 1px;
-  border-radius: 14px;
-  padding: 10px;
-}
 .input {
   border-width: 1px;
   border-style: solid;

@@ -1,4 +1,13 @@
-module.exports = {
+const urlConfig = require('./config.js')
+const images = {
+  'logo': 'clipalm.png',
+  'message': 'message.png',
+  'more': 'more.png',
+  'setting': 'setting2.png',
+  'user_stat': 'table2.png',
+  'home': 'home3.png',
+  'back': 'left3.png',
+  'search': 'search2.png',
   '用户登录': '用户登录.png',
   '完善个人信息': '完善个人信息.png',
   '找回密码': '找回密码.png',
@@ -17,7 +26,9 @@ module.exports = {
   '临床手术/操作术语': 'library_icd9_diss2.png',
   'GB-ICD9': 'library_icd9_gb2.png',
   'BJ-ICD9': 'library_icd9_bj2.png',
-  'DRG基础': 'stat_drg.png',
+  'DRG基础': 'stat_drg2.png',
+  '诊断基础': 'stat_icd10.png',
+  '手术基础': 'stat_icd9.png',
   '主诊未入组': 'stat_disease2.png',
   '手术QY': 'stat_oper2.png',
   '年': 'stat_year.png',
@@ -31,4 +42,8 @@ module.exports = {
   '论坛建议': 'forum_info.png',
   '我的帖子': 'forum_my.png',
   '最新帖子': 'forum_last.png'
+}
+
+module.exports = function (iconName) {
+  return `${urlConfig.static}/images/${images[iconName]}`
 }

@@ -1,54 +1,91 @@
 <template>
   <div class="panel" v-bind:style="panel">
-    <category class="category" :title="`用户积分信息`"></category>
-    <text class="bpStyle">当前积分：{{user.bp}}</text>
-    <category title="--选择用户功能--"></category>
-    <wxc-grid-select
-      class="gridSelect"
-      :single="true"
-      :cols="5"
-      :customStyles="customStyles"
-      :list="list_1"
-      @select="params => onSelect(params, 'user')">
-    </wxc-grid-select>
-    <category title="--选择字典--"></category>
-    <wxc-grid-select
-      class="gridSelect"
-      :single="true"
-      :cols="5"
-      :customStyles="customStyles"
-      :list="list_2"
-      @select="params => onSelect(params, 'version')">
-    </wxc-grid-select>
-    <category title="--选择ICD版本--"></category>
-    <wxc-grid-select
-      class="gridSelect"
-      :single="true"
-      :cols="5"
-      :customStyles="customStyles"
-      :list="list_3"
-      @select="params => onSelect(params, 'icd')">
-    </wxc-grid-select>
-    <category title="--选择DRG版本--"></category>
-    <wxc-grid-select
-      class="gridSelect"
-      :single="true"
-      :cols="5"
-      :customStyles="customStyles"
-      :list="list_4"
-      @select="params => onSelect(params, 'drg')">
-    </wxc-grid-select>
-    <div style="height:20px;"></div>
-    <wxc-button text="退出登录"
-        size="full"
-        class="submits"
-        type="blue"
-        @wxcButtonClicked="wxcButtonClicked"></wxc-button>
-    <mini-bar :title="`用户信息-${user.username}`" rightIcon="table" leftIcon="setting" :rightButtonShow="rightButtonShow"></mini-bar>
+    <div style="height: 91px;"></div>
+    <am-list style="width:750px;">
+      <div style="height:20px;"></div>
+      <am-list-item
+        title="用户名"
+        arrow="empty"
+        :extra="`${user.username}`">
+      </am-list-item>
+      <am-list-item
+        title="积分"
+        :extra="`${user.bp}`"
+        arrow="empty"
+        ></am-list-item>
+      <div style="height:25px;"></div>
+      <am-picker
+        title="请选择"
+        :placeholder="user.type"
+        :data="types"
+        @ok="typeOk"
+        @hide="onHide">
+        <am-list-item
+          slot-scope="{ extra, show }"
+          title="用户类型"
+          :extra="extra"
+          @click="show">
+        </am-list-item>
+      </am-picker>
+      <div style="height:25px;"></div>
+      <am-picker
+        title="请选择"
+        :placeholder="`${user.clipalm_icd}`"
+        :data="icds"
+        @ok="icdOk"
+        @hide="onHide">
+        <am-list-item
+          slot-scope="{ extra, show }"
+          title="ICD"
+          :extra="extra"
+          @click="show">
+        </am-list-item>
+      </am-picker>
+      <am-picker
+        title="请选择"
+        :placeholder="user.clipalm_version"
+        :data="versions"
+        @ok="versionOk"
+        @hide="onHide">
+        <am-list-item
+          slot-scope="{ extra, show }"
+          title="版本"
+          :extra="extra"
+          @click="show">
+        </am-list-item>
+      </am-picker>
+      <am-picker
+        title="请选择"
+        :placeholder="user.clipalm_year"
+        :data="year"
+        @ok="yearOk"
+        @hide="onHide">
+        <am-list-item
+          slot-scope="{ extra, show }"
+          title="时间"
+          :extra="extra"
+          @click="show">
+        </am-list-item>
+      </am-picker>
+      <div style="height:25px;"></div>
+      <am-list-item
+        title="完善用户信息"
+        @click="click"></am-list-item>
+      <div style="height:25px;"></div>
+    <am-nav-bar
+      mode="light"
+      title="退出登录"
+      :left-btn="[]"
+      :right-btn="[]"
+      @click="wxcButtonClicked">
+    </am-nav-bar>
+  </am-list>
+  <mini-bar title="用户信息" rightIcon="user_stat" leftIcon="setting" :rightButtonShow="rightButtonShow"></mini-bar>
   </div>
-</template>
+  </template>
 
 <script>
+import { AmPicker, AmList, AmListItem, AmButton, AmNavBar } from 'weex-amui'
 import { WxcMinibar, WxcGridSelect, WxcButton, WxcCell } from 'weex-ui'
 import Category from '../common/category.vue'
 import MiniBar from '../common/MiniBar.vue'
@@ -57,7 +94,7 @@ const modal = weex.requireModule('modal')
 
 export default {
   name: 'user-doc',
-  components: { WxcMinibar, WxcGridSelect, Category, WxcButton, WxcCell, MiniBar },
+  components: { AmPicker, AmList, AmListItem, WxcMinibar, WxcGridSelect, Category, AmButton, WxcButton, WxcCell, MiniBar, AmNavBar },
   data: () => ({
     customStyles: {
       lineSpacing: '14px',
@@ -71,146 +108,54 @@ export default {
       checkedBorderColor: '#ffb200',
       backgroundColor: '#ffffff',
       checkedBackgroundColor: '#1E90FF'
-    }
+    },
+    show: false,
+    types: [{ value: '专家用户', label: '专家用户' }, { value: '机构用户', label: '机构用户' }, { value: '个人用户', label: '个人用户' }],
+    versions: [{ label: 'BJ编码版', value: 'BJ编码版' }, { label: 'GB编码版', value: 'GB编码版' }, { label: '术语版', value: '术语版' }],
+    icds: [{ label: 'ICD10 6.0', value: 'ICD10 6.0' }, { label: 'ICD10 5.0', value: 'ICD10 5.0' }],
+    year: [{ label: '2013', value: '2013' }, { label: '2014', value: '2014' }, { label: '2015', value: '2015' }, { label: '2016', value: '2016' }, { label: '2017', value: '2017' }, { label: '2018', value: '2018' }]
   }),
   computed: {
-    user: {
-      get () {
-        return this.$store.state.Home.user.data
-      }
+    user () {
+      return this.$store.state.Home.user.data
     },
-    rightButtonShow: {
-      get () {
-        return this.user.admin
-      }
+    rightButtonShow () {
+      return this.user.admin
     },
-    list_1: {
-      get () {
-        // const types = {
-        //   专家用户: { title: '专家用户', value: 1 },
-        //   // 机构用户: { title: '机构用户', value: 2, disabled: 'true' },
-        //   个人用户: { title: '个人用户', value: 2 }
-        // }
-        let types = {}
-        // let serverType = ''
-        if (this.$store.state.Home.user.data.type) {
-          types[this.$store.state.Home.user.data.type] = { title: this.$store.state.Home.user.data.type, value: 1, checked: true }
-          // serverType = this.$store.state.Home.user.data.type
-        } else {
-          types = { 专家用户: { title: '专家用户', value: 1, checked: true } }
-        }
-        // if (types[serverType]) {
-        //   types[serverType].checked = true
-        // }
-        return Object.values(types)
+    panel () {
+      const tabPageHeight = weex.config.env.deviceHeight
+      const style = {
+        width: '750px',
+        height: tabPageHeight
       }
-    },
-    list_2: {
-      get () {
-        const versions = {
-          BJ编码版: { title: 'BJ编码版', value: 1 },
-          GB编码版: { title: 'GB编码版', value: 1 },
-          // CC编码版: { title: 'CC编码版', value: 1, disabled: 'true' },
-          术语版: { title: '术语版', value: 3 }
-        }
-        let serverVersion = ''
-        if (this.$store.state.Home.user.data.clipalm_version) {
-          serverVersion = this.$store.state.Home.user.data.clipalm_version
-        } else {
-          serverVersion = 'BJ编码版'
-        }
-        if (versions[serverVersion]) {
-          versions[serverVersion].checked = true
-        }
-        return Object.values(versions)
-      }
-    },
-    list_3: {
-      get () {
-        const icds = [
-          { title: 'ICD10 6.0', value: 1 },
-          { title: 'ICD10 5.0', value: 1 }
-        ]
-        return icds
-      }
-    },
-    list_4: {
-      get () {
-        const drgs = {
-          2013: { title: '2013', value: 1 },
-          2014: { title: '2014', value: 1 },
-          2015: { title: '2015', value: 1 },
-          2016: { title: '2016', value: 1 },
-          2017: { title: '2017', value: 1 },
-          2018: { title: '2018', value: 1 }
-        }
-        let drgVersion = ''
-        if (this.$store.state.Home.user.data.clipalm_year) {
-          drgVersion = this.$store.state.Home.user.data.clipalm_year
-        } else {
-          drgVersion = '2017'
-        }
-        if (drgs[drgVersion]) {
-          drgs[drgVersion].checked = true
-        }
-        return Object.values(drgs)
-      }
-    },
-    mdcs: {
-      get () {
-        const arr = this.$store.state.Home.user.data.mdc
-        if (arr) {
-          return arr.map((value, index) => { return {'title': 'MDC' + value} })
-        }
-        return []
-      }
-    },
-    panel: {
-      get () {
-        const tabPageHeight = weex.config.env.deviceHeight
-        const style = {
-          width: '750px',
-          height: tabPageHeight
-        }
-        return style
-      }
+      return style
     }
   },
   methods: {
     minibarRightButtonClick (e) {
       this.$store.commit('SET_menu', [0, '用户登录'])
     },
-    onSelect (params, type) {
-      const user = {}
-      if (type === 'user') {
-        this.list_1[params.selectIndex].checked = true
-      } else {
-        switch (type) {
-          case 'mdc':
-            const mdc = this.mdcs[params.selectIndex].title
-            this.$store.commit('SET_mdc', mdc)
-            user.clipalm_mdc = mdc
-            break
-          case 'version':
-            const version = this.list_2[params.selectIndex].title
-            user.clipalm_version = version
-            modal.toast({ message: `已设置${version}为默认查询版本`, duration: 1 })
-            break
-          // case 'user':
-            // const types = this.list_1[params.selectIndex].title
-            // user.type = types
-            // break
-          case 'icd':
-            const icd = this.list_3[params.selectIndex].title
-            user.icd_version = icd
-            break
-          case 'drg':
-            const drg = this.list_4[params.selectIndex].title
-            user.clipalm_year = drg
-            break
-        }
-        updateUser(this, user)
-      }
+    yearOk (year, labels) {
+      updateUser(this, { clipalm_year: labels[0] })
+      modal.toast({ message: `已设置${labels[0]}为默认年份`, duration: 1 })
+    },
+    typeOk (type, labels) {
+      updateUser(this, { type: labels[0] })
+      // modal.toast({ message: `已设置${version}为默认查询版本`, duration: 1 })
+    },
+    versionOk (version, labels) {
+      updateUser(this, { clipalm_version: labels[0] })
+      modal.toast({ message: `已设置${labels[0]}为默认版本`, duration: 1 })
+    },
+    icdOk (icd, labels) {
+      updateUser(this, { clipalm_icd: labels[0] })
+      modal.toast({ message: `已设置${labels[0]}为默认版本`, duration: 1 })
+    },
+    click () {
+      this.$store.commit('SET_menu', [0, '完善个人信息'])
+    },
+    onHide (type) {
+      // console.log('hide', type)
     },
     wxcButtonClicked () {
       userLogout(this)
@@ -225,6 +170,7 @@ export default {
     border-color: #BBBBBB;
     padding-top: 0;
     background-color: #F8F8FF;
+    width: 750px;
   }
   .text {
     color: #666666;
@@ -257,5 +203,8 @@ export default {
   .bpStyle {
     font-size: 30px;
     margin: 10 0 10 30;
+  }
+  .bnt {
+    width: 750px;
   }
 </style>

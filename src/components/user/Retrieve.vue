@@ -26,7 +26,7 @@
               @wxcButtonClicked="wxcButtonClicked"></wxc-button>
       <wxc-button :text="loginResult" size="full" :textStyle="textStyle" :btnStyle="btnStyle2"></wxc-button>
     </scroller>
-        <mini-bar title="找回密码" rightIcon="home" leftIcon="left" rightButtonShow="true"></mini-bar>
+        <mini-bar title="找回密码" rightIcon="home" leftIcon="back"></mini-bar>
   </div>
 </template>
 
@@ -162,6 +162,6 @@ export default {
     font-size: 36px;
     border-width: 0.5px;
     border-style: solid;
-    border-color: #000000;
+    border-color: #BBBBBB;
   }
 </style>

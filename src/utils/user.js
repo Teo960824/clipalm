@@ -8,6 +8,7 @@ export function analyse (obj) {
   stream.fetch({
     method: 'GET',
     type: 'json',
+    timeout: 7000,
     headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
     responseType: 'json',
     url: `${urlConfig.http}:${urlConfig.port}/${urlConfig.router}/user_analyse`
@@ -23,6 +24,7 @@ export function userLogin (obj, user) {
   stream.fetch({
     method: 'POST',
     type: 'json',
+    timeout: 7000,
     headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
     responseType: 'json',
     url: `${urlConfig.http}:${urlConfig.port}/${urlConfig.router}/login`,
@@ -57,6 +59,7 @@ export function register (obj, user) {
   stream.fetch({
     method: 'POST',
     type: 'json',
+    timeout: 7000,
     headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
     responseType: 'json',
     url: `${urlConfig.http}:${urlConfig.port}/${urlConfig.router}/drg_admin_user`,
@@ -91,6 +94,7 @@ export function updateUser (obj, user) {
   stream.fetch({
     method: 'POST',
     type: 'json',
+    timeout: 7000,
     headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
     responseType: 'json',
     url: `${urlConfig.http}:${urlConfig.port}/${urlConfig.router}/drg_admin_user_update`,
@@ -98,6 +102,8 @@ export function updateUser (obj, user) {
   }, res => {
     if (res.ok) {
       obj.$store.commit('SET_userData', res.data.data)
+      obj.$store.commit('SET_menu', [3, 'DRG分析'])
+      obj.$store.commit('SET_onlyInfoLevel', [3, 0])
       obj.$store.commit('SET_menu', [2, '字典'])
       obj.$store.commit('SET_onlyInfoLevel', [2, 0])
       obj.$store.commit('SET_menu', [1, '病案'])
@@ -112,6 +118,7 @@ export function forgetPassword (obj, user) {
   stream.fetch({
     method: 'POST',
     type: 'json',
+    timeout: 7000,
     headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
     responseType: 'json',
     url: `${urlConfig.http}:${urlConfig.port}/${urlConfig.router}/forget_password`,
@@ -133,6 +140,7 @@ function butyingPoint (user) {
     stream.fetch({
       method: 'POST',
       type: 'json',
+      timeout: 7000,
       headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
       responseType: 'json',
       url: `${urlConfig.http}:${urlConfig.port}/${urlConfig.router}/butying_point`,

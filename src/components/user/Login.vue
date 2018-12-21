@@ -1,7 +1,7 @@
 <template>
   <div class="panel">
     <div class="row">
-      <image style="width:344px;height:177px" :src="`${url.static}/images/clipalm.png`"></image>
+      <image style="width:344px;height:177px" :src="logo"></image>
     </div>
     <div v-bind:style="panel">
       <div class="input-bar">
@@ -43,7 +43,7 @@ import { WxcButton, WxcSearchbar, WxcCell } from 'weex-ui'
 import { userLogin, register } from '../../utils/user'
 import Category from '../common/category.vue'
 // const modal = weex.requireModule('modal')
-const urlConfig = require('../../utils/config.js')
+const icon = require('../../utils/icon.js')
 export default {
   name: 'login-page',
   components: { WxcButton, WxcSearchbar, WxcCell, Category },
@@ -71,7 +71,7 @@ export default {
         justifyContent: 'space-around',
         color: '#FFFFFF'
       },
-      url: urlConfig
+      logo: icon('logo')
     }
   },
   created () {

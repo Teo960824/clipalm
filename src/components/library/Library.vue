@@ -1,13 +1,22 @@
 <template>
   <div class="container" v-bind:class="container">
-    <list class="list" @loadmore="fetch" loadmoreoffset="0" v-if="showData">
+    <div class="count1"></div>
+    <div class="count" v-if="customQueryShowType">
+      <wxc-cell v-for="(item, index) in customQuery" v-bind:key="index"
+        v-if="item !== undefined"
+        :title="index"
+        :desc="`${item}`"
+        :cell-style="cellStyle"
+        :extraContent="aa(customQuery, index)"></wxc-cell>
+    </div>
+    <list @loadmore="fetch" loadmoreoffset="20" v-if="showData">
       <cell class="cell" v-for="(rule, index) in rules" v-bind:key="index">
         <wxc-cell :label="rule.code"
                   @wxcCellClicked="wxcIndexlistItemClicked(rule)"
                   :has-margin="false"
                   :has-arrow="true"
                   :arrow-icon="arrawSrc"
-                  :extraContent="rule.desc"></wxc-cell>
+                  :extraContent="rule.name"></wxc-cell>
       </cell>
       <cell style="height:200px">
         <wxc-button text="加载更多"
@@ -21,7 +30,8 @@
       <cell>
         <div class="panel" @longpress="longpress(wt4)">
           <wxc-cell
-            title="无数据"
+            title="此版本无数据"
+            :desc="`当前版本:${user.clipalm_year}-${user.clipalm_version}  用户类型:${user.type}`"
             :has-margin="false"
             :has-arrow="false"
             :arrow-icon="arrawSrc">
@@ -29,33 +39,49 @@
         </div>
       </cell>
     </list>
-    <mini-bar :title="menu" rightIcon="home" leftIcon="left" rightButtonShow="true"></mini-bar>
+    <mini-bar :title="menu" rightIcon="home" leftIcon="back"></mini-bar>
   </div>
 </template>
 
 <script>
 import { WxcCell, WxcButton } from 'weex-ui'
 import { getDetails } from '../../utils/details'
-import { getServer } from '../../utils/server'
+import { getServer, customSearch } from '../../utils/server'
 import MiniBar from '../common/MiniBar.vue'
 import PopRight from '../common/PopRight.vue'
 // const modal = weex.requireModule('modal')
-const urlConfig = require('../../utils/config.js')
+const icon = require('../../utils/icon.js')
 export default {
   components: { WxcCell, MiniBar, PopRight, WxcButton },
   data () {
     return {
       height: 400,
       isShow: false,
-      arrawSrc: `${urlConfig.static}/images/more.png`,
+      arrawSrc: icon['more'],
       show: false,
-      page: {}
+      page: {},
+      cellStyle: {
+        backgroundColor: '#F8F8FF'
+      }
     }
   },
   created () {
     this.getData()
   },
   computed: {
+    customQueryShowType () {
+      return this.$store.state.Home.customQuery[1].show
+    },
+    customQuery () {
+      const query = Object.keys(this.$store.state.Home.customQuery[1].query)
+      const obj = {}
+      query.map((x) => {
+        if (x !== 'tab' && x !== 'page') {
+          obj[x] = this.$store.state.Home.customQuery[1].query[x]
+        }
+      })
+      return obj
+    },
     activeTab () {
       return this.$store.state.Home.activeTab
     },
@@ -67,6 +93,9 @@ export default {
     },
     showMore () {
       return this.$store.state.Home.showMore
+    },
+    user () {
+      return this.$store.state.Home.user.data
     },
     rules () {
       return this.$store.state.Library.rule
@@ -83,8 +112,10 @@ export default {
   },
   methods: {
     getData () {
-      if (this.rules.length === 0) {
+      if (this.rules.length === 0 && this.menu !== '自定义查询结果') {
         getServer(this, this.activeTab, this.menu)
+      } else if (this.rules.length === 0 && this.menu === '自定义查询结果') {
+        this.$store.commit('SET_showData', false)
       }
     },
     wxcIndexlistItemClicked (e) {
@@ -105,7 +136,21 @@ export default {
     fetch () {
       if (this.menu !== 'MDC') {
         this.$store.commit('SET_libraryPage', this.$store.state.Library.page + 1)
-        getServer(this, this.activeTab, this.menu)
+        if (this.menu === '自定义查询结果') {
+          console.log(this.$store.state.Home.customQuery)
+          customSearch(this, this.$store.state.Home.customQuery[1].query)
+        } else {
+          getServer(this, this.activeTab, this.menu)
+        }
+      }
+    },
+    aa (title, index) {
+      const keys = Object.keys(title)
+      const lastKey = keys[keys.length - 1]
+      if (lastKey === index) {
+        return ''
+      } else {
+        return '       |'
       }
     }
   }
@@ -122,5 +167,18 @@ export default {
     position: relative;
     left: 210px;
     top: 1
+  }
+  .count1 {
+    flex-direction: row;
+    justify-content: space-around;
+    background-color: #F8F8FF;
+    margin-top: 91px;
+    margin-buttom: 0px;
+  }
+  .count {
+    flex-direction: row;
+    justify-content: space-around;
+    background-color: #F8F8FF;
+    margin-buttom: 0px;
   }
 </style>

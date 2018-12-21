@@ -11,8 +11,9 @@ const state = {
   userAnalyse: null,
   isLoadingShow: false,
   // 发布版本修改
-  version: '1.0.1',
-  serverVersion: { version: '1.0.1' }
+  version: '1.0.2',
+  serverVersion: { version: '1.0.2' },
+  customQuery: [{show: false, query: {}}, {show: false, query: {}}, {show: false, query: {}}]
 }
 
 const mutations = {
@@ -85,6 +86,9 @@ const mutations = {
   },
   SET_loginResult (state, x) {
     state.user.loginResult = x
+  },
+  SET_customQuery (state, x) {
+    state.customQuery[x[0]] = x[1]
   }
 }
 

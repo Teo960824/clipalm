@@ -6,6 +6,8 @@ const details = [
   {'label': '手术室手术', 'title': 'p_type', 'hasArrow': false},
   {'label': '入组DRG', 'title': 'drg', 'hasArrow': false},
   {'label': '病案ID', 'title': 'b_wt4_v1_id', 'hasArrow': false},
+  {'label': '诊断', 'title': 'disease', 'hasArrow': false},
+  {'label': '手术/操作', 'title': 'oper', 'hasArrow': false},
   {'label': '主要诊断', 'title': 'disease_code', 'hasArrow': false},
   // {'label': '主要诊断名称', 'title': 'disease_name', 'hasArrow': false},
   {'label': '其他诊断', 'title': 'diags_code', 'hasArrow': false},
@@ -27,7 +29,7 @@ const details = [
   {'label': '病历数', 'title': 'num_sum', 'hasArrow': false},
   {'label': 'MCC', 'title': 'mcc', 'hasArrow': false},
   {'label': 'CC', 'title': 'cc', 'hasArrow': false},
-  {'label': '手术室手术', 'title': 'p_type', 'hasArrow': false},
+  // {'label': '手术室手术', 'title': 'p_type', 'hasArrow': false},
   {'label': '机构', 'title': 'org_id', 'hasArrow': false}]
 function caseInfo (result, data) {
   result.title = '病案详情'
@@ -44,9 +46,9 @@ function statInfo (result, data, menu) {
   result.title = '分析详情'
   if (data.stat && data.stat.length > 0) {
     result.showSubRule = true
-    result.subRuleTitle = `${menu}列表`
-    result.showSubRuleTitle = true
-    result.subRule = data.stat.map((x) => {
+    result.subRules = [{}]
+    result.subRules[0].title = `${menu}列表`
+    result.subRules[0].rules = data.stat.map((x) => {
       const obj = {'label': x.code, 'title': x.name, 'hasArrow': true, menu: `${menu}分析`, all: x}
       return obj
     })
@@ -58,10 +60,12 @@ function statInfoDd (result, data, menu) {
   result.details = []
   result.title = '偏差分布详情'
   result.showSubRule = true
-  result.subRuleTitle = `${menu}列表`
   result.showSubRuleTitle = false
   if (data.stat && data.stat.length > 0) {
-    result.subRule = data.stat.map((x) => {
+    result.showSubRule = true
+    result.subRules = [{}]
+    result.subRules[0].title = `${menu}列表`
+    result.subRules[0].rules = data.stat.map((x) => {
       const obj = {'label': x.code, 'title': x.name, 'hasArrow': true, menu: `${menu}分析`, all: x}
       return obj
     })
@@ -74,16 +78,17 @@ function statInfoOrg (result, data, menu) {
   result.title = '分析详情'
   if (data.stat && data.stat.length > 0) {
     result.showSubRule = true
-    result.subRuleTitle = `${menu}列表`
-    result.showSubRuleTitle = true
-    result.subRule = data.stat.map((x) => {
+    result.subRules = [{}]
+    result.subRules[0].title = `${menu}列表`
+    result.subRules[0].rules = data.stat.map((x) => {
       const obj = {'label': x.code, 'title': `机构: ${x.name}`, 'hasArrow': true, menu: `${menu}分析`, all: x}
       return obj
     })
   }
   result.details = [
     {'label': '时间', 'title': 'code', 'hasArrow': false},
-    {'label': '机构', 'title': 'name', 'hasArrow': false},
+    {'label': '名称', 'title': 'name', 'hasArrow': false},
+    {'label': '机构', 'title': 'org', 'hasArrow': false},
     {'label': '费用变异系数', 'title': 'fee_cv', 'hasArrow': false},
     {'label': '时间变异系数', 'title': 'day_cv', 'hasArrow': false},
     {'label': '权重', 'title': 'weight', 'hasArrow': false},
@@ -96,9 +101,9 @@ function drgInfo (obj, result, data, title) {
   result.title = `${data.code}规则详情`
   if (data.adrgs) {
     result.showSubRule = true
-    result.showSubRuleTitle = true
-    result.subRuleTitle = 'ADRG列表'
-    result.subRule = data.adrgs.map((x) => {
+    result.subRules = [{}]
+    result.subRules[0].title = 'ADRG列表'
+    result.subRules[0].rules = data.adrgs.map((x) => {
       const obj = {'label': x.code, 'title': x.name, 'hasArrow': true, menu: 'ADRG', all: x}
       return obj
     })
@@ -111,9 +116,9 @@ function drgInfo (obj, result, data, title) {
   }
   if (data.drgs) {
     result.showSubRule = true
-    result.showSubRuleTitle = true
-    result.subRuleTitle = 'DRG列表'
-    result.subRule = data.drgs.map((x) => {
+    result.subRules = [{}]
+    result.subRules[0].title = 'DRG列表'
+    result.subRules[0].rules = data.drgs.map((x) => {
       const obj = {'label': x.code, 'title': x.name, 'hasArrow': true, menu: 'DRG', all: x}
       return obj
     })
@@ -177,16 +182,17 @@ function subRule (result, data, title) {
     })
   } else if (data.icd) {
     result.showSubRule = true
-    result.subRuleTitle = title
-    result.subRule = data.icd.map((x) => {
-      const obj = {'label': x.code, 'title': x.code, 'hasArrow': true, menu: title, all: x}
+    result.subRules = [{}]
+    result.subRules[0].title = title
+    result.subRules[0].rules = data.icd.map((x) => {
+      const obj = {'label': x.code, 'title': x.name, 'hasArrow': true, menu: title, all: x}
       return obj
     })
   }
   return result
 }
 export function getDetails (obj, menu, data) {
-  let result = {info: data, title: '', details: details, grid: {}, showSubRule: false, subRule: [], showSubRuleTitle: false, subRuleTitle: ''}
+  let result = {info: data, title: '', details: details, grid: {}, showSubRule: false, subRules: [{}], showSubRuleTitle: false, subRuleTitle: ''}
   if (data) {
     if (['BJ-ICD10', 'GB-ICD10'].includes(menu)) {
       menu = 'ICD10'
@@ -195,7 +201,7 @@ export function getDetails (obj, menu, data) {
     } else if (['BJ-ICD9', 'GB-ICD9'].includes(menu)) {
       menu = 'ICD9'
     }
-    if (['DRG机构分析-年', 'DRG机构分析-半年', 'DRG机构分析-季度', 'DRG机构分析-年'].includes(menu)) {
+    if (['DRG机构分析-年', 'DRG机构分析-半年', 'DRG机构分析-季度', 'DRG机构分析-月'].includes(menu)) {
       menu = 'DRG机构分析'
     }
     switch (menu) {
@@ -247,11 +253,23 @@ export function getDetails (obj, menu, data) {
       case 'DRG基础':
         result = statInfo(result, data, 'ADRG')
         break
+      case '诊断基础':
+        result = statInfo(result, data, '诊断DRG入组')
+        break
+      case '手术基础':
+        result = statInfo(result, data, '手术DRG入组')
+        break
       case 'ADRG分析':
         result = statInfo(result, data, 'DRG')
         break
       case 'DRG分析':
         result = statInfo(result, data, '')
+        break
+      case '诊断DRG入组分析':
+        result = statInfo(result, data, '诊断DRG')
+        break
+      case '手术DRG入组分析':
+        result = statInfo(result, data, '手术DRG')
         break
       case '主诊未入组':
         result = statInfo(result, data, '主诊未入组')

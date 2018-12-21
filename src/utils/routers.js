@@ -2,7 +2,7 @@ const urlConfig = require('./config.js')
 const routers = function (obj, activeTab, menu, value) {
   let version = 'BJ'
   let year = '2017'
-  let icd = '6.0'
+  let icd = '6'
   let url = ''
   let router = urlConfig.router
   obj.$store.commit('SET_showData', true)
@@ -26,9 +26,9 @@ const routers = function (obj, activeTab, menu, value) {
   if (obj.$store.state.Home.user.data.clipalm_year) {
     year = obj.$store.state.Home.user.data.clipalm_year
   }
-  if (obj.$store.state.Home.user.data.clipalm_icd) {
-    icd = obj.$store.state.Home.user.data.clipalm_icd
-  }
+  // if (obj.$store.state.Home.user.data.clipalm_icd) {
+  //   icd = obj.$store.state.Home.user.data.clipalm_icd
+  // }
   if (value && !value.version) {
     value.version = 'CN'
   }
@@ -93,7 +93,13 @@ const routers = function (obj, activeTab, menu, value) {
         router = 'drgwork_wt4/expert'
         break
       case 'DRG基础':
-        url = `wt4_stat_mdc?plat=client&order=code&page=${obj.$store.state.Stat.statPage}`
+        url = `wt4_stat_mdc_base?plat=client&version=${version}&year=${year}&order=code&page=${obj.$store.state.Stat.statPage}`
+        break
+      case '诊断基础':
+        url = `wt4_stat_icd10_clipalm?order=code&version=${version}&year=${year}&page=${obj.$store.state.Stat.statPage}`
+        break
+      case '手术基础':
+        url = `wt4_stat_icd9_clipalm?order=code&version=${version}&year=${year}&page=${obj.$store.state.Stat.statPage}`
         break
       case '偏差分布':
         url = `wt4_stat_mdc?plat=client&order=code&page=${obj.$store.state.Stat.statPage}&type=dd`
@@ -153,8 +159,14 @@ const routers = function (obj, activeTab, menu, value) {
       case '操作术语':
         url = `rule_bj_icd9?plat=client&version=CN&page=1&dissect=${value.name}&mdc=${value.mdc}`
         break
+      case '诊断DRG入组分析':
+        url = `disease_drg?version=${version}&year=${year}&disease_code=${value.disease_code}&drg=${value.code}`
+        break
+      case '手术DRG入组分析':
+        url = `oper_drg?version=${version}&year=${year}&oper_code=${value.oper_code}&drg=${value.code}`
+        break
       case '帖子列表':
-        url = `forum?plat=client&table=${value.b_wt4_v1_id}&username=${value.username}&module=${value.module}`
+        url = `forum?plat=client&table=${value.b_wt4_v1_id}&dissect=${value.name}&mdc=${value.mdc}`
         break
       case '帖子':
         url = `forum?id=${value.id}`

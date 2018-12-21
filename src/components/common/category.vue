@@ -13,12 +13,12 @@
   padding-left: 24px;
   width: 750px;
   height: 50px;
-  background-color: #87CEFA;
+  background-color: #7dc8f6;
   justify-content: center;
 }
 
 .category-text {
-  color: #000000;
+  color: #ffffff;
   /* font-weight: 600; */
   font-size: 27px;
 }
