@@ -8,7 +8,15 @@
       :customStyles="customStyles"
       :list="list"
       @select="params => onSelect(params)"></wxc-grid-select>
-    {{selected}}
+    <category title="请选择DRG"></category>
+    <wxc-grid-select
+      v-if="activeTab === 2"
+      :single="true"
+      :cols="5"
+      :customStyles="customStyles"
+      :list="library"
+      @select="params => onSelect(params, 'drg')"></wxc-grid-select>
+      {{selected}}
     <div v-for="(value, key) in condition" :key="key">
       <div v-if="showStyle.includes(key)">
         <text style="font-size: 35px;margin: 5px">{{key}}</text>
@@ -35,9 +43,10 @@
 import { WxcButton, WxcGridSelect } from 'weex-ui'
 import MiniBar from './MiniBar.vue'
 import { customSearch } from '../../utils/server'
+import Category from '../common/category.vue'
 // var modal = weex.requireModule('modal')
 export default {
-  components: { WxcButton, WxcGridSelect, MiniBar },
+  components: { WxcButton, WxcGridSelect, MiniBar, Category },
   data () {
     return {
       customStyles: {
@@ -51,9 +60,16 @@ export default {
         checkedBackgroundColor: '#ffb200'
       },
       selected: [],
+      // selected1: [],
       condition: {},
       conditions: {},
-      showStyle: ['入组DRG', '主要诊断', '其他诊断', '编码', '名称', '年份', '版本']
+      showStyle: ['入组DRG', '主要诊断', '其他诊断', '编码', '名称', '年份', '版本'],
+      library: [
+        {'title': 'MDC'},
+        {'title': 'ADRG'},
+        {'title': 'DRG'}
+      ],
+      drg: ''
     }
   },
   computed: {
@@ -96,8 +112,6 @@ export default {
         case 3:
           value = [
             {'title': '编码'},
-            {'title': '年份'},
-            {'title': '版本'},
             {'title': '平均费用'},
             {'title': '平均住院天数'},
             {'title': '病历数'},
@@ -110,27 +124,14 @@ export default {
           break
       }
       return value
-    },
-    searchObj () {
-      const obj = {}
-      this.selected.map((x) => {
-        obj.key = x.key
-        obj.great = x.great
-        if (x.great) {
-          obj.great = x.great
-        }
-        if (x.less) {
-          obj.less = x.less
-        }
-        return obj
-      })
-      return obj
     }
   },
   methods: {
-    onSelect ({selectIndex, checked, checkedList}) {
+    onSelect ({selectIndex, checked, checkedList}, drg) {
       const key = this.list[selectIndex].title
-      if (this.selected.includes(key)) {
+      if (drg) {
+        this.drg = checkedList[0].title
+      } else if (this.selected.includes(key)) {
         delete this.condition[key]
         this.selected = this.selected.filter(i => i !== key)
       } else {
@@ -155,10 +156,9 @@ export default {
           this.condition[key] = [this.conditions[`${key}1`], this.conditions[`${key}2`]]
         }
       })
+      this.condition.drg = this.drg
       customSearch(this, this.condition)
-      // const value = {show: true, query: this.searchObj}
-      const value = {}
-      this.$store.commit('SET_customQuery', [this.activeTab - 1, value])
+      // this.$store.commit('SET_customQuery', [this.activeTab - 1, this.condition])
     }
   }
 }

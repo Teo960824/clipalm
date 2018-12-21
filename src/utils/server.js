@@ -204,7 +204,7 @@ export function customSearch (obj, value) {
       break
     case 2:
       value.tab = '字典'
-      value.page = obj.$store.state.Library.libraryPage
+      value.page = obj.$store.state.Library.page
       break
     case 3:
       value.tab = 'DRG分析'
