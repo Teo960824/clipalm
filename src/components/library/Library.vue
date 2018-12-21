@@ -152,6 +152,9 @@ export default {
   .container {
     width: 750px;
   }
+  .list {
+    margin-top: 91px;
+  }
   .submits{
     position: relative;
     left: 210px;
