@@ -196,6 +196,29 @@ function setStore (obj, activeTab, menu, rdata) {
 }
 
 export function customSearch (obj, value) {
+  value['版本'] = 'BJ'
+  value['年份'] = '2017'
+  // value['ICDB'] = '6.0'
+  switch (obj.$store.state.Home.user.data.clipalm_version) {
+    case 'BJ编码版':
+      value['版本'] = 'BJ'
+      break
+    case 'CC编码版':
+      value['版本'] = 'CC'
+      break
+    case 'GB编码版':
+      value['版本'] = 'GB'
+      break
+    case '术语版':
+      value['版本'] = 'CN'
+      break
+    default:
+      value['版本'] = 'BJ'
+      break
+  }
+  if (obj.$store.state.Home.user.data.clipalm_year) {
+    value['年份'] = obj.$store.state.Home.user.data.clipalm_year
+  }
   let data = []
   switch (obj.$store.state.Home.activeTab) {
     case 1:
@@ -223,7 +246,7 @@ export function customSearch (obj, value) {
     body: qs.stringify(value)
   }, res => {
     if (res.ok) {
-      obj.$store.commit('SET_menu', [obj.$store.state.Home.activeTab, '自定义查询结果显示'])
+      obj.$store.commit('SET_menu', [obj.$store.state.Home.activeTab, '自定义查询结果'])
       switch (obj.$store.state.Home.activeTab) {
         case 1:
           data = obj.$store.state.Edit.wt4Case

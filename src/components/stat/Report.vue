@@ -110,8 +110,10 @@ export default {
   },
   methods: {
     getData () {
-      if (this.stats.length === 0) {
+      if (this.stats.length === 0 && this.menu !== '自定义查询结果') {
         getServer(this, this.activeTab, this.menu)
+      } else if (this.stats.length === 0 && this.menu === '自定义查询结果') {
+        this.$store.commit('SET_showData', false)
       }
     },
     wxcIndexlistItemClicked (e) {

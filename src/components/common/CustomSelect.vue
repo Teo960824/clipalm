@@ -8,9 +8,9 @@
       :customStyles="customStyles"
       :list="list"
       @select="params => onSelect(params)"></wxc-grid-select>
-    <category v-if="activeTab === 2" title="请选择DRG"></category>
+    <category v-if="[2, 3].includes(activeTab)" title="请选择要查询的字典"></category>
     <wxc-grid-select
-      v-if="activeTab === 2"
+      v-if="[2, 3].includes(activeTab)"
       :single="true"
       :cols="5"
       :customStyles="customStyles"
@@ -63,7 +63,7 @@ export default {
       selected: [],
       // selected1: [],
       condition: {},
-      conditions: {},
+      conditions: { },
       showStyle: ['入组DRG', '主要诊断', '其他诊断', '编码', '名称', '年份', '版本'],
       library: [
         {'title': 'MDC'},
@@ -101,14 +101,12 @@ export default {
             {'title': '住院天数'},
             {'title': '住院总费用'},
             {'title': '年龄'}]
-          // this.selection = { '入组DRG': '', '主要诊断': '', '其他诊断': '', '住院天数': '', '住院总费用': '', '年龄': ''}
           break
         case 2:
           value = [
             {'title': '编码'},
             {'title': '名称'},
             {'title': '年份'}]
-          // this.selection = { '编码': '', '名称': '', '年份': ''}
           break
         case 3:
           value = [
@@ -119,7 +117,6 @@ export default {
             {'title': '费用变异系数'},
             {'title': '时间变异系数'},
             {'title': '权重'}]
-          // this.selection = { '编码': '', '年份': '', '版本': '', '平均费用': '', '平均住院天数': '', '病历数': '', '费用变异系数': '', '时间变异系数': '', '权重': ''}
           break
         default:
           break
@@ -158,7 +155,9 @@ export default {
         }
       })
       if (this.activeTab === 2) {
-        this.condition.drg = this.drg
+        this.condition['字典'] = this.drg
+      } else if (this.activeTab === 3) {
+        this.condition['分析'] = this.drg
       }
       customSearch(this, this.condition)
       this.$store.commit('SET_customQuery', [this.activeTab - 1, {show: true, query: this.condition}])
