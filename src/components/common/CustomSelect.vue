@@ -16,7 +16,8 @@
       :customStyles="customStyles"
       :list="library"
       @select="params => onSelect(params, 'drg')"></wxc-grid-select>
-      {{selected}}
+    <div v-if="selected.length">
+    </div>
     <div v-for="(value, key) in condition" :key="key">
       <div v-if="showStyle.includes(key)">
         <text style="font-size: 35px;margin: 5px">{{key}}</text>
@@ -74,7 +75,7 @@ export default {
   },
   computed: {
     menus () {
-      return this.$store.state.Home.menus
+      return this.$store.state.Home.menu
     },
     activeTab () {
       return this.$store.state.Home.activeTab
