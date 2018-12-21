@@ -11,8 +11,8 @@ const state = {
   userAnalyse: null,
   isLoadingShow: false,
   // 发布版本修改
-  version: '1.0.1',
-  serverVersion: { version: '1.0.1' },
+  version: '1.0.2',
+  serverVersion: { version: '1.0.2' },
   customQuery: [{show: false, query: {}}, {show: false, query: {}}, {show: false, query: {}}]
 }
 
