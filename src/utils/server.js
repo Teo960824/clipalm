@@ -14,8 +14,8 @@ export function getServer (obj, activeTab, menu, value = null) {
   if (activeTab === 1) {
     timeout = 30000
   }
-  modal.toast({ message: url, duration: 1 })
-  console.log(url)
+  // modal.toast({ message: url, duration: 1 })
+  // console.log(url)
   storage.getItem(url, e => {
     if (e.result === 'success!') {
       const edata = JSON.parse(e.data)
