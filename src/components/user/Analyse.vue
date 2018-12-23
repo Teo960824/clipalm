@@ -6,7 +6,7 @@
         <wxc-cell
           v-for="(data, index) in value"
           v-bind:key="`${key}-${index}`"
-          :title="`${data.time}`"
+          :title="`${data.type}`"
           :desc="`${data.count}`"
           :has-margin="false"
           :has-arrow="false"

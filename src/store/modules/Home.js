@@ -30,7 +30,6 @@ const mutations = {
     state.menu = x
   },
   SET_menu (state, x) {
-    console.log(x)
     state.menu.splice(x[0], 1, x[1])
   },
   SET_user (state, x) {
