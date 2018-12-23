@@ -4,7 +4,7 @@
 //   static: 'http://www.jiankanglaifu.com',
 //   drgserver: 'http://192.168.0.79',
 //   port: '3009',
-//   router: 'expert'
+//   router: 'api'
 // }
 
 // // 开发配置
@@ -13,7 +13,7 @@
 //   static: 'http://www.jiankanglaifu.com',
 //   drgserver: 'http://192.168.0.79',
 //   port: '3009',
-//   router: 'expert'
+//   router: 'api'
 // }
 
 // 服务器配置
@@ -22,5 +22,5 @@ module.exports = {
   static: 'http://www.jiankanglaifu.com',
   drgserver: 'http://139.129.165.56',
   port: '80',
-  router: 'drgwork/expert'
+  router: 'drgwork/api'
 }
