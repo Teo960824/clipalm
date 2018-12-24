@@ -7,27 +7,15 @@
                 :title="index"
                 :desc="`${item}`"
                 :extraContent="aa(stat, index)"></wxc-cell>
-      <!-- <am-list-item
-        v-for="(item, index) in customQuery" v-bind:key="index"
-        v-if="item !== undefined"
-        :title="index"
-        :brief="`${item}`"
-        :cell-style="cellStyle"
-        :extra="aa(stat, index)"></am-list-item> -->
     </div>
     <list @loadmore="fetch" loadmoreoffset="0" v-if="showData">
       <cell class="cell" v-for="(stat, index) in stats" v-bind:key="index">
-        <!-- <wxc-cell :label="stat.code"
-            @wxcCellClicked="wxcIndexlistItemClicked(stat)"
-            :has-margin="false"
-            :has-arrow="true"
-            :extraContent="stat.name"></wxc-cell> -->
-        <am-list no-border>
+        <am-list :no-border="false">
           <am-list-item
           :title="stat.code"
           @click="wxcIndexlistItemClicked(stat)"
           :cell-style="cellStyle"
-          :extra="stat.name"></am-list-item>
+          :brief="stat.name"></am-list-item>
         </am-list>
       </cell>
       <cell style="height:200px" v-if="showMore">
@@ -40,14 +28,7 @@
     <list class="list" loadmoreoffset="20" v-else>
       <cell>
         <div class="panel">
-          <!-- <wxc-cell
-            title="此版本无数据"
-            :has-margin="false"
-            :has-arrow="false"
-            :desc="`当前版本:${user.clipalm_year}-${user.clipalm_version}  用户类型:${user.type}`"
-            :arrow-icon="arrawSrc">
-          </wxc-cell> -->
-        <am-list no-border>
+        <am-list :no-border="false">
           <am-list-item
             title="此版本无数据"
             arrow="empty"
@@ -168,7 +149,7 @@ export default {
     width: 750px;
   }
   .count1 {
-    margin-top: 91px;
+    margin-top: 90px;
   }
   .submits{
     position: relative;

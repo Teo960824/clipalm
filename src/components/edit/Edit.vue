@@ -6,15 +6,6 @@
                 :desc="`${item}`"
                 :cell-style="cellStyle"
                 :extraContent="aa(stat, index)"></wxc-cell>
-      <!-- <am-list no-border>
-        <am-list-item
-            v-for="(item, index) in stat" v-bind:key="index"
-            :title="index"
-            :cell-style="cellStyle"
-            :brief="`${item}`"
-            arrow="empty"
-            :extra="aa(stat, index)"></am-list-item>
-      </am-list> -->
     </div>
     <div class="count1" v-if="customQueryShowType">
       <wxc-cell v-for="(item, index) in customQuery" v-bind:key="index"
@@ -29,7 +20,7 @@
       <cell v-for="(wt4, index) in wt4Case" v-bind:key="index" @longpress="test">
         <div class="panel" @longpress="longpress(wt4)">
           <div>
-            <am-list no-border >
+            <am-list :no-border="false">
                 <am-list-item
                   :title="wt4.disease_code"
                   :brief="wt4.extraContent"
@@ -50,13 +41,7 @@
       </cell>
       <cell>
         <div class="panel" @longpress="longpress(wt4)">
-          <!-- <wxc-cell
-            title="无数据"
-            :has-margin="false"
-            :has-arrow="false"
-            :arrow-icon="arrawSrc">
-          </wxc-cell> -->
-          <am-list no-border>
+          <am-list :no-border="false">
             <am-list-item
               title="此版本无数据"
               arrow="empty"
