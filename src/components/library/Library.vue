@@ -184,12 +184,10 @@ export default {
     justify-content: space-around;
     background-color: #F8F8FF;
     margin-top: 91px;
-    margin-buttom: 0px;
   }
   .count {
     flex-direction: row;
     justify-content: space-around;
     background-color: #F8F8FF;
-    margin-buttom: 0px;
   }
 </style>
