@@ -86,11 +86,11 @@ const routers = function (obj, activeTab, menu, value) {
         break
       case '主诊未入组':
         url = `wt4_stat_cv_disease?plat=client&version=${version}&page=${obj.$store.state.Stat.statPage}`
-        router = 'drgwork_wt4'
+        // router = 'drgwork_wt4'
         break
       case '手术QY':
         url = `wt4_stat_cv_qy?plat=client&version=${version}&page=${obj.$store.state.Stat.statPage}`
-        router = 'drgwork_wt4'
+        // router = 'drgwork_wt4'
         break
       case 'DRG基础':
         url = `wt4_stat_mdc_base?plat=client&version=${version}&year=${year}&order=code&page=${obj.$store.state.Stat.statPage}`
@@ -106,19 +106,19 @@ const routers = function (obj, activeTab, menu, value) {
         break
       case 'DRG机构分析-年':
         url = `wt4_stat_cv_org?type=year&plat=client&version=${version}&page=${obj.$store.state.Stat.statPage}`
-        router = 'drgwork_wt4'
+        // router = 'drgwork_wt4'
         break
       case 'DRG机构分析-半年':
         url = `wt4_stat_cv_org?type=half_year&plat=client&version=${version}&page=${obj.$store.state.Stat.statPage}`
-        router = 'drgwork_wt4'
+        // router = 'drgwork_wt4'
         break
       case 'DRG机构分析-季度':
         url = `wt4_stat_cv_org?type=season&plat=client&version=${version}&page=${obj.$store.state.Stat.statPage}`
-        router = 'drgwork_wt4'
+        // router = 'drgwork_wt4'
         break
       case 'DRG机构分析-月':
         url = `wt4_stat_cv_org?type=month&plat=client&version=${version}&page=${obj.$store.state.Stat.statPage}`
-        router = 'drgwork_wt4'
+        // router = 'drgwork_wt4'
         break
       case '帖子列表':
         url = `forum?plat=client&table=`

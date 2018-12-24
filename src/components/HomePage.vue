@@ -175,6 +175,9 @@
         return style
       }
     },
+    // created: function () {
+    //
+    // },
     created: function () {
       this.newVersion()
       storage.getItem('user', e => {
@@ -196,11 +199,9 @@
       const { tabStyles } = this
       this.contentStyle = { height: (tabPageHeight - tabStyles.height) + 'px' }
     },
-    beforeMount: function () {
-    },
-    mounted: function () {
-      this.wxcTabBarCurrentTabSelected({ page: 0 })
-    },
+    // mounted: function () {
+    //   // this.wxcTabBarCurrentTabSelected({ page: 0 })
+    // },
     methods: {
       newVersion () {
         getLastVersion(this)
