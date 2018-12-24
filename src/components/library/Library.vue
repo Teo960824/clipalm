@@ -17,7 +17,7 @@
                   :has-arrow="true"
                   :arrow-icon="arrawSrc"
                   :extraContent="rule.desc"></wxc-cell> -->
-        <am-list no-border>
+        <am-list :no-border="false">
           <am-list-item
             :title="rule.code"
             :brief="rule.desc"

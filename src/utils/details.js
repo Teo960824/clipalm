@@ -1,5 +1,6 @@
 const details = [
   {'label': '编码', 'title': 'code', 'hasArrow': false},
+  {'label': '编码', 'title': 'codes', 'hasArrow': false},
   {'label': '名称', 'title': 'name', 'hasArrow': false},
   {'label': '年份', 'title': 'year', 'hasArrow': false},
   {'label': '版本', 'title': 'version', 'hasArrow': false},
@@ -238,16 +239,19 @@ export function getDetails (obj, menu, data) {
       case 'ICD9细目':
         result = icdInfo(result, data, 'ICD9')
         break
-      case '疾病分类/诊断术语':
-        result = subRule(result, data, '诊断术语')
+      case '疾病/诊断术语':
+        result = subRule(result, data, '诊断术语-亚目')
+        break
+      case '诊断术语-亚目':
+        result = subRule(result, data, 'ICD10细目')
         break
       case '诊断术语':
         result = subRule(result, data, 'ICD10细目')
         break
-      case '临床手术/操作术语':
-        result = subRule(result, data, '操作术语')
+      case '手术/操作术语':
+        result = subRule(result, data, '操作术语-亚目')
         break
-      case '操作术语':
+      case '操作术语-亚目':
         result = subRule(result, data, 'ICD9细目')
         break
       case 'DRG基础':

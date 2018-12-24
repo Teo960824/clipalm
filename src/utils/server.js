@@ -110,12 +110,12 @@ function setStore (obj, activeTab, menu, rdata) {
           details = getDetails(obj, menu, rdata.data[0])
           obj.$store.commit('SET_info', details)
           break
-        case '诊断术语':
+        case '诊断术语-亚目':
           obj.$store.commit('SET_infoLevel', infoLevel + 1)
           details = getDetails(obj, menu, { icd: rdata.data })
           obj.$store.commit('SET_info', details)
           break
-        case '操作术语':
+        case '操作术语-亚目':
           obj.$store.commit('SET_infoLevel', infoLevel + 1)
           details = getDetails(obj, menu, { icd: rdata.data })
           obj.$store.commit('SET_info', details)
