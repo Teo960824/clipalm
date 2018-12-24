@@ -175,9 +175,14 @@
         return style
       }
     },
-    // created: function () {
-    //
-    // },
+    beforeCreate: function () {
+      storage.getItem('userState', e => {
+        if (e.result === 'success') {
+          const edata = JSON.parse(e.data)
+          obj.$store.commit('SET_user', edata)
+        }
+      })
+    },
     created: function () {
       this.newVersion()
       storage.getItem('user', e => {
