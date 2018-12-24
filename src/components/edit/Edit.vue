@@ -1,50 +1,41 @@
 <template>
   <div class="demo" v-bind:style="panel">
     <div class="count" v-if="showStat" style="backgroundColor: #FFFFFF">
-      <!-- <wxc-cell v-for="(item, index) in stat" v-bind:key="index"
+      <wxc-cell v-for="(item, index) in stat" v-bind:key="index"
                 :title="index"
                 :desc="`${item}`"
                 :cell-style="cellStyle"
-                :extraContent="aa(stat, index)"></wxc-cell> -->
-      <am-list-item
-          v-for="(item, index) in stat" v-bind:key="index"
-          :title="index"
-          :cell-style="cellStyle"
-          :brief="`${item}`"
-          arrow="empty"
-          :extra="aa(stat, index)"></am-list-item>
+                :extraContent="aa(stat, index)"></wxc-cell>
+      <!-- <am-list no-border>
+        <am-list-item
+            v-for="(item, index) in stat" v-bind:key="index"
+            :title="index"
+            :cell-style="cellStyle"
+            :brief="`${item}`"
+            arrow="empty"
+            :extra="aa(stat, index)"></am-list-item>
+      </am-list> -->
     </div>
     <div class="count1" v-if="customQueryShowType">
-      <!-- <wxc-cell v-for="(item, index) in customQuery" v-bind:key="index"
+      <wxc-cell v-for="(item, index) in customQuery" v-bind:key="index"
                 v-if="item !== undefined"
                 :title="index"
                 :desc="`${item}`"
                 :cell-style="cellStyle"
-                :extraContent="aa(stat, index)"></wxc-cell> -->
-      <am-list-item
-          v-for="(item, index) in customQuery" v-bind:key="index"
-          v-if="item !== undefined"
-          :title="index"
-          :cell-style="cellStyle"
-          :brief="`${item}`"
-          :extra="aa(customQuery, index)"></am-list-item>
+                :extraContent="aa(stat, index)"></wxc-cell>
     </div>
     <!-- <text class="demo-title"  v-if="wt4Case.length !== 0">{{title.count}}</text> -->
     <list class="list" @loadmore="fetch" loadmoreoffset="20" v-if="showData">
       <cell v-for="(wt4, index) in wt4Case" v-bind:key="index" @longpress="test">
         <div class="panel" @longpress="longpress(wt4)">
-          <!-- <wxc-cell
-            :title="wt4.disease_code"
-            :desc="wt4.extraContent"
-            :has-margin="false"
-            :has-arrow="true"
-            :arrow-icon="arrawSrc"
-            @wxcCellClicked="wxcCellClicked(wt4)">
-          </wxc-cell> -->
-          <am-list-item
-              :title="wt4.disease_code"
-              :brief="wt4.extraContent"
-              @click="wxcCellClicked(wt4)"></am-list-item>
+          <div>
+            <am-list no-border >
+                <am-list-item
+                  :title="wt4.disease_code"
+                  :brief="wt4.extraContent"
+                  @click="wxcCellClicked(wt4)"></am-list-item>
+            </am-list>
+          </div>
         </div>
       </cell>
       <cell style="height:200px" v-if="showMore">
@@ -65,10 +56,12 @@
             :has-arrow="false"
             :arrow-icon="arrawSrc">
           </wxc-cell> -->
-          <am-list-item
-            title="此版本无数据"
-            arrow="empty"
-            :brief="`当前版本:${user.clipalm_year}-${user.clipalm_version}  用户类型:${user.type}`"></am-list-item>
+          <am-list no-border>
+            <am-list-item
+              title="此版本无数据"
+              arrow="empty"
+              :brief="`当前版本:${user.clipalm_year}-${user.clipalm_version}  用户类型:${user.type}`"></am-list-item>
+          </am-list>
         </div>
       </cell>
     </list>
@@ -79,13 +72,13 @@
 <script>
 import { WxcRichText, WxcSpecialRichText, WxcPopup, WxcCell, WxcIndexlist, WxcLoading, WxcPartLoading, WxcButton } from 'weex-ui'
 import { getServer, customSearch } from '../../utils/server'
-import { AmListItem } from 'weex-amui'
+import { AmListItem, AmList } from 'weex-amui'
 import { getDetails } from '../../utils/details'
 import MiniBar from '../common/MiniBar.vue'
 import Category from '../common/category.vue'
 const icon = require('../../utils/icon.js')
 export default {
-  components: { WxcIndexlist, AmListItem, WxcRichText, WxcSpecialRichText, WxcPopup, WxcCell, WxcLoading, WxcPartLoading, WxcButton, MiniBar, Category },
+  components: { WxcIndexlist, AmListItem, AmList, WxcRichText, WxcSpecialRichText, WxcPopup, WxcCell, WxcLoading, WxcPartLoading, WxcButton, MiniBar, Category },
   data () {
     return {
       forceValue: 0,
@@ -281,4 +274,4 @@ export default {
     justify-content: space-around;
     background-color: #F8F8FF;
   }
-</style>
+</style> -->
