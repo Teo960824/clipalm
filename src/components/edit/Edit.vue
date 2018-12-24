@@ -85,7 +85,6 @@ export default {
       refreshing: false,
       arrawSrc: icon['more'],
       cellStyle: {
-        backgroundColor: '#F8F8FF'
       },
       showData: true
     }
@@ -267,11 +266,9 @@ export default {
     flex-direction: row;
     justify-content: space-around;
     margin-top: 91px;
-    background-color: #F8F8FF;
   }
   .count1 {
     flex-direction: row;
     justify-content: space-around;
-    background-color: #F8F8FF;
   }
 </style> -->

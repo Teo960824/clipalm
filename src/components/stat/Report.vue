@@ -1,19 +1,18 @@
 <template>
   <div class="container" v-bind:style="panel">
     <div class="count1" v-if="customQueryShowType">
-      <!-- <wxc-cell v-for="(item, index) in customQuery" v-bind:key="index"
+      <wxc-cell v-for="(item, index) in customQuery" v-bind:key="index"
                 v-if="item !== undefined"
                 :title="index"
                 :desc="`${item}`"
-                :cell-style="cellStyle"
-                :extraContent="aa(stat, index)"></wxc-cell> -->
-      <am-list-item
+                :extraContent="aa(stat, index)"></wxc-cell>
+      <!-- <am-list-item
         v-for="(item, index) in customQuery" v-bind:key="index"
         v-if="item !== undefined"
         :title="index"
         :brief="`${item}`"
         :cell-style="cellStyle"
-        :extra="aa(stat, index)"></am-list-item>
+        :extra="aa(stat, index)"></am-list-item> -->
     </div>
     <list @loadmore="fetch" loadmoreoffset="0" v-if="showData">
       <cell class="cell" v-for="(stat, index) in stats" v-bind:key="index">
@@ -22,11 +21,13 @@
             :has-margin="false"
             :has-arrow="true"
             :extraContent="stat.name"></wxc-cell> -->
-        <am-list-item
-        :title="stat.code"
-        @click="wxcIndexlistItemClicked(stat)"
-        :cell-style="cellStyle"
-        :extra="stat.name"></am-list-item>
+        <am-list no-border>
+          <am-list-item
+          :title="stat.code"
+          @click="wxcIndexlistItemClicked(stat)"
+          :cell-style="cellStyle"
+          :extra="stat.name"></am-list-item>
+        </am-list>
       </cell>
       <cell style="height:200px" v-if="showMore">
         <wxc-button text="加载更多"
@@ -45,10 +46,12 @@
             :desc="`当前版本:${user.clipalm_year}-${user.clipalm_version}  用户类型:${user.type}`"
             :arrow-icon="arrawSrc">
           </wxc-cell> -->
+        <am-list no-border>
           <am-list-item
             title="此版本无数据"
             arrow="empty"
             :brief="`当前版本:${user.clipalm_year}-${user.clipalm_version}  用户类型:${user.type}`"></am-list-item>
+        </am-list>
         </div>
       </cell>
     </list>
@@ -59,12 +62,12 @@
 <script>
 import { WxcIndexlist, WxcPopup, WxcCell, WxcButton } from 'weex-ui'
 import { getDetails } from '../../utils/details'
-import { AmListItem } from 'weex-amui'
+import { AmListItem, AmList } from 'weex-amui'
 import { getServer, customSearch } from '../../utils/server'
 import MiniBar from '../common/MiniBar.vue'
 const icon = require('../../utils/icon.js')
 export default {
-  components: { WxcIndexlist, AmListItem, WxcPopup, WxcCell, MiniBar, WxcButton },
+  components: { WxcIndexlist, AmListItem, AmList, WxcPopup, WxcCell, MiniBar, WxcButton },
   created: function () {
     this.getData()
   },
