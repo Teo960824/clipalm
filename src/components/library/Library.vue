@@ -1,18 +1,13 @@
 <template>
   <div class="container" v-bind:class="container">
-    <div class="count1" v-if="customQueryShowType">
-      <!-- <wxc-cell v-for="(item, index) in customQuery" v-bind:key="index"
+    <div class="count1"></div>
+    <div class="count" v-if="customQueryShowType">
+      <wxc-cell v-for="(item, index) in customQuery" v-bind:key="index"
                 v-if="item !== undefined"
                 :title="index"
                 :desc="`${item}`"
                 :cell-style="cellStyle"
-                :extraContent="aa(stat, index)"></wxc-cell> -->
-      <am-list-item
-        v-for="(item, index) in customQuery" v-bind:key="index"
-        v-if="item !== undefined"
-        :title="index"
-        :brief="`${item}`"
-        :extra="aa(stat, index)"></am-list-item>
+                :extraContent="aa(stat, index)"></wxc-cell>
     </div>
     <list @loadmore="fetch" loadmoreoffset="20" v-if="showData">
       <cell class="cell" v-for="(rule, index) in rules" v-bind:key="index">
@@ -22,10 +17,12 @@
                   :has-arrow="true"
                   :arrow-icon="arrawSrc"
                   :extraContent="rule.desc"></wxc-cell> -->
-        <am-list-item
-          :title="rule.code"
-          :brief="rule.desc"
-          @click="wxcIndexlistItemClicked(rule)"></am-list-item>
+        <am-list no-border>
+          <am-list-item
+            :title="rule.code"
+            :brief="rule.desc"
+            @click="wxcIndexlistItemClicked(rule)"></am-list-item>
+        </am-list>
       </cell>
       <cell style="height:200px">
         <wxc-button text="加载更多"
@@ -58,7 +55,7 @@
 
 <script>
 import { WxcCell, WxcButton } from 'weex-ui'
-import { AmListItem } from 'weex-amui'
+import { AmListItem, AmList } from 'weex-amui'
 import { getDetails } from '../../utils/details'
 import { getServer, customSearch } from '../../utils/server'
 import MiniBar from '../common/MiniBar.vue'
@@ -66,7 +63,7 @@ import PopRight from '../common/PopRight.vue'
 // const modal = weex.requireModule('modal')
 const icon = require('../../utils/icon.js')
 export default {
-  components: { WxcCell, MiniBar, PopRight, AmListItem, WxcButton },
+  components: { WxcCell, MiniBar, PopRight, AmListItem, WxcButton, AmList },
   data () {
     return {
       height: 400,

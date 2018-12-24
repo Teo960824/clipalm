@@ -1,19 +1,13 @@
 <template>
   <div class="container" v-bind:style="panel">
-    <div class="count1" v-if="customQueryShowType">
-      <!-- <wxc-cell v-for="(item, index) in customQuery" v-bind:key="index"
+    <div class="count1"></div>
+    <div class="count" v-if="customQueryShowType">
+      <wxc-cell v-for="(item, index) in customQuery" v-bind:key="index"
                 v-if="item !== undefined"
                 :title="index"
                 :desc="`${item}`"
                 :cell-style="cellStyle"
-                :extraContent="aa(stat, index)"></wxc-cell> -->
-      <am-list-item
-        v-for="(item, index) in customQuery" v-bind:key="index"
-        v-if="item !== undefined"
-        :title="index"
-        :brief="`${item}`"
-        :cell-style="cellStyle"
-        :extra="aa(stat, index)"></am-list-item>
+                :extraContent="aa(stat, index)"></wxc-cell>
     </div>
     <list @loadmore="fetch" loadmoreoffset="0" v-if="showData">
       <cell class="cell" v-for="(stat, index) in stats" v-bind:key="index">
