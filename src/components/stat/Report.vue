@@ -1,6 +1,7 @@
 <template>
   <div class="container" v-bind:style="panel">
-    <div class="count1" v-if="customQueryShowType">
+    <div class="count1"></div>
+    <div class="count" v-if="customQueryShowType">
       <wxc-cell v-for="(item, index) in customQuery" v-bind:key="index"
                 v-if="item !== undefined"
                 :title="index"
