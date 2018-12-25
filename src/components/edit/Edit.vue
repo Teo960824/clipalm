@@ -37,7 +37,7 @@
       </cell>
     </list>
     <list class="list" loadmoreoffset="20" v-else>
-      <cell style="height:91px">
+      <cell style="height:90px">
       </cell>
       <cell>
         <div class="panel" @longpress="longpress(wt4)">
