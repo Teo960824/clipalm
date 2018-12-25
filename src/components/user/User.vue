@@ -67,7 +67,7 @@
         @hide="onHide">
         <am-list-item
           slot-scope="{ extra, show }"
-          title="时间"
+          title="年份"
           :thumb="time"
           :extra="extra"
           @click="show">
