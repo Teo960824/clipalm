@@ -6,14 +6,14 @@
       <am-list-item
         title="用户名"
         arrow="empty"
-        thumb="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1546242737&di=b52b9a97e6b5ad8f01b091eb01e283d2&imgtype=jpg&er=1&src=http%3A%2F%2Fpic.51yuansu.com%2Fpic2%2Fcover%2F00%2F41%2F91%2F58137026987d2_610.jpg"
+        :thumb="usernames"
         :extra="`${user.username}`">
       </am-list-item>
       <am-list-item
         title="积分"
         :extra="`${user.bp}`"
         arrow="empty"
-        thumb="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1545647386399&di=90ad8e3c24d9daf2205a8681caffdc64&imgtype=0&src=http%3A%2F%2Fimg.aso.aizhan.com%2Ficon%2F42%2Ff2%2Fb9%2F42f2b96fe14362ba813cb61e3f394474.jpg"
+        :thumb="integral"
         ></am-list-item>
       <div style="height:25px;"></div>
       <am-picker
@@ -26,7 +26,7 @@
           slot-scope="{ extra, show }"
           title="用户类型"
           :extra="extra"
-          thumb="https://image.flaticon.com/icons/svg/909/909252.svg"
+          :thumb="choice"
           @click="show">
         </am-list-item>
       </am-picker>
@@ -40,7 +40,7 @@
         <am-list-item
           slot-scope="{ extra, show }"
           title="ICD"
-          thumb="https://image.flaticon.com/icons/svg/1088/1088535.svg"
+          :thumb="icd"
           :extra="extra"
           @click="show">
         </am-list-item>
@@ -54,7 +54,7 @@
         <am-list-item
           slot-scope="{ extra, show }"
           title="版本"
-          thumb="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1546242526&di=d7cba8d4e39c26ec502bcf4f897774ac&imgtype=jpg&er=1&src=http%3A%2F%2Farticle.fd.zol-img.com.cn%2Ft_s500x2000%2Fg5%2FM00%2F09%2F03%2FChMkJ1e1MLiIEnjOAACI7--HV7UAAUiDALndXoAAIkH147.png"
+          :thumb="version"
           :extra="extra"
           @click="show">
         </am-list-item>
@@ -68,14 +68,14 @@
         <am-list-item
           slot-scope="{ extra, show }"
           title="时间"
-          thumb="https://image.flaticon.com/icons/svg/138/138294.svg"
+          :thumb="time"
           :extra="extra"
           @click="show">
         </am-list-item>
       </am-picker>
       <div style="height:25px;"></div>
       <am-list-item
-        thumb="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1545647959108&di=12433d659026642071f5d348fd494867&imgtype=0&src=http%3A%2F%2Fwww.archcollege.com%2Fimages%2Fdefault.png"
+        :thumb="supplement"
         title="完善用户信息"
         @click="click"></am-list-item>
       <div style="height:25px;"></div>
@@ -97,7 +97,9 @@ import { WxcMinibar, WxcGridSelect, WxcButton, WxcCell } from 'weex-ui'
 import Category from '../common/category.vue'
 import MiniBar from '../common/MiniBar.vue'
 import { userLogout, updateUser } from '../../utils/user'
+// import { defaultCoreCipherList } from 'constants';
 const modal = weex.requireModule('modal')
+const icon = require('../../utils/icon.js')
 
 export default {
   name: 'user-doc',
@@ -117,6 +119,13 @@ export default {
       checkedBackgroundColor: '#1E90FF'
     },
     show: false,
+    time: icon('time'),
+    usernames: icon('usernames'),
+    integral: icon('integral'),
+    choice: icon('choice'),
+    icd: icon('icd'),
+    version: icon('version'),
+    supplement: icon('supplement'),
     types: [{ value: '专家用户', label: '专家用户' }, { value: '机构用户', label: '机构用户' }, { value: '个人用户', label: '个人用户' }],
     versions: [{ label: 'BJ编码版', value: 'BJ编码版' }, { label: 'GB编码版', value: 'GB编码版' }, { label: '术语版', value: '术语版' }],
     icds: [{ label: 'ICD10 6.0', value: 'ICD10 6.0' }, { label: 'ICD10 5.0', value: 'ICD10 5.0' }],

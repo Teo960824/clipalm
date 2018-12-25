@@ -41,7 +41,14 @@ const images = {
   'DRG分析': 'forum_stat.png',
   '论坛建议': 'forum_info.png',
   '我的帖子': 'forum_my.png',
-  '最新帖子': 'forum_last.png'
+  '最新帖子': 'forum_last.png',
+  'usernames': 'usernames.jpg',
+  'integral': 'integral.jpg',
+  'choice': 'choice.png',
+  'icd': 'icd.png',
+  'version': 'version.jpg',
+  'time': 'time.png',
+  'supplement': 'supplement.jpg'
 }
 
 module.exports = function (iconName) {
