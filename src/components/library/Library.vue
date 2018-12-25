@@ -7,7 +7,7 @@
                 :title="index"
                 :desc="`${item}`"
                 :cell-style="cellStyle"
-                :extraContent="aa(stat, index)"></wxc-cell>
+                :extraContent="aa(customQuery, index)"></wxc-cell>
     </div>
     <list @loadmore="fetch" loadmoreoffset="20" v-if="showData">
       <cell class="cell" v-for="(rule, index) in rules" v-bind:key="index">

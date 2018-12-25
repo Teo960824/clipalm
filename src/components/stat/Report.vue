@@ -6,7 +6,7 @@
                 v-if="item !== undefined"
                 :title="index"
                 :desc="`${item}`"
-                :extraContent="aa(stat, index)"></wxc-cell>
+                :extraContent="aa(customQuery, index)"></wxc-cell>
     </div>
     <list @loadmore="fetch" loadmoreoffset="0" v-if="showData">
       <cell class="cell" v-for="(stat, index) in stats" v-bind:key="index">
