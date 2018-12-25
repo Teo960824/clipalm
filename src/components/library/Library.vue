@@ -11,12 +11,6 @@
     </div>
     <list @loadmore="fetch" loadmoreoffset="20" v-if="showData">
       <cell class="cell" v-for="(rule, index) in rules" v-bind:key="index">
-        <!-- <wxc-cell :label="rule.code"
-                  @wxcCellClicked="wxcIndexlistItemClicked(rule)"
-                  :has-margin="false"
-                  :has-arrow="true"
-                  :arrow-icon="arrawSrc"
-                  :extraContent="rule.desc"></wxc-cell> -->
         <am-list :no-border="false">
           <am-list-item
             :title="rule.code"
@@ -35,13 +29,6 @@
     <list class="list" loadmoreoffset="20" v-else>
       <cell>
         <div class="panel" @longpress="longpress(wt4)" style="font-size:10px;">
-          <!-- <wxc-cell
-            title="此版本无数据"
-            :desc="`当前版本:${user.clipalm_year}-${user.clipalm_version}  用户类型:${user.type}`"
-            :has-margin="false"
-            :has-arrow="false"
-            :arrow-icon="arrawSrc">
-          </wxc-cell> -->
           <am-list-item
             title="此版本无数据"
             arrow="empty"
