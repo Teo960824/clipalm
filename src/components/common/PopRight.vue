@@ -4,13 +4,6 @@
     <list class="list" :show="true">
       <cell class="cell">
         <div v-for="(detail, index) in infoPage.details" :key="index">
-          <!-- <wxc-cell
-            :key="index"
-            :label="detail.label"
-            :title="`${infoPage.info[detail.title]}`"
-            :has-arrow="detail.hasArrow"
-            @wxcCellClicked="wxcCellClicked(detail)"
-            ></wxc-cell> -->
           <am-list :no-border="false">
             <am-list-item
               :key="index"
@@ -35,13 +28,6 @@
         </div>
         <div v-if="infoPage.showSubRule" v-for="(subRule, index) in infoPage.subRules" :key="`subRules-${index}`">
           <category :title="`${subRule.title}`"></category>
-          <!-- <wxc-cell v-for="(rule, index) in subRule.rules"
-            :key="index"
-            :label="rule.label"
-            :title="rule.title"
-            :has-arrow="rule.hasArrow"
-            @wxcCellClicked="wxcCellClicked1(rule)">
-          </wxc-cell> -->
           <am-list :no-border="false">
             <am-list-item v-for="(rule, index) in subRule.rules"
               :key="index"
