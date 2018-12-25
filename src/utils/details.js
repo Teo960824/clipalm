@@ -33,14 +33,69 @@ const details = [
   // {'label': '手术室手术', 'title': 'p_type', 'hasArrow': false},
   {'label': '机构', 'title': 'org_id', 'hasArrow': false},
   {'label': '错误日志', 'title': 'error_log', 'hasArrow': false}]
-function caseInfo (result, data) {
+// function caseInfo (result, data) {
+//   result.title = '病案详情'
+//   result.info = data
+//   if (data.log) {
+//     result.grid['分组日志'] = data.log.map((x) => {
+//       const obj = { date: '', desc: '', highlight: false, title: x }
+//       return obj
+//     })
+//   }
+//   return result
+// }
+function caseInfo (result, data, menu) {
   result.title = '病案详情'
-  result.info = data
-  if (data.log) {
-    result.grid['分组日志'] = data.log.map((x) => {
-      const obj = { date: '', desc: '', highlight: false, title: x }
-      return obj
-    })
+  result.details = []
+  result.showSubRule = true
+  result.showSubRuleTitle = false
+  if (data.wt4 && data.wt4.length > 0) {
+    result.showSubRule = true
+    result.subRules = [{}]
+    switch (menu) {
+      case '未入组病历':
+        result.subRules[0].rules = data.wt4.map((x) => {
+          let a = '-'
+          if (x.diags_code !== '') {
+            a = x.diags_code
+          } else {
+            a = '-'
+          }
+          const obj = {'label': a, 'title': x.name, 'hasArrow': true, menu: `分析`, all: x}
+          return obj
+        })
+        break
+      case 'QY病历':
+        result.subRules[0].rules = data.wt4.map((x) => {
+          let a = '-'
+          if (x.oper_code !== '') {
+            a = x.oper_code
+          }
+          const obj = {'label': a, 'title': x.name, 'hasArrow': true, menu: `分析`, all: x}
+          return obj
+        })
+        break
+      case '低风险死亡病历':
+        result.subRules[0].rules = data.wt4.map((x) => {
+          const obj = {'label': x.age, 'title': x.name, 'hasArrow': true, menu: `分析`, all: x}
+          return obj
+        })
+        break
+      case '费用异常病历':
+        result.subRules[0].rules = data.wt4.map((x) => {
+          const obj = {'label': x.total_expense, 'title': x.name, 'hasArrow': true, menu: `分析`, all: x}
+          return obj
+        })
+        break
+      case '填报异常病历':
+        result.subRules[0].rules = data.wt4.map((x) => {
+          const obj = {'label': x.code, 'title': x.name, 'hasArrow': true, menu: `分析`, all: x}
+          return obj
+        })
+        break
+    }
+  } else {
+    result.subRule = [{'label': '无数据', 'title': '无数据', 'hasArrow': true, menu: `分析`, all: []}]
   }
   return result
 }
@@ -195,20 +250,22 @@ function subRule (result, data, title) {
 }
 export function getDetails (obj, menu, data) {
   let result = {info: data, title: '', details: details, grid: {}, showSubRule: false, subRules: [{}], showSubRuleTitle: false, subRuleTitle: ''}
+  let menu1 = menu
   if (data) {
     if (['BJ-ICD10', 'GB-ICD10'].includes(menu)) {
-      menu = 'ICD10'
+      menu1 = 'ICD10'
     } else if (['BJ-ICD9', 'GB-ICD9'].includes(menu)) {
-      menu = 'ICD9'
+      menu1 = 'ICD9'
     } else if (['BJ-ICD9', 'GB-ICD9'].includes(menu)) {
-      menu = 'ICD9'
+      menu1 = 'ICD9'
+    } else if (['DRG机构分析-年', 'DRG机构分析-半年', 'DRG机构分析-季度', 'DRG机构分析-月'].includes(menu)) {
+      menu1 = 'DRG机构分析'
+    } else if (['未入组病历', 'QY病历', '低风险死亡病历', '费用异常病历', '填报异常病历'].includes(menu)) {
+      menu1 = '病案详情'
     }
-    if (['DRG机构分析-年', 'DRG机构分析-半年', 'DRG机构分析-季度', 'DRG机构分析-月'].includes(menu)) {
-      menu = 'DRG机构分析'
-    }
-    switch (menu) {
+    switch (menu1) {
       case '病案详情':
-        result = caseInfo(result, data)
+        result = caseInfo(result, data, menu)
         break
       case '单条分组':
         result = compResultInfo(result, data)
