@@ -1,11 +1,11 @@
 <template>
   <div class="demo" v-bind:style="panel" v-if="infoLevel === 1">
-    <div style="height:91px;"></div>
+    <div style="height:90px;"></div>
     <category class="category" :title="forum.title"></category>
     <list class="list" loadmoreoffset="20">
       <cell v-for="(data, index) in content" v-bind:key="index">
         <div class="panel">
-          <wxc-cell
+          <!-- <wxc-cell
             :label="`${index + 1}#`"
             :title="`${data.content}`"
             :desc="`${data.username}  ${data.datetime}`"
@@ -15,14 +15,24 @@
             :has-arrow="true"
             :arrow-icon="arrawSrc"
             @wxcCellClicked="wxcCellClicked(data, index)">
-          </wxc-cell>
+          </wxc-cell> -->
+          <am-list :no-border="false">
+            <am-list-item
+              :title="`${data.username}`"
+              :brief="`第${index + 1}楼 | ${data.datetime}`"
+              arrow="empty"
+              :thumb="usernames"></am-list-item>
+            <am-list-item
+              :title="`        ${data.content}`"
+              arrow="empty"></am-list-item>
+          </am-list>
         </div>
       </cell>
       <cell>
         <text v-if="textShow" style="font-size:35px;">{{text}}</text>
         <textarea class="textarea" placeholder="输入回复内容" @input="oninput2" value="" ></textarea>
         <wxc-button text="回复"
-          class="submits"
+          class="submit"
           size="full"
           type="blue"
           @wxcButtonClicked="wxcButtonClicked"></wxc-button>
@@ -86,13 +96,14 @@
 </template>
 <script>
 import { WxcPopup, WxcCell, WxcButton, WxcRichText, WxcSpecialRichText } from 'weex-ui'
+import { AmListItem, AmList } from 'weex-amui'
 import MiniBar from '../common/MiniBar.vue'
 import Category from '../common/category.vue'
 import { createForum, deleteForum } from '../../utils/forum'
 const modal = weex.requireModule('modal')
 const icon = require('../../utils/icon.js')
 export default {
-  components: { WxcPopup, WxcCell, WxcButton, MiniBar, WxcRichText, WxcSpecialRichText, Category },
+  components: { WxcPopup, WxcCell, AmListItem, AmList, WxcButton, MiniBar, WxcRichText, WxcSpecialRichText, Category },
   data () {
     return {
       textContent: '1234',
@@ -101,6 +112,7 @@ export default {
       text: '',
       data: null,
       reply: [],
+      usernames: icon('usernames'),
       replyId: null,
       replyIndex: null,
       arrawSrc: icon['message']
@@ -197,7 +209,14 @@ export default {
   width: 750px;
 }
 .submits {
-  color: #666666;
+  color: #ffffff;
+  font-size: 32px;
+  margin-left: 23px;
+  margin-top: 12px;
+  margin-bottom: 120px;
+}
+.submit {
+  color: #ffffff;
   font-size: 32px;
   margin-left: 23px;
   margin-top: 12px;

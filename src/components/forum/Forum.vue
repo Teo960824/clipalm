@@ -21,7 +21,7 @@
     <list class="lists" v-if="showData">
       <cell v-for="(post, index) in posts" v-bind:key="index">
         <div>
-          <wxc-cell
+          <!-- <wxc-cell
             :title="post.title"
             :extraContent="`${post.content_count}`"
             :arrow-icon="arrawSrc"
@@ -29,7 +29,20 @@
             :has-margin="false"
             :has-arrow="true"
             @wxcCellClicked="wxcRichTextLinkClick(index)">
-          </wxc-cell>
+          </wxc-cell> -->
+          <am-list :no-border="false">
+            <am-list-item
+              :title="`${post.username}`"
+              :brief="`第${index + 1}楼 | ${post.datetime}`"
+              arrow="empty"
+              :thumb="usernames"
+              @click="wxcRichTextLinkClick(index)"></am-list-item>
+            <am-list-item
+              :title="`        ${post.title}`"
+              arrow="empty"
+              :extra="`${post.content_count}条回复`"
+              @click="wxcRichTextLinkClick(index)"></am-list-item>
+          </am-list>
         </div>
       </cell>
     </list>
@@ -51,18 +64,20 @@
 
 <script>
 import { WxcSpecialRichText, WxcButton, WxcRichText, WxcCell } from 'weex-ui'
+import { AmListItem, AmListTextarea, AmList } from 'weex-amui'
 import MiniBar from '../common/MiniBar.vue'
 import { getServer } from '../../utils/server'
 import { createForum } from '../../utils/forum'
 const modal = weex.requireModule('modal')
 const icon = require('../../utils/icon.js')
 export default {
-  components: { WxcSpecialRichText, WxcButton, WxcRichText, MiniBar, WxcCell },
+  components: { WxcSpecialRichText, AmListTextarea, WxcButton, AmListItem, AmList, WxcRichText, MiniBar, WxcCell },
   data: () => ({
     showNew: false,
     showNewButton: true,
     title: '',
     content: '',
+    usernames: icon('usernames'),
     arrawSrc: icon['message']
   }),
   computed: {
@@ -188,7 +203,7 @@ export default {
   border-width: 1px;
   border-style: solid;
   border-color: #000000;
-  margin-top: 100px;
+  margin-top: 90px;
   height: 80px;
 }
 .container {
@@ -205,7 +220,7 @@ export default {
   margin-top: 100px;
 }
 .wrapper {
-  margin-top: 10px;
+  margin-top: 0px;
 }
 .textarea {
   font-size: 40px;

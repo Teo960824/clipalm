@@ -29,10 +29,12 @@
     <list class="list" loadmoreoffset="20" v-else>
       <cell>
         <div class="panel" @longpress="longpress(wt4)" style="font-size:10px;">
-          <am-list-item
-            title="此版本无数据"
-            arrow="empty"
-            :brief="`当前版本:${user.clipalm_year}-${user.clipalm_version}  用户类型:${user.type}`"></am-list-item>
+          <am-list :no-border="false">
+            <am-list-item
+              title="此版本无数据"
+              arrow="empty"
+              :brief="`当前版本:${user.clipalm_year}-${user.clipalm_version}  用户类型:${user.type}`"></am-list-item>
+          </am-list>
         </div>
       </cell>
     </list>
