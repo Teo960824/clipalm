@@ -33,7 +33,7 @@
           <am-list :no-border="false">
             <am-list-item
               :title="`${post.username}`"
-              :brief="`第${index + 1}楼 | ${post.datetime}`"
+              :extra="`第${index + 1}楼 | ${post.datetime}`"
               arrow="empty"
               :thumb="usernames"
               @click="wxcRichTextLinkClick(index)"></am-list-item>

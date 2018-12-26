@@ -19,7 +19,7 @@
           <am-list :no-border="false">
             <am-list-item
               :title="`${data.username}`"
-              :brief="`第${index + 1}楼 | ${data.datetime}`"
+              :extra="`第${index + 1}楼 | ${data.datetime}`"
               arrow="empty"
               :thumb="usernames"></am-list-item>
             <am-list-item
