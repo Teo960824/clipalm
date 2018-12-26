@@ -55,6 +55,7 @@
       <Forum v-else></Forum>
     </div>
   </wxc-tab-bar>
+  <div v-if="Object.keys(forumInfo).length < 0">{{forumInfo}}</div>
   <!-- <mini-bar></mini-bar> -->
 </div>
 </template>
@@ -130,6 +131,13 @@
       }
     }),
     computed: {
+      forumInfo () {
+        const forumInfo = this.$store.state.Home.forumInfo
+        if (Object.keys(forumInfo).length > 0) {
+          this.setPage(4)
+        }
+        return forumInfo
+      },
       activeTab () {
         return this.$store.state.Home.activeTab
       },
@@ -204,15 +212,17 @@
       const { tabStyles } = this
       this.contentStyle = { height: (tabPageHeight - tabStyles.height) + 'px' }
     },
-    // mounted: function () {
-    //   // this.wxcTabBarCurrentTabSelected({ page: 0 })
-    // },
+    mounted: function () {
+      // this.wxcTabBarCurrentTabSelected({ page: 0 })
+    },
     methods: {
       newVersion () {
         getLastVersion(this)
       },
       setPage (num) {
-        this.$refs['wxc-tab-bar'].setPage(num)
+        if (this.$refs['wxc-tab-bar']) {
+          this.$refs['wxc-tab-bar'].setPage(num)
+        }
       },
       wxcTabBarCurrentTabSelected (e) {
         const i = e.page

@@ -2,6 +2,12 @@
   <div class="demo"
     v-bind:style="panel">
     <list class="list" :show="true">
+      <wxc-button text="相关发帖"
+              v-if="detailsStyle"
+              type="blue"
+              size="full"
+              class="submits"
+              @wxcButtonClicked="wxcButtonClicked"></wxc-button>
       <cell class="cell">
         <div v-for="(detail, index) in infoPage.details" :key="index">
           <am-list :no-border="false">
@@ -62,6 +68,12 @@
               :list="infoPage.dissRule2"
               @select="params => wxcCellClicked2(params)"></wxc-grid-select>
         </div>
+        <wxc-button text="相关发帖"
+              v-if="detailsStyle"
+              type="blue"
+              size="full"
+              class="submits"
+              @wxcButtonClicked="wxcButtonClicked"></wxc-button>
         <div style="height:200px"></div>
       </cell>
     </list>
@@ -119,6 +131,20 @@ export default {
         height: tabPageHeight
       }
       return style
+    },
+    detailsStyle () {
+      let style = false
+      if (this.activeTab !== 4) {
+        console.log(this.activeTab)
+        console.log(this.$store.state.Home.infoPages[this.activeTab])
+        const details = this.$store.state.Home.infoPages[this.activeTab][0].details
+        if (details.length > 0) {
+          style = true
+        } else {
+          style = false
+        }
+      }
+      return style
     }
   },
   methods: {
@@ -138,6 +164,33 @@ export default {
     },
     wxcCellClicked2 ({selectIndex, checked, checkedList}) {
       getServer(this, this.activeTab, `${checkedList[0].menu}`, checkedList[0].all)
+    },
+    wxcButtonClicked () {
+      const module = this.menu
+      let name = ''
+      let title = ''
+      const details = this.$store.state.Home.infoPages[this.activeTab][0].details
+      details.map((x) => {
+        if (x.label === '名称') {
+          name = this.infoPage.info[x.title]
+        } else if (x.label === '编码') {
+          title = this.infoPage.info[x.title]
+        }
+      })
+      const forumInfo = { module, name, title }
+      this.$store.commit('SET_forumInfo', forumInfo)
+      switch (this.activeTab) {
+        case 1:
+          this.$store.commit('SET_menu', [4, '病案讨论'])
+          break
+        case 2:
+          this.$store.commit('SET_menu', [4, '字典交流'])
+          break
+        case 3:
+          this.$store.commit('SET_menu', [4, 'DRG分析'])
+          break
+      }
+      this.$store.commit('SET_showNew', true)
     }
   }
 }
@@ -159,5 +212,10 @@ export default {
   }
   .list {
     margin-top: 91px;
+  }
+  .submits {
+    position: relative;
+    left: 23px;
+    top: 20px;
   }
 </style>

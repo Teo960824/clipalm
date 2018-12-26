@@ -5,7 +5,8 @@ const state = {
   forumModule: '',
   forumLabel: '',
   forumIndex: null,
-  forumContent: {}
+  forumContent: {},
+  showNew: false
 }
 
 const mutations = {
@@ -26,11 +27,15 @@ const mutations = {
   },
   SET_forumLabel (state, x) {
     state.forumLabel = x
+  },
+  SET_showNew (state, x) {
+    state.showNew = x
   }
 }
 
 const actions = {
   someAsyncTask ({ commit }) {
+    commit('SET_showNew')
     commit('SET_forumIndex')
     commit('SET_forumModule')
     commit('SET_post')
