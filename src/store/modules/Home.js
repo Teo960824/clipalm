@@ -13,7 +13,8 @@ const state = {
   // 发布版本修改
   version: '1.0.3',
   serverVersion: { version: '1.0.3' },
-  customQuery: [{show: false, query: {}}, {show: false, query: {}}, {show: false, query: {}}]
+  customQuery: [{show: false, query: {}}, {show: false, query: {}}, {show: false, query: {}}],
+  forumInfo: {}
 }
 
 const mutations = {
@@ -89,11 +90,15 @@ const mutations = {
   },
   SET_customQuery (state, x) {
     state.customQuery[x[0]] = x[1]
+  },
+  SET_forumInfo (state, x) {
+    state.forumInfo = x
   }
 }
 
 const actions = {
   someAsyncTask ({ commit }) {
+    commit('SET_forumInfo')
     commit('SET_userMenu')
     commit('SET_miniBarTitle')
     commit('SET_serverVersion')

@@ -1,7 +1,7 @@
 <template>
   <div class="container" v-bind:style="panel">
     <div v-if="showNew">
-      <input type="text" placeholder="输入帖子标题" class="top" :autofocus=true value="" @input="oninput"/>
+      <input type="text" placeholder="输入帖子标题" class="top" :autofocus=true value="" @input="oninput" v-model="forumInfo"/>
       <div class="wrapper">
         <textarea class="textarea" placeholder="输入帖子内容" @input="oninput2" value="" ></textarea>
       </div>
@@ -73,7 +73,7 @@ const icon = require('../../utils/icon.js')
 export default {
   components: { WxcSpecialRichText, AmListTextarea, WxcButton, AmListItem, AmList, WxcRichText, MiniBar, WxcCell },
   data: () => ({
-    showNew: false,
+    // showNew: false,
     showNewButton: true,
     title: '',
     content: '',
@@ -81,6 +81,19 @@ export default {
     arrawSrc: icon['message']
   }),
   computed: {
+    showNew: {
+      get () {
+        return this.$store.state.Forum.showNew
+      },
+      set () {}
+    },
+    forumInfo () {
+      let value = ''
+      if (this.$store.state.Home.forumInfo.module) {
+        value = `${this.$store.state.Home.forumInfo.module}/${this.$store.state.Home.forumInfo.title}/${this.$store.state.Home.forumInfo.name}`
+      }
+      return value
+    },
     user () {
       return this.$store.state.Home.user
     },
@@ -172,7 +185,8 @@ export default {
       this.content = event.value
     },
     wxcButtonClicked () {
-      this.showNew = true
+      this.$store.commit('SET_showNew', true)
+      // this.showNew = true
     },
     menuClicked (menu) {
       this.$store.commit('SET_forumModule', menu)
