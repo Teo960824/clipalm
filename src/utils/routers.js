@@ -60,10 +60,10 @@ const routers = function (obj, activeTab, menu, value) {
       case 'CN-DRG':
         url = `rule_bj_mdc?plat=client&version=${version}&year=${year}&page=${obj.$store.state.Library.page}`
         break
-      case 'ADRG':
+      case 'ADRG规则':
         url = `rule_bj_adrg?plat=client&version=${version}&year=${year}&page=${obj.$store.state.Library.page}`
         break
-      case 'DRG':
+      case 'DRG规则':
         url = `rule_bj_drg?plat=client&version=${version}&year=${year}&page=${obj.$store.state.Library.page}`
         break
       case 'BJ-ICD10':
@@ -129,22 +129,22 @@ const routers = function (obj, activeTab, menu, value) {
     }
   } else {
     switch (menu) {
-      case 'ADRG':
+      case 'ADRG规则':
         url = `rule_bj_adrg?plat=client&page=1&code=${value.code}&version=${version}`
         break
-      case 'DRG':
+      case 'DRG规则':
         url = `rule_bj_drg?plat=client&page=1&code=${value.code}&version=${version}`
         break
-      case 'ICD10亚目':
+      case 'ICD10-亚目':
         url = `rule_bj_icd10?plat=client&version=${value.version}&year=${value.year}&page=1&code=${value.code}&icd=${icd}`
         break
-      case 'ICD10细目':
+      case 'ICD10-细目':
         url = `rule_bj_icd10?plat=client&version=${value.version}&year=${value.year}&page=1&code=${value.code}&icd=${icd}`
         break
-      case 'ICD9亚目':
+      case 'ICD9-亚目':
         url = `rule_bj_icd9?plat=client&version=${value.version}&year=${value.year}&page=1&code=${value.code}&icd=${icd}`
         break
-      case 'ICD9细目':
+      case 'ICD9-细目':
         url = `rule_bj_icd9?plat=client&version=${value.version}&year=${value.year}&page=1&code=${value.code}&icd=${icd}`
         break
       case 'ADRG分析':
@@ -153,16 +153,10 @@ const routers = function (obj, activeTab, menu, value) {
       case 'DRG分析':
         url = `wt4_stat_cv?plat=client&order=code&drg=${value.code}`
         break
-      case '诊断术语-亚目':
-        url = `rule_bj_icd10?plat=client&version=CN&page=1&code=${value.code_s}&version=CN`
-        break
-      case '操作术语-亚目':
-        url = `rule_bj_icd9?plat=client&version=CN&page=1&code=${value.code_s}&version=CN`
-        break
-      case '诊断DRG入组分析':
+      case '诊断DRG分析':
         url = `disease_drg?version=${version}&year=${year}&disease_code=${value.disease_code}&drg=${value.code}`
         break
-      case '手术DRG入组分析':
+      case '手术DRG分析':
         url = `oper_drg?version=${version}&year=${year}&oper_code=${value.oper_code}&drg=${value.code}`
         break
       case '帖子列表':
