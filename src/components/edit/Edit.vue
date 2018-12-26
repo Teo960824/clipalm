@@ -22,7 +22,7 @@
           <div>
             <am-list :no-border="false">
                 <am-list-item
-                  :title="wt4.disease_code"
+                  :title="wt4.code"
                   :brief="wt4.extraContent"
                   @click="wxcCellClicked(wt4)"></am-list-item>
             </am-list>
@@ -37,7 +37,7 @@
       </cell>
     </list>
     <list class="list" loadmoreoffset="20" v-else>
-      <cell style="height:91px">
+      <cell style="height:90px">
       </cell>
       <cell>
         <div class="panel" @longpress="longpress(wt4)">
@@ -150,19 +150,22 @@ export default {
           let extraContent = ''
           switch (this.$store.state.Home.menu[1]) {
             case '未入组病历':
-              extraContent = `其他诊断：${x.diags_code}`
+              extraContent = `诊断病历数：${x.num_sum}`
               break
             case 'QY病历':
-              extraContent = `主要手术：${x.oper_code}; DRG：${x.drg}`
+              extraContent = `病历数：${x.num_sum}`
               break
             case '低风险死亡病历':
-              extraContent = `年龄：${x.age}; 其他诊断：${x.diags_code}; DRG：${x.drg}`
+              // extraContent = `年龄：${x.age}; 其他诊断：${x.diags_code}; DRG：${x.drg}`
+              extraContent = `病历数：${x.num_sum}`
               break
             case '费用异常病历':
-              extraContent = `总费用：${x.total_expense}; 年龄：${x.age}; 其他诊断：${x.diags_code};住院日${x.acctual_days}; DRG：${x.drg}`
+              // extraContent = `总费用：${x.total_expense}; 年龄：${x.age}; 其他诊断：${x.diags_code};住院日${x.acctual_days}; DRG：${x.drg}`
+              extraContent = `病历数：${x.num_sum}`
               break
             default:
-              extraContent = `性别：${x.gender}·年龄：${x.age}岁·费用：${x.total_expense}元·住院天数：${x.acctual_days}天·drg：${x.drg}`
+              // extraContent = `性别：${x.gender}·年龄：${x.age}岁·费用：${x.total_expense}元·住院天数：${x.acctual_days}天·drg：${x.drg}`
+              extraContent = `病历数：${x.num_sum}`
           }
           if (extraContent === '') {
             obj.extraContent = '无'
@@ -214,7 +217,7 @@ export default {
     },
     wxcCellClicked (e) {
       this.$store.commit('SET_infoLevel', 1)
-      const details = getDetails(this, '病案详情', e)
+      const details = getDetails(this, this.menu, e)
       this.$store.commit('SET_info', details)
     },
     fetch () {

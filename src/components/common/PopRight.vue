@@ -4,13 +4,14 @@
     <list class="list" :show="true">
       <cell class="cell">
         <div v-for="(detail, index) in infoPage.details" :key="index">
-          <wxc-cell
-            :key="index"
-            :label="detail.label"
-            :title="`${infoPage.info[detail.title]}`"
-            :has-arrow="detail.hasArrow"
-            @wxcCellClicked="wxcCellClicked(detail)"
-            ></wxc-cell>
+          <am-list :no-border="false">
+            <am-list-item
+              :key="index"
+              :title="detail.label"
+              :brief="`${infoPage.info[detail.title]}`"
+              arrow="empty"
+              @click="wxcCellClicked(detail)"></am-list-item>
+          </am-list>
         </div>
         <div v-for="(g, index) in infoPage.grid"
               :key="index">
@@ -27,13 +28,13 @@
         </div>
         <div v-if="infoPage.showSubRule" v-for="(subRule, index) in infoPage.subRules" :key="`subRules-${index}`">
           <category :title="`${subRule.title}`"></category>
-          <wxc-cell v-for="(rule, index) in subRule.rules"
-            :key="index"
-            :label="rule.label"
-            :title="rule.title"
-            :has-arrow="rule.hasArrow"
-            @wxcCellClicked="wxcCellClicked1(rule)">
-          </wxc-cell>
+          <am-list :no-border="false">
+            <am-list-item v-for="(rule, index) in subRule.rules"
+              :key="index"
+              :title="rule.label"
+              :brief="rule.title"
+              @click="wxcCellClicked1(rule)"></am-list-item>
+          </am-list>
           <!-- <category v-if="infoPage.showSubRuleTitle2" :title="`--${infoPage.subRuleTitle2}--`"></category>
           <wxc-cell v-for="(rule, index) in infoPage.subRule2"
             :key="`sub2-${index}`"
@@ -69,12 +70,13 @@
 </template>
 <script>
 import { WxcCell, WxcButton, WxcGridSelect, WxcSimpleFlow } from 'weex-ui'
+import { AmListItem, AmList } from 'weex-amui'
 import { getServer } from '../../utils/server'
 import MiniBar from '../common/MiniBar.vue'
 import Category from '../common/category.vue'
 // const modal = weex.requireModule('modal')
 export default {
-  components: { WxcCell, WxcButton, WxcGridSelect, WxcSimpleFlow, MiniBar, Category },
+  components: { WxcCell, WxcButton, AmListItem, AmList, WxcGridSelect, WxcSimpleFlow, MiniBar, Category },
   props: {
     page: ''
   },
