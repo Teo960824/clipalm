@@ -121,7 +121,6 @@ export default {
   },
   methods: {
     wxcCellClicked (e) {
-      console.log(e)
       const infoLevel = this.$store.state.Home.infoLevel[this.activeTab]
       if (['未入组病历详情', 'QY病历详情', '低风险死亡病历详情', '费用异常病历详情', '填报异常病历详情'].includes(e.menu)) {
         this.$store.commit('SET_infoLevel', infoLevel + 1)

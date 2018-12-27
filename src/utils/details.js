@@ -235,9 +235,9 @@ function wt4 (menu, data) {
       {'title': '住院总费用', 'desc': data.total_expense, 'hasArrow': 'empty'},
       {'title': '性别', 'desc': data.gender, 'hasArrow': 'empty'},
       {'title': '年龄', 'desc': data.age, 'hasArrow': 'empty'},
-      {'title': '新生儿天数', 'desc': data.sf0100 === -1 ? '未填写' : `${data.sf0100}`, 'hasArrow': 'empty'},
-      {'title': '新生儿体重', 'desc': data.sf0102 === -1 ? '未填写' : `${data.sf0102}`, 'hasArrow': 'empty'},
-      {'title': '呼吸机使用时间', 'desc': data.sf0104 === -1 ? '未填写' : `${data.sf0104}`, 'hasArrow': 'empty'},
+      {'title': '新生儿天数', 'desc': data.sf0100 === undefined || data.sf0100 === '-1' ? '未填写' : `${data.sf0100}`, 'hasArrow': 'empty'},
+      {'title': '新生儿体重', 'desc': data.sf0102 === undefined || data.sf0102 === '-1' ? '未填写' : `${data.sf0102}`, 'hasArrow': 'empty'},
+      {'title': '呼吸机使用时间', 'desc': data.sf0104 === undefined || data.sf0104 === '-1' ? '未填写' : `${data.sf0104}`, 'hasArrow': 'empty'},
       {'title': '出院转归', 'desc': data.sf0108, 'hasArrow': 'empty'},
       {'title': '错误日志', 'desc': data.error_log, 'hasArrow': 'empty'}]
   }
