@@ -120,12 +120,14 @@ export default {
     },
     wxcIndexlistItemClicked (e) {
       let type = ''
-      switch (this.menu) {
-        case 'CN-DRG':
-          type = 'MDC'
-          break
-        default:
-          type = this.menu
+      if (this.menu === 'CN-DRG') {
+        type = 'MDC规则'
+      } else if (['疾病/诊断术语', 'GB-ICD10', 'BJ-ICD10'].includes(this.menu)) {
+        type = 'ICD10'
+      } else if (['手术/操作术语', 'GB-ICD9', 'BJ-ICD9'].includes(this.menu)) {
+        type = 'ICD9'
+      } else {
+        type = this.menu
       }
       const details = getDetails(this, type, e)
       this.show = true

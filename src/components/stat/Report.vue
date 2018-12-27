@@ -120,7 +120,15 @@ export default {
     },
     wxcIndexlistItemClicked (e) {
       this.$store.commit('SET_infoLevel', 1)
-      const details = getDetails(this, this.menu, e)
+      let type = ''
+      if (this.menu === 'DRG基础') {
+        type = 'MDC分析'
+      } else if (['DRG机构分析-年', 'DRG机构分析-半年', 'DRG机构分析-季度', 'DRG机构分析-月'].includes(this.menu)) {
+        type = 'DRG机构分析'
+      } else {
+        type = this.menu
+      }
+      const details = getDetails(this, type, e)
       this.$store.commit('SET_info', details)
     },
     fetch () {
