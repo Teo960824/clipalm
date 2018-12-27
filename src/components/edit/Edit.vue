@@ -17,17 +17,15 @@
     </div>
     <!-- <text class="demo-title"  v-if="wt4Case.length !== 0">{{title.count}}</text> -->
     <list class="list" @loadmore="fetch" loadmoreoffset="20" v-if="showData">
-      <cell v-for="(wt4, index) in wt4Case" v-bind:key="index" @longpress="test">
-        <div class="panel" @longpress="longpress(wt4)">
-          <div>
-            <am-list :no-border="false">
-                <am-list-item
-                  :title="wt4.code"
-                  :brief="wt4.extraContent"
-                  @click="wxcCellClicked(wt4)"></am-list-item>
-            </am-list>
-          </div>
-        </div>
+      <cell @longpress="test">
+        <am-list :no-border="false">
+          <am-list-item
+            v-for="(wt4, index) in wt4Case"
+            :key="index"
+            :title="wt4.code"
+            :brief="`病历数:${wt4.num_sum}`"
+            @click="wxcCellClicked(wt4)"></am-list-item>
+        </am-list>
       </cell>
       <cell style="height:200px" v-if="showMore">
         <wxc-button text="加载更多"
@@ -94,88 +92,14 @@ export default {
       })
       return obj
     },
-    specialConfigList () {
-      const configs = []
-      this.wt4Case.map((x) => {
-        const config = [
-          {
-            type: 'tag',
-            value: '诊断编码:',
-            style: {
-              fontSize: 34,
-              color: '#3D3D3D',
-              borderColor: '#FFC900',
-              backgroundColor: '#FFC900',
-              borderRadius: 14
-            }
-          },
-          {
-            type: 'text',
-            value: x.disease_code,
-            theme: 'black',
-            style: { fontSize: 35 }
-          },
-          {
-            type: 'tag',
-            value: '诊断名称:',
-            style: {
-              fontSize: 34,
-              color: '#3D3D3D',
-              borderColor: '#FFC900',
-              backgroundColor: '#FFC900',
-              borderRadius: 14
-            }
-          },
-          {
-            type: 'text',
-            value: x.disease_name,
-            theme: 'black',
-            style: { fontSize: 35 }
-          }
-        ]
-        configs.push(config)
-      })
-      return configs
-    },
     activeTab () {
       return this.$store.state.Home.activeTab
     },
     menu () {
       return this.$store.state.Home.menu[this.activeTab]
     },
-    wt4Case: {
-      get () {
-        const data = this.$store.state.Edit.wt4Case.map((x) => {
-          const obj = x
-          let extraContent = ''
-          switch (this.$store.state.Home.menu[1]) {
-            case '未入组病历':
-              extraContent = `诊断病历数：${x.num_sum}`
-              break
-            case 'QY病历':
-              extraContent = `病历数：${x.num_sum}`
-              break
-            case '低风险死亡病历':
-              // extraContent = `年龄：${x.age}; 其他诊断：${x.diags_code}; DRG：${x.drg}`
-              extraContent = `病历数：${x.num_sum}`
-              break
-            case '费用异常病历':
-              // extraContent = `总费用：${x.total_expense}; 年龄：${x.age}; 其他诊断：${x.diags_code};住院日${x.acctual_days}; DRG：${x.drg}`
-              extraContent = `病历数：${x.num_sum}`
-              break
-            default:
-              // extraContent = `性别：${x.gender}·年龄：${x.age}岁·费用：${x.total_expense}元·住院天数：${x.acctual_days}天·drg：${x.drg}`
-              extraContent = `病历数：${x.num_sum}`
-          }
-          if (extraContent === '') {
-            obj.extraContent = '无'
-          } else {
-            obj.extraContent = extraContent
-          }
-          return obj
-        })
-        return data
-      }
+    wt4Case () {
+      return this.$store.state.Edit.wt4Case
     },
     showStat () {
       let show = false

@@ -209,7 +209,31 @@ function wt4 (menu, data) {
     result.subRule = {}
     result.subRule.title = ''
     result.subRule.rules = data.wt4.map((x) => {
-      const obj = {'title': x.diags_code === '' ? '-' : x.diags_code, 'extraContent': '', 'desc': `病案ID:${x.b_wt4_v1_id}`, 'hasArrow': 'right', menu: `${menu}详情`, all: x}
+      let desc = ''
+      let title = ''
+      switch (menu) {
+        case '未入组病历':
+          title = x.diags_code === '' ? '-' : x.diags_code
+          desc = `病案ID:${x.b_wt4_v1_id}`
+          break
+        case 'QY病历':
+          title = x.disease_code
+          desc = `主要手术:${x.oper_code}`
+          break
+        case '低风险死亡病历':
+          title = x.disease_code
+          desc = `年龄：${x.age}; 其他诊断：${x.diags_code}; DRG：${x.drg}`
+          break
+        case '费用异常病历':
+          title = x.disease_code
+          desc = `总费用：${x.total_expense}; 年龄：${x.age}; 其他诊断：${x.diags_code};住院日${x.acctual_days}; DRG：${x.drg}`
+          break
+        case '填报异常病历':
+          title = x.disease_code
+          desc = `性别：${x.gender}·年龄：${x.age}岁·费用：${x.total_expense}元·住院天数：${x.acctual_days}天·drg：${x.drg}`
+          break
+      }
+      const obj = {'title': title, 'extraContent': '', 'desc': desc, 'hasArrow': 'right', menu: `${menu}详情`, all: x}
       return obj
     })
   }
