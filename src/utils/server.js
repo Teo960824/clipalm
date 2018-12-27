@@ -60,7 +60,6 @@ export function getLastVersion (obj) {
 }
 
 function setStore (obj, activeTab, menu, rdata) {
-  console.log([activeTab, menu, rdata])
   let data = []
   let details = {}
   const infoLevel = obj.$store.state.Home.infoLevel
@@ -130,7 +129,17 @@ function setStore (obj, activeTab, menu, rdata) {
           details = getDetails(obj, menu, rdata.data[0])
           obj.$store.commit('SET_info', details)
           break
+        case '诊断基础-亚目':
+          obj.$store.commit('SET_infoLevel', infoLevel + 1)
+          details = getDetails(obj, menu, rdata.data[0])
+          obj.$store.commit('SET_info', details)
+          break
         case '诊断DRG分析':
+          obj.$store.commit('SET_infoLevel', infoLevel + 1)
+          details = getDetails(obj, menu, rdata.data[0])
+          obj.$store.commit('SET_info', details)
+          break
+        case '手术基础-亚目':
           obj.$store.commit('SET_infoLevel', infoLevel + 1)
           details = getDetails(obj, menu, rdata.data[0])
           obj.$store.commit('SET_info', details)

@@ -1,5 +1,6 @@
 const urlConfig = require('./config.js')
 const routers = function (obj, activeTab, menu, value) {
+  console.log([activeTab, menu, value])
   let version = 'BJ'
   let year = '2017'
   let icd = '6'
@@ -96,10 +97,10 @@ const routers = function (obj, activeTab, menu, value) {
         url = `wt4_stat_mdc_base?plat=client&version=${version}&year=${year}&order=code&page=${obj.$store.state.Stat.statPage}`
         break
       case '诊断基础':
-        url = `wt4_stat_icd10_clipalm?order=code&version=${version}&year=${year}&page=${obj.$store.state.Stat.statPage}`
+        url = `wt4_stat_icd10_clipalm?order=code&version=${version}&year=${year}&page=${obj.$store.state.Stat.statPage}&menu=${menu}&code=`
         break
       case '手术基础':
-        url = `wt4_stat_icd9_clipalm?order=code&version=${version}&year=${year}&page=${obj.$store.state.Stat.statPage}`
+        url = `wt4_stat_icd9_clipalm?order=code&version=${version}&year=${year}&page=${obj.$store.state.Stat.statPage}&menu=${menu}&code=`
         break
       case '偏差分布':
         url = `wt4_stat_mdc?plat=client&order=code&page=${obj.$store.state.Stat.statPage}&type=dd`
@@ -153,11 +154,20 @@ const routers = function (obj, activeTab, menu, value) {
       case 'DRG分析':
         url = `wt4_stat_cv?plat=client&order=code&drg=${value.code}`
         break
+      case '诊断基础-亚目':
+        url = `wt4_stat_icd10_clipalm?order=code&version=${version}&year=${year}&page=${obj.$store.state.Stat.statPage}&menu=${menu}&code=${value.code}`
+        break
+      case '诊断基础-细目':
+        url = `wt4_stat_icd10_clipalm?order=code&version=${version}&year=${year}&page=${obj.$store.state.Stat.statPage}&menu=${menu}&code=${value.code}`
+        break
       case '诊断DRG分析':
         url = `disease_drg?version=${version}&year=${year}&disease_code=${value.disease_code}&drg=${value.code}`
         break
       case '手术DRG分析':
         url = `oper_drg?version=${version}&year=${year}&oper_code=${value.oper_code}&drg=${value.code}`
+        break
+      case '手术基础-亚目':
+        url = `wt4_stat_icd9_clipalm?order=code&version=${version}&year=${year}&page=${obj.$store.state.Stat.statPage}&menu=${menu}&code=${value.code}`
         break
       case '帖子列表':
         url = `forum?plat=client&table=${value.b_wt4_v1_id}&dissect=${value.name}&mdc=${value.mdc}`
@@ -167,6 +177,7 @@ const routers = function (obj, activeTab, menu, value) {
         break
     }
   }
+  console.log(url)
   return `${urlConfig.http}:${urlConfig.port}/${router}/${url}`
 }
 module.exports = routers

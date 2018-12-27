@@ -129,18 +129,6 @@ export default {
       } else {
         getServer(this, this.activeTab, `${e.menu}`, e.all)
       }
-
-      // console.log(e)
-      // getServer(this, this.activeTab, `${e.menu}`, e.all)
-      // console.log(e)
-      // switch (detail.label) {
-      //   case '入组DRG':
-      //     const drg = this.infoPage.info[detail.title]
-      //     getServer(this, this.activeTab, 'statInfo', drg)
-      //     break
-      //   default:
-      //     break
-      // }
     },
     wxcCellClicked1 (e) {
       getServer(this, this.activeTab, `${e.menu}`, e.all)

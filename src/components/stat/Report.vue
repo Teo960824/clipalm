@@ -100,6 +100,7 @@ export default {
       return show
     },
     stats () {
+      console.log(this.$store.state.Stat.statDrg)
       return this.$store.state.Stat.statDrg
     },
     panel () {

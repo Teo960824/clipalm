@@ -147,10 +147,40 @@ function stat (menu, data) {
         {'title': '死亡风险等级', 'desc': `${data.death_rate_level}`, 'hasArrow': 'empty'}]
       break
     case '诊断基础':
+      nextMenu = '诊断基础-亚目'
+      break
+    // case '诊断基础-亚目':
+    //   result.showInfo = false
+    //   nextMenu = '诊断基础-细目'
+    //   break
+    case '诊断基础-亚目':
+      result.showInfo = true
       nextMenu = '诊断DRG分析'
+      result.info = [
+        {'title': '诊断编码', 'desc': data.code, 'hasArrow': 'empty'},
+        {'title': '诊断名称', 'desc': data.name, 'hasArrow': 'empty'},
+        {'title': '平均费用', 'desc': `${data.fee_avg}`, 'hasArrow': 'empty'},
+        {'title': '平均住院天数', 'desc': `${data.day_avg}`, 'hasArrow': 'empty'},
+        {'title': '病历数', 'desc': `${data.num_sum}`, 'hasArrow': 'empty'}]
       break
     case '手术基础':
+      nextMenu = '手术基础-亚目'
+      result.info = [
+        {'title': '诊断编码', 'desc': data.code, 'hasArrow': 'empty'},
+        {'title': '诊断名称', 'desc': data.name, 'hasArrow': 'empty'},
+        {'title': '平均费用', 'desc': `${data.fee_avg}`, 'hasArrow': 'empty'},
+        {'title': '平均住院天数', 'desc': `${data.day_avg}`, 'hasArrow': 'empty'},
+        {'title': '病历数', 'desc': `${data.num_sum}`, 'hasArrow': 'empty'}]
+      break
+    case '手术基础-亚目':
+      result.showInfo = true
       nextMenu = '手术DRG分析'
+      result.info = [
+        {'title': '诊断编码', 'desc': data.code, 'hasArrow': 'empty'},
+        {'title': '诊断名称', 'desc': data.name, 'hasArrow': 'empty'},
+        {'title': '平均费用', 'desc': `${data.fee_avg}`, 'hasArrow': 'empty'},
+        {'title': '平均住院天数', 'desc': `${data.day_avg}`, 'hasArrow': 'empty'},
+        {'title': '病历数', 'desc': `${data.num_sum}`, 'hasArrow': 'empty'}]
       break
     case 'DRG机构分析':
       nextMenu = ''
@@ -175,6 +205,18 @@ function stat (menu, data) {
       return obj
     })
   }
+  // 子规则
+  if (data.icd) {
+    result.showInfo = false
+    result.showSubRule = true
+    result.subRule = {}
+    result.subRule.title = ''
+    result.subRule.rules = data.icd.map((x) => {
+      const obj = {'title': x.code, 'extraContent': '', 'desc': x.name, 'hasArrow': 'right', menu: nextMenu, all: x}
+      return obj
+    })
+  }
+  console.log(result)
   return result
 }
 
@@ -246,7 +288,7 @@ export function getDetails (obj, menu, data) {
     result = drgrule(menu, data)
   } else if (['ICD10', 'ICD9', 'ICD10-亚目', 'ICD9-亚目', 'ICD10-细目', 'ICD9-细目'].includes(menu)) {
     result = icdrule(menu, data)
-  } else if (['MDC分析', 'ADRG分析', 'DRG分析', '诊断基础', '手术基础', '诊断DRG分析', '手术DRG分析', '主诊未入组', '手术QY', 'DRG机构分析'].includes(menu)) {
+  } else if (['MDC分析', 'ADRG分析', 'DRG分析', '诊断基础', '手术基础', '诊断DRG分析', '手术DRG分析', '主诊未入组', '手术QY', 'DRG机构分析', '诊断基础-亚目', '手术基础-亚目'].includes(menu)) {
     result = stat(menu, data)
   } else if (['未入组病历', 'QY病历', '低风险死亡病历', '费用异常病历', '填报异常病历', '未入组病历详情', 'QY病历详情', '低风险死亡病历详情', '费用异常病历详情', '填报异常病历详情'].includes(menu)) {
     result = wt4(menu, data)
