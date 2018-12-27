@@ -18,7 +18,15 @@
     <!-- <text class="demo-title"  v-if="wt4Case.length !== 0">{{title.count}}</text> -->
     <list class="list" @loadmore="fetch" loadmoreoffset="20" v-if="showData">
       <cell @longpress="test">
-        <am-list :no-border="false">
+        <am-list :no-border="false" v-if="menu==='填报异常病历'">
+          <am-list-item
+            v-for="(wt4, index) in wt4Case"
+            :key="index"
+            :title="wt4.disease_code"
+            :brief="`性别:${wt4.gender}·年龄:${wt4.age}·费用:${wt4.total_expense}·住院天数:${wt4.acctual_days}天`"
+            @click="wxcCellClicked(wt4)"></am-list-item>
+        </am-list>
+        <am-list :no-border="false" v-else>
           <am-list-item
             v-for="(wt4, index) in wt4Case"
             :key="index"
