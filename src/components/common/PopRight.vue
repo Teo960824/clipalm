@@ -44,6 +44,7 @@
       </cell>
       <!--  -->
       <cell v-if="infoPage.log">
+        <category title="分组日志"></category>
         <wxc-simple-flow :list="infoPage.log" :themeColor="themeColor"></wxc-simple-flow>
       </cell>
       <!-- <am-list :no-border="false" v-if="infoPage.showSubRule">

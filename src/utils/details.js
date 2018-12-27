@@ -149,10 +149,6 @@ function stat (menu, data) {
     case '诊断基础':
       nextMenu = '诊断基础-亚目'
       break
-    // case '诊断基础-亚目':
-    //   result.showInfo = false
-    //   nextMenu = '诊断基础-细目'
-    //   break
     case '诊断基础-亚目':
       result.showInfo = true
       nextMenu = '诊断DRG分析'
@@ -223,7 +219,7 @@ function stat (menu, data) {
 function wt4 (menu, data) {
   const result = {}
   result.title = `${menu}详情`
-  if (['未入组病历详情', 'QY病历详情', '低风险死亡病历详情', '费用异常病历详情', '填报异常病历详情'].includes(menu)) {
+  if (['未入组病历详情', 'QY病历详情', '低风险死亡病历详情', '费用异常病历详情', '填报异常病历', '填报异常病历详情'].includes(menu)) {
     result.showInfo = true
     result.log = data.log.map((x) => {
       const obj = { date: '', desc: '', highlight: false, title: x }

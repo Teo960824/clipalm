@@ -1,6 +1,5 @@
 const urlConfig = require('./config.js')
 const routers = function (obj, activeTab, menu, value) {
-  console.log([activeTab, menu, value])
   let version = 'BJ'
   let year = '2017'
   let icd = '6'
@@ -177,7 +176,6 @@ const routers = function (obj, activeTab, menu, value) {
         break
     }
   }
-  console.log(url)
   return `${urlConfig.http}:${urlConfig.port}/${router}/${url}`
 }
 module.exports = routers
