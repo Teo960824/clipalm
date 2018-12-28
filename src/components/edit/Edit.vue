@@ -146,9 +146,16 @@ export default {
       }
     },
     wxcCellClicked (e) {
-      this.$store.commit('SET_infoLevel', 1)
-      const details = getDetails(this, this.menu, e)
-      this.$store.commit('SET_info', details)
+      // this.$store.commit('SET_infoLevel', 1)
+      // const details = getDetails(this, this.menu, e)
+      // this.$store.commit('SET_info', details)
+      if (['未入组病历'].includes(this.menu)) {
+        getServer(this, this.activeTab, `${this.menu}列表`, e)
+      } else {
+        this.$store.commit('SET_infoLevel', 1)
+        const details = getDetails(this, this.menu, e)
+        this.$store.commit('SET_info', details)
+      }
     },
     fetch () {
       this.$store.commit('SET_wt4Page', this.$store.state.Edit.wt4Page + 1)

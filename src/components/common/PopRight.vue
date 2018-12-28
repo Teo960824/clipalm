@@ -122,9 +122,26 @@ export default {
   methods: {
     wxcCellClicked (e) {
       const infoLevel = this.$store.state.Home.infoLevel[this.activeTab]
-      if (['未入组病历详情', 'QY病历详情', '低风险死亡病历详情', '费用异常病历详情', '填报异常病历详情'].includes(e.menu)) {
+      if (['未入组病历列表详情', 'QY病历列表详情', '低风险死亡病历列表详情', '费用异常病历列表详情', '填报异常病历详情'].includes(e.menu)) {
         this.$store.commit('SET_infoLevel', infoLevel + 1)
-        const details = getDetails(this, e.menu, e.all)
+        let menu = ''
+        switch (e.menu) {
+          case '未入组病历列表详情':
+            menu = '未入组病历详情'
+            break
+          case 'QY病历列表详情':
+            menu = 'QY病历详情'
+            break
+          case '低风险死亡病历列表详情':
+            menu = '低风险死亡病历详情'
+            break
+          case '费用异常病历列表详情':
+            menu = '费用异常病历详情'
+            break
+          default:
+            menu = e.menu
+        }
+        const details = getDetails(this, menu, e.all)
         this.$store.commit('SET_info', details)
       } else {
         getServer(this, this.activeTab, `${e.menu}`, e.all)

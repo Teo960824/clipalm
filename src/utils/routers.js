@@ -1,5 +1,6 @@
 const urlConfig = require('./config.js')
 const routers = function (obj, activeTab, menu, value) {
+  console.log([activeTab, menu, value])
   let version = 'BJ'
   let year = '2017'
   let icd = '6'
@@ -129,6 +130,11 @@ const routers = function (obj, activeTab, menu, value) {
     }
   } else {
     switch (menu) {
+      case '未入组病历列表':
+        console.log(value)
+        url = `wt4_clipalm2?type=0000&page=${obj.$store.state.Edit.wt4Page}&version=${version}&code=${value.code_s}`
+        router = 'drgwork_wt4'
+        break
       case 'ADRG规则':
         url = `rule_bj_adrg?plat=client&page=1&code=${value.code}&version=${version}`
         break

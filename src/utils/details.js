@@ -242,7 +242,9 @@ function wt4 (menu, data) {
       {'title': '错误日志', 'desc': data.error_log, 'hasArrow': 'empty'}]
   }
   // 子规则
+  console.log(data)
   if (data.wt4) {
+    result.title = `${menu}`
     result.showSubRule = true
     result.subRule = {}
     result.subRule.title = ''
@@ -250,19 +252,19 @@ function wt4 (menu, data) {
       let desc = ''
       let title = ''
       switch (menu) {
-        case '未入组病历':
+        case '未入组病历列表':
           title = x.diags_code === '' ? '-' : x.diags_code
           desc = `病案ID:${x.b_wt4_v1_id}`
           break
-        case 'QY病历':
+        case 'QY病历列表':
           title = x.disease_code
           desc = `主要手术:${x.oper_code}`
           break
-        case '低风险死亡病历':
+        case '低风险死亡病历列表':
           title = x.disease_code
           desc = `年龄：${x.age}; 其他诊断：${x.diags_code}; DRG：${x.drg}`
           break
-        case '费用异常病历':
+        case '费用异常病历列表':
           title = x.disease_code
           desc = `总费用：${x.total_expense}; 年龄：${x.age}; 其他诊断：${x.diags_code};住院日${x.acctual_days}; DRG：${x.drg}`
           break
@@ -286,7 +288,7 @@ export function getDetails (obj, menu, data) {
     result = icdrule(menu, data)
   } else if (['MDC分析', 'ADRG分析', 'DRG分析', '诊断基础', '手术基础', '诊断DRG分析', '手术DRG分析', '主诊未入组', '手术QY', 'DRG机构分析', '诊断基础-亚目', '手术基础-亚目'].includes(menu)) {
     result = stat(menu, data)
-  } else if (['未入组病历', 'QY病历', '低风险死亡病历', '费用异常病历', '填报异常病历', '未入组病历详情', 'QY病历详情', '低风险死亡病历详情', '费用异常病历详情', '填报异常病历详情'].includes(menu)) {
+  } else if (['未入组病历列表', 'QY病历', '低风险死亡病历', '费用异常病历', '填报异常病历', '未入组病历详情', 'QY病历详情', '低风险死亡病历详情', '费用异常病历详情', '填报异常病历详情'].includes(menu)) {
     result = wt4(menu, data)
   }
   return result

@@ -65,10 +65,20 @@ function setStore (obj, activeTab, menu, rdata) {
   const infoLevel = obj.$store.state.Home.infoLevel
   switch (activeTab) {
     case 1:
-      data = obj.$store.state.Edit.wt4Case
-      data = data.concat(rdata.data)
-      obj.$store.commit('SET_wt4Info', rdata.info)
-      obj.$store.commit('SET_wt4Case', data)
+      switch (menu) {
+        case '未入组病历列表':
+          console.log(rdata.data)
+          obj.$store.commit('SET_infoLevel', infoLevel + 1)
+          details = getDetails(obj, menu, rdata.data[0])
+          obj.$store.commit('SET_info', details)
+          break
+        default:
+          data = obj.$store.state.Edit.wt4Case
+          data = data.concat(rdata.data)
+          obj.$store.commit('SET_wt4Info', rdata.info)
+          obj.$store.commit('SET_wt4Case', data)
+          break
+      }
       break
     case 2:
       switch (menu) {
