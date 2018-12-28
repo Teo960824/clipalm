@@ -6,8 +6,7 @@
                 v-if="item !== undefined"
                 :title="index"
                 :desc="`${item}`"
-                :cell-style="cellStyle"
-                :extraContent="aa(customQuery, index)"></wxc-cell>
+                :cell-style="cellStyle"></wxc-cell>
     </div>
     <list @loadmore="fetch" loadmoreoffset="20" v-if="showData">
       <cell class="cell" v-for="(rule, index) in rules" v-bind:key="index">
@@ -144,15 +143,6 @@ export default {
         } else {
           getServer(this, this.activeTab, this.menu)
         }
-      }
-    },
-    aa (title, index) {
-      const keys = Object.keys(title)
-      const lastKey = keys[keys.length - 1]
-      if (lastKey === index) {
-        return ''
-      } else {
-        return '       |'
       }
     }
   }

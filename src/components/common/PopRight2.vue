@@ -135,8 +135,6 @@ export default {
     detailsStyle () {
       let style = false
       if (this.activeTab !== 4) {
-        console.log(this.activeTab)
-        console.log(this.$store.state.Home.infoPages[this.activeTab])
         const details = this.$store.state.Home.infoPages[this.activeTab][0].details
         if (details.length > 0) {
           style = true

@@ -5,8 +5,7 @@
       <wxc-cell v-for="(item, index) in customQuery" v-bind:key="index"
                 v-if="item !== undefined"
                 :title="index"
-                :desc="`${item}`"
-                :extraContent="aa(customQuery, index)"></wxc-cell>
+                :desc="`${item}`"></wxc-cell>
     </div>
     <list @loadmore="fetch" loadmoreoffset="0" v-if="showData">
       <cell class="cell" v-for="(stat, index) in stats" v-bind:key="index">
@@ -138,15 +137,6 @@ export default {
         customSearch(this, this.$store.state.Home.customQuery[2].query)
       } else {
         getServer(this, this.activeTab, this.menu)
-      }
-    },
-    aa (title, index) {
-      const keys = Object.keys(title)
-      const lastKey = keys[keys.length - 1]
-      if (lastKey === index) {
-        return ''
-      } else {
-        return '       |'
       }
     }
   }

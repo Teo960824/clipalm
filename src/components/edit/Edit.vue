@@ -4,16 +4,14 @@
       <wxc-cell v-for="(item, index) in stat" v-bind:key="index"
                 :title="index"
                 :desc="`${item}`"
-                :cell-style="cellStyle"
-                :extraContent="aa(stat, index)"></wxc-cell>
+                :cell-style="cellStyle"></wxc-cell>
     </div>
     <div class="count1" v-if="customQueryShowType">
       <wxc-cell v-for="(item, index) in customQuery" v-bind:key="index"
                 v-if="item !== undefined"
                 :title="index"
                 :desc="`${item}`"
-                :cell-style="cellStyle"
-                :extraContent="aa(stat, index)"></wxc-cell>
+                :cell-style="cellStyle"></wxc-cell>
     </div>
     <!-- <text class="demo-title"  v-if="wt4Case.length !== 0">{{title.count}}</text> -->
     <list class="list" @loadmore="fetch" loadmoreoffset="20" v-if="showData">
