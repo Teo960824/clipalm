@@ -149,7 +149,7 @@ export default {
       // this.$store.commit('SET_infoLevel', 1)
       // const details = getDetails(this, this.menu, e)
       // this.$store.commit('SET_info', details)
-      if (['未入组病历'].includes(this.menu)) {
+      if (['未入组病历', 'QY病历', '低风险死亡病历', '费用异常病历'].includes(this.menu)) {
         getServer(this, this.activeTab, `${this.menu}列表`, e)
       } else {
         this.$store.commit('SET_infoLevel', 1)

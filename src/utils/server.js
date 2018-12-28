@@ -67,7 +67,21 @@ function setStore (obj, activeTab, menu, rdata) {
     case 1:
       switch (menu) {
         case '未入组病历列表':
-          console.log(rdata.data)
+          obj.$store.commit('SET_infoLevel', infoLevel + 1)
+          details = getDetails(obj, menu, rdata.data[0])
+          obj.$store.commit('SET_info', details)
+          break
+        case 'QY病历列表':
+          obj.$store.commit('SET_infoLevel', infoLevel + 1)
+          details = getDetails(obj, menu, rdata.data[0])
+          obj.$store.commit('SET_info', details)
+          break
+        case '低风险死亡病历列表':
+          obj.$store.commit('SET_infoLevel', infoLevel + 1)
+          details = getDetails(obj, menu, rdata.data[0])
+          obj.$store.commit('SET_info', details)
+          break
+        case '费用异常病历列表':
           obj.$store.commit('SET_infoLevel', infoLevel + 1)
           details = getDetails(obj, menu, rdata.data[0])
           obj.$store.commit('SET_info', details)

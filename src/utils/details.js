@@ -288,7 +288,7 @@ export function getDetails (obj, menu, data) {
     result = icdrule(menu, data)
   } else if (['MDC分析', 'ADRG分析', 'DRG分析', '诊断基础', '手术基础', '诊断DRG分析', '手术DRG分析', '主诊未入组', '手术QY', 'DRG机构分析', '诊断基础-亚目', '手术基础-亚目'].includes(menu)) {
     result = stat(menu, data)
-  } else if (['未入组病历列表', 'QY病历', '低风险死亡病历', '费用异常病历', '填报异常病历', '未入组病历详情', 'QY病历详情', '低风险死亡病历详情', '费用异常病历详情', '填报异常病历详情'].includes(menu)) {
+  } else if (['未入组病历列表', 'QY病历列表', '低风险死亡病历列表', '费用异常病历列表', '填报异常病历', '未入组病历详情', 'QY病历详情', '低风险死亡病历详情', '费用异常病历详情', '填报异常病历详情'].includes(menu)) {
     result = wt4(menu, data)
   }
   return result
