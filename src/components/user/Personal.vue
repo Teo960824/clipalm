@@ -101,7 +101,7 @@ export default {
     margin-left: 0px;
     border-color: #BBBBBB;
     padding-top: 0;
-    background-color: #F8F8FF;
+    /* background-color: #F8F8FF; */
   }
   .text {
     color: #666666;

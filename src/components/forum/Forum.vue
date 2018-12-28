@@ -208,17 +208,18 @@ export default {
 
 <style scoped>
 .input {
-  border-width: 1px;
+  border-width: 1.5px;
   border-style: solid;
   border-color: #000000;
   height: 80px;
 }
 .top {
-  border-width: 1px;
+  border-width: 1.5px;
   border-style: solid;
   border-color: #000000;
-  margin-top: 90px;
+  margin-top: 100px;
   height: 80px;
+  margin-bottom: 10px;
 }
 .container {
   width: 750px;

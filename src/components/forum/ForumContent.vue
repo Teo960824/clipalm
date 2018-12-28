@@ -222,4 +222,11 @@ export default {
   margin-top: 12px;
   margin-bottom: 12px;
 }
+.textarea {
+  border-width: 1.5px;
+  border-style: solid;
+  border-color: #000000;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
 </style>
