@@ -11,6 +11,13 @@
       <cell class="cell" v-for="(stat, index) in stats" v-bind:key="index">
         <am-list :no-border="false">
           <am-list-item
+          v-if="menu.includes('机构分析')"
+          :title="stat.code"
+          @click="wxcIndexlistItemClicked(stat)"
+          :cell-style="cellStyle"
+          :brief="`机构ID：${stat.name}`"></am-list-item>
+          <am-list-item
+          v-else
           :title="stat.code"
           @click="wxcIndexlistItemClicked(stat)"
           :cell-style="cellStyle"

@@ -138,7 +138,6 @@ export default {
       if (this.menu !== 'MDC') {
         this.$store.commit('SET_libraryPage', this.$store.state.Library.page + 1)
         if (this.menu === '自定义查询结果') {
-          console.log(this.$store.state.Home.customQuery)
           customSearch(this, this.$store.state.Home.customQuery[1].query)
         } else {
           getServer(this, this.activeTab, this.menu)
