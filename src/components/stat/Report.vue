@@ -25,10 +25,13 @@
         </am-list>
       </cell>
       <cell style="height:200px" v-if="showMore">
-        <wxc-button text="加载更多"
-          class="submits"
-          size="big"
-          @wxcButtonClicked="fetch"></wxc-button>
+        <am-nav-bar
+          mode="light"
+          title="加载更多"
+          :left-btn="[]"
+          :right-btn="[]"
+          @click="fetch">
+        </am-nav-bar>
       </cell>
     </list>
     <list class="list" loadmoreoffset="20" v-else>
@@ -53,12 +56,12 @@
 <script>
 import { WxcIndexlist, WxcPopup, WxcCell, WxcButton } from 'weex-ui'
 import { getDetails } from '../../utils/details'
-import { AmListItem, AmList } from 'weex-amui'
+import { AmListItem, AmList, AmNavBar } from 'weex-amui'
 import { getServer, customSearch } from '../../utils/server'
 import MiniBar from '../common/MiniBar.vue'
 const icon = require('../../utils/icon.js')
 export default {
-  components: { WxcIndexlist, AmListItem, AmList, WxcPopup, WxcCell, MiniBar, WxcButton },
+  components: { WxcIndexlist, AmListItem, AmList, WxcPopup, WxcCell, MiniBar, WxcButton, AmNavBar },
   created: function () {
     this.getData()
   },
@@ -143,10 +146,12 @@ export default {
     },
     fetch () {
       this.$store.commit('SET_statPage', this.$store.state.Stat.statPage + 1)
-      if (this.menu === '自定义查询结果') {
-        customSearch(this, this.$store.state.Home.customQuery[2].query)
-      } else {
-        getServer(this, this.activeTab, this.menu)
+      if (this.menu !== 'DRG基础') {
+        if (this.menu === '自定义查询结果') {
+          customSearch(this, this.$store.state.Home.customQuery[2].query)
+        } else {
+          getServer(this, this.activeTab, this.menu)
+        }
       }
     }
   }

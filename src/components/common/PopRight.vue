@@ -1,7 +1,7 @@
 <template>
   <div class="demo"
     v-bind:style="panel">
-    <list class="list" :show="true">
+    <list class="list">
       <!-- 当前规则详情 -->
       <cell v-if="infoPage.showInfo">
         <am-list :no-border="false">
@@ -29,7 +29,7 @@
           <text class="title" style="font-size: 20px;" v-else >无</text>
         </div>
       </cell>
-      <!-- 子规则详情 -->
+    <!-- 子规则详情 -->
       <cell v-if="infoPage.showSubRule">
         <category v-if="infoPage.subRule.title !== ''" :title="`${infoPage.subRule.title}`"></category>
         <am-list :no-border="false">
@@ -42,30 +42,27 @@
             @click="wxcCellClicked(rule)"></am-list-item>
         </am-list>
       </cell>
-      <!--  -->
+      <cell style="height:200px">
+        <am-nav-bar
+          mode="light"
+          title="加载更多"
+          :left-btn="[]"
+          :right-btn="[]"
+          @click="fetch">
+        </am-nav-bar>
+      </cell>
       <cell v-if="infoPage.log">
         <category title="分组日志"></category>
         <wxc-simple-flow :list="infoPage.log" :themeColor="themeColor"></wxc-simple-flow>
       </cell>
-      <!-- <am-list :no-border="false" v-if="infoPage.showSubRule">
-        <category :title="`${infoPage.subRule.title}`"></category>
-        <am-list-item
-          v-for="(rule, index) in infoPage.subRule.rules"
-          :key="index"
-          :title="rule.title"
-          :extra="rule.extraContent"
-          :brief="rule.desc"
-          arrow="empty"
-          @click="wxcCellClicked(rule)"></am-list-item>
-      </am-list> -->
-      <cell>
+      <!-- <cell>
         <wxc-button text="相关发帖"
                 v-if="false"
                 type="blue"
                 size="full"
                 class="submits"
                 @wxcButtonClicked="wxcButtonClicked"></wxc-button>
-      </cell>
+      </cell> -->
       <cell>
         <div style="height:200px"></div>
       </cell>
@@ -75,14 +72,14 @@
 </template>
 <script>
 import { WxcCell, WxcButton, WxcGridSelect, WxcSimpleFlow } from 'weex-ui'
-import { AmListItem, AmList } from 'weex-amui'
+import { AmListItem, AmList, AmNavBar } from 'weex-amui'
 import { getServer } from '../../utils/server'
 import MiniBar from '../common/MiniBar.vue'
 import Category from '../common/category.vue'
 import { getDetails } from '../../utils/details'
 // const modal = weex.requireModule('modal')
 export default {
-  components: { WxcCell, WxcButton, AmListItem, AmList, WxcGridSelect, WxcSimpleFlow, MiniBar, Category },
+  components: { WxcCell, WxcButton, AmListItem, AmList, WxcGridSelect, WxcSimpleFlow, MiniBar, Category, AmNavBar },
   props: {
     page: ''
   },
@@ -140,6 +137,15 @@ export default {
     }
   },
   methods: {
+    fetch () {
+      // this.infoPage.
+      // this.$store.commit('SET_wt4Page', this.$store.state.Edit.wt4Page + 1)
+      // if (this.menu === '自定义查询结果') {
+      //   customSearch(this, this.$store.state.Home.customQuery[0].query)
+      // } else {
+      //   getServer(this, this.activeTab, this.menu)
+      // }
+    },
     wxcCellClicked (e) {
       const infoLevel = this.$store.state.Home.infoLevel[this.activeTab]
       if (['未入组病历列表详情', 'QY病历列表详情', '低风险死亡病历列表详情', '费用异常病历列表详情', '填报异常病历详情'].includes(e.menu)) {

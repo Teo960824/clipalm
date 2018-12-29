@@ -18,11 +18,14 @@
         </am-list>
       </cell>
       <cell style="height:200px">
-        <wxc-button text="加载更多"
-          class="submits"
-          size="big"
+        <am-nav-bar
+          mode="light"
+          title="加载更多"
           v-if="showMore"
-          @wxcButtonClicked="fetch"></wxc-button>
+          :left-btn="[]"
+          :right-btn="[]"
+          @click="fetch">
+        </am-nav-bar>
       </cell>
     </list>
     <list class="list" loadmoreoffset="20" v-else>
@@ -46,7 +49,7 @@
 
 <script>
 import { WxcCell, WxcButton } from 'weex-ui'
-import { AmListItem, AmList } from 'weex-amui'
+import { AmListItem, AmList, AmNavBar } from 'weex-amui'
 import { getDetails } from '../../utils/details'
 import { getServer, customSearch } from '../../utils/server'
 import MiniBar from '../common/MiniBar.vue'
@@ -54,7 +57,7 @@ import PopRight from '../common/PopRight.vue'
 // const modal = weex.requireModule('modal')
 const icon = require('../../utils/icon.js')
 export default {
-  components: { WxcCell, MiniBar, PopRight, AmListItem, WxcButton, AmList },
+  components: { WxcCell, MiniBar, PopRight, AmListItem, WxcButton, AmList, AmNavBar },
   data () {
     return {
       height: 400,
