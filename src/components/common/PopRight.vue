@@ -129,15 +129,13 @@ export default {
     detailsStyle () {
       let style = false
       if (this.activeTab !== 4) {
-        const details = this.$store.state.Home.infoPages[this.activeTab][0].info
-        console.log(this.$store.state.Home.infoPages[this.activeTab][0])
-        if (details.length > 0) {
+        const infoPage = this.$store.state.Home.infoPages[this.activeTab][0]
+        if (infoPage.info && infoPage.info.length > 0) {
           style = true
         } else {
           style = false
         }
       }
-      console.log(style)
       return style
     }
   },

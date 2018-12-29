@@ -212,7 +212,6 @@ function stat (menu, data) {
       return obj
     })
   }
-  console.log(result)
   return result
 }
 
@@ -242,7 +241,6 @@ function wt4 (menu, data) {
       {'title': '错误日志', 'desc': data.error_log, 'hasArrow': 'empty'}]
   }
   // 子规则
-  console.log(data)
   if (data.wt4) {
     result.title = `${menu}`
     result.showSubRule = true
