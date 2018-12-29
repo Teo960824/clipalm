@@ -47,9 +47,9 @@
         <div class="panel" @longpress="longpress(wt4)">
           <am-list :no-border="false">
             <am-list-item
-              title="此版本无数据"
+              :title="`${user.data.type}无法查询卫生局病历数据`"
               arrow="empty"
-              :brief="`当前版本:${user.clipalm_year}-${user.clipalm_version}  用户类型:${user.type}`"></am-list-item>
+              :brief="`当前版本:${user.data.clipalm_year}-${user.data.clipalm_version}  用户类型:${user.data.type}`"></am-list-item>
           </am-list>
         </div>
       </cell>
@@ -118,6 +118,7 @@ export default {
       return this.$store.state.Home.showMore
     },
     user () {
+      // console.log(this.$store.state.Home.user)
       return this.$store.state.Home.user
     },
     stat () {
