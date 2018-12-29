@@ -75,6 +75,7 @@
         <div class="panel">
           <wxc-cell
             v-for="(r, index) in reply" v-bind:key="index"
+            :label="`${index + 1}#`"
             :title="`${r.content}`"
             :desc="`${r.username}  ${r.datetime}`"
             :has-margin="false"
