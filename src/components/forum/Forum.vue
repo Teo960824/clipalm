@@ -21,7 +21,7 @@
     <list class="lists" v-if="showData">
       <cell v-for="(post, index) in posts" v-bind:key="index">
         <div>
-          <!-- <wxc-cell
+          <wxc-cell
             :title="post.title"
             :extraContent="`${post.content_count}`"
             :arrow-icon="arrawSrc"
@@ -29,8 +29,8 @@
             :has-margin="false"
             :has-arrow="true"
             @wxcCellClicked="wxcRichTextLinkClick(index)">
-          </wxc-cell> -->
-          <am-list :no-border="false">
+          </wxc-cell>
+          <!-- <am-list :no-border="false">
             <am-list-item
               :title="`${post.username}`"
               :extra="`第${index + 1}楼 | ${post.datetime}`"
@@ -42,7 +42,7 @@
               arrow="empty"
               :extra="`${post.content_count}条回复`"
               @click="wxcRichTextLinkClick(index)"></am-list-item>
-          </am-list>
+          </am-list> -->
         </div>
       </cell>
     </list>

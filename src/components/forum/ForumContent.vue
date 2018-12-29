@@ -16,7 +16,7 @@
             :arrow-icon="arrawSrc"
             @wxcCellClicked="wxcCellClicked(data, index)">
           </wxc-cell> -->
-          <am-list :no-border="false">
+          <!-- <am-list :no-border="false">
             <am-list-item
               :title="`${data.username}`"
               :extra="`第${index + 1}楼 | ${data.datetime}`"
@@ -25,6 +25,19 @@
             <am-list-item
               :title="`        ${data.content}`"
               arrow="empty"></am-list-item>
+          </am-list> -->
+          <am-list :no-border="false">
+            <am-list-item
+              :title="`${data.username}`"
+              :extra="`第${index + 1}楼 | ${data.datetime}`"
+              arrow="empty"
+              :thumb="usernames"
+              @click="wxcCellClicked(data, index)"></am-list-item>
+            <am-list-item
+              :title="`        ${data.content}`"
+              arrow="empty"
+              :extra="`${data.reply.length}条回复`"
+              @click="wxcCellClicked(data, index)"></am-list-item>
           </am-list>
         </div>
       </cell>
@@ -48,19 +61,29 @@
 
   <div class="demo" v-bind:style="panel" v-else>
     <div style="height:100px;"></div>
-    <wxc-cell
-      :label="`${replyIndex + 1}#`"
-      :title="`${content[replyIndex].content}`"
-      :desc="`${content[replyIndex].username} | ${content[replyIndex].datetime}`"
-      :has-margin="false"
-      :has-vertical-indent="false"
-      :has-arrow="false">
-    </wxc-cell>
+      <!-- <wxc-cell
+        :label="`${replyIndex + 1}#`"
+        :title="`${content[replyIndex].content}`"
+        :desc="`${content[replyIndex].username} | ${content[replyIndex].datetime}`"
+        :has-margin="false"
+        :has-vertical-indent="false"
+        :has-arrow="false">
+      </wxc-cell> -->
+      <am-list :no-border="false">
+        <am-list-item
+          :title="`${content[replyIndex].username}`"
+          :extra="`第${replyIndex + 1}楼 | ${content[replyIndex].datetime}`"
+          arrow="empty"
+          :thumb="usernames"></am-list-item>
+        <am-list-item
+          :title="`        ${content[replyIndex].content}`"
+          arrow="empty"></am-list-item>
+      </am-list>
     <category class="category" title="该楼的回复"></category>
     <list class="list" loadmoreoffset="20">
       <cell v-if="reply.length > 0">
         <div class="panel">
-          <wxc-cell
+          <!-- <wxc-cell
             v-for="(r, index) in reply" v-bind:key="index"
             :title="`${r.content}`"
             :desc="`${r.username}  ${r.datetime}`"
@@ -68,19 +91,30 @@
             :has-vertical-indent="false"
             :has-arrow="false"
             :arrow-icon="arrawSrc">
-          </wxc-cell>
+          </wxc-cell> -->
+          <am-list :no-border="false">
+            <am-list-item
+              v-for="(r, index) in reply" v-bind:key="index"
+              :title="`${r.username}`"
+              :extra="`第${index + 1}楼 | ${r.datetime}`"
+              arrow="empty"
+              :thumb="usernames"></am-list-item>
+            <am-list-item
+              :title="`        ${r.content}`"
+              arrow="empty"></am-list-item>
+          </am-list>
         </div>
       </cell>
       <cell v-else>
-          <div class="panel">
-            <wxc-cell
-              title="无回复"
-              :has-margin="false"
-              :has-vertical-indent="false"
-              :has-arrow="false"
-              :arrow-icon="arrawSrc">
-            </wxc-cell>
-          </div>
+        <div class="panel">
+          <wxc-cell
+            title="无回复"
+            :has-margin="false"
+            :has-vertical-indent="false"
+            :has-arrow="false"
+            :arrow-icon="arrawSrc">
+          </wxc-cell>
+        </div>
       </cell>
       <cell>
         <textarea class="textarea" placeholder="输入回复内容" @input="oninput2" value="" ></textarea>
