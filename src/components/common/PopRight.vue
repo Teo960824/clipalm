@@ -43,13 +43,13 @@
         </am-list>
       </cell>
       <cell style="height:200px">
-        <am-nav-bar
+        <!-- <am-nav-bar
           mode="light"
           title="加载更多"
           :left-btn="[]"
           :right-btn="[]"
           @click="fetch">
-        </am-nav-bar>
+        </am-nav-bar> -->
       </cell>
       <cell v-if="infoPage.log">
         <category title="分组日志"></category>

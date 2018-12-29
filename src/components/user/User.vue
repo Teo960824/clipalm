@@ -16,7 +16,13 @@
         :thumb="integral"
         ></am-list-item>
       <div style="height:25px;"></div>
-      <am-picker
+      <am-list-item
+        title="用户类型"
+        :extra="`${user.type}`"
+        arrow="empty"
+        :thumb="choice"
+        ></am-list-item>
+      <!-- <am-picker
         title="请选择"
         :placeholder="user.type"
         :data="types"
@@ -29,7 +35,7 @@
           :thumb="choice"
           @click="show">
         </am-list-item>
-      </am-picker>
+      </am-picker> -->
       <div style="height:25px;"></div>
       <am-picker
         title="请选择"
