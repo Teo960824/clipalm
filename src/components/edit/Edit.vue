@@ -34,10 +34,10 @@
         </am-list>
       </cell>
       <cell style="height:200px" v-if="showMore">
-        <wxc-button text="加载更多"
+        <!-- <wxc-button text="加载更多"
           class="submits"
           size="big"
-          @wxcButtonClicked="fetch"></wxc-button>
+          @wxcButtonClicked="fetch"></wxc-button> -->
       </cell>
     </list>
     <list class="list" loadmoreoffset="20" v-else>
