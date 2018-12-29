@@ -16,16 +16,6 @@
             :arrow-icon="arrawSrc"
             @wxcCellClicked="wxcCellClicked(data, index)">
           </wxc-cell> -->
-          <!-- <am-list :no-border="false">
-            <am-list-item
-              :title="`${data.username}`"
-              :extra="`第${index + 1}楼 | ${data.datetime}`"
-              arrow="empty"
-              :thumb="usernames"></am-list-item>
-            <am-list-item
-              :title="`        ${data.content}`"
-              arrow="empty"></am-list-item>
-          </am-list> -->
           <am-list :no-border="false">
             <am-list-item
               :title="`${data.username}`"
@@ -60,7 +50,7 @@
   </div>
 
   <div class="demo" v-bind:style="panel" v-else>
-    <div style="height:100px;"></div>
+    <div style="height:90px;"></div>
       <!-- <wxc-cell
         :label="`${replyIndex + 1}#`"
         :title="`${content[replyIndex].content}`"
@@ -83,7 +73,7 @@
     <list class="list" loadmoreoffset="20">
       <cell v-if="reply.length > 0">
         <div class="panel">
-          <!-- <wxc-cell
+          <wxc-cell
             v-for="(r, index) in reply" v-bind:key="index"
             :title="`${r.content}`"
             :desc="`${r.username}  ${r.datetime}`"
@@ -91,8 +81,8 @@
             :has-vertical-indent="false"
             :has-arrow="false"
             :arrow-icon="arrawSrc">
-          </wxc-cell> -->
-          <am-list :no-border="false">
+          </wxc-cell>
+          <!-- <am-list :no-border="false">
             <am-list-item
               v-for="(r, index) in reply" v-bind:key="index"
               :title="`${r.username}`"
@@ -102,7 +92,7 @@
             <am-list-item
               :title="`        ${r.content}`"
               arrow="empty"></am-list-item>
-          </am-list>
+          </am-list> -->
         </div>
       </cell>
       <cell v-else>
