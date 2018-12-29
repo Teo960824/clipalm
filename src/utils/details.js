@@ -256,7 +256,15 @@ function wt4 (menu, data) {
           break
         case 'QY病历列表':
           title = x.disease_code
-          desc = `主要手术:${x.oper_code}`
+          let operCode = ''
+          if (x.oper_code && x.oper_code === '') {
+            operCode = '无'
+          } else if (x.oper_code) {
+            operCode = x.oper_code
+          } else {
+            operCode = '无'
+          }
+          desc = `主要手术:${operCode}`
           break
         case '低风险死亡病历列表':
           title = x.disease_code

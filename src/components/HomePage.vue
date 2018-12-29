@@ -133,9 +133,9 @@
     computed: {
       forumInfo () {
         const forumInfo = this.$store.state.Home.forumInfo
-        if (Object.keys(forumInfo).length > 0) {
-          this.setPage(4)
-        }
+        // if (Object.keys(forumInfo).length > 0) {
+        //   this.setPage(4)
+        // }
         return forumInfo
       },
       activeTab () {

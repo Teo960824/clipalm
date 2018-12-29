@@ -60,7 +60,7 @@
       </am-list> -->
       <cell>
         <wxc-button text="相关发帖"
-                v-if="detailsStyle"
+                v-if="false"
                 type="blue"
                 size="full"
                 class="submits"
