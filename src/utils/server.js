@@ -61,139 +61,72 @@ export function getLastVersion (obj) {
 
 function setStore (obj, activeTab, menu, rdata) {
   let data = []
+  let wt4Data = []
   let details = {}
   const infoLevel = obj.$store.state.Home.infoLevel
   switch (activeTab) {
     case 1:
-      switch (menu) {
-        case '未入组病历列表':
-          obj.$store.commit('SET_infoLevel', infoLevel + 1)
-          details = getDetails(obj, menu, rdata.data[0])
-          obj.$store.commit('SET_info', details)
-          break
-        case 'QY病历列表':
-          obj.$store.commit('SET_infoLevel', infoLevel + 1)
-          details = getDetails(obj, menu, rdata.data[0])
-          obj.$store.commit('SET_info', details)
-          break
-        case '低风险死亡病历列表':
-          obj.$store.commit('SET_infoLevel', infoLevel + 1)
-          details = getDetails(obj, menu, rdata.data[0])
-          obj.$store.commit('SET_info', details)
-          break
-        case '费用异常病历列表':
-          obj.$store.commit('SET_infoLevel', infoLevel + 1)
-          details = getDetails(obj, menu, rdata.data[0])
-          obj.$store.commit('SET_info', details)
-          break
-        default:
-          data = obj.$store.state.Edit.wt4Case
-          data = data.concat(rdata.data)
-          obj.$store.commit('SET_wt4Info', rdata.info)
-          obj.$store.commit('SET_wt4Case', data)
-          break
+      if (['未入组病历列表', 'QY病历列表', '低风险死亡病历列表', '费用异常病历列表'].includes(menu)) {
+        data = obj.$store.state.Edit.wt4PopRight
+        data = data.concat(rdata.data[0].wt4)
+        obj.$store.commit('SET_wt4PopRight', data)
+        wt4Data = rdata.data[0]
+        wt4Data.wt4 = data
+        obj.$store.commit('SET_infoLevel', infoLevel + 1)
+        details = getDetails(obj, menu, wt4Data)
+        obj.$store.commit('SET_info', details)
+      } else {
+        obj.$store.commit('SET_wt4PopRight', [])
+        data = obj.$store.state.Edit.wt4Case
+        data = data.concat(rdata.data)
+        obj.$store.commit('SET_wt4Info', rdata.info)
+        obj.$store.commit('SET_wt4Case', data)
       }
       break
     case 2:
-      switch (menu) {
-        case 'ADRG规则':
-          obj.$store.commit('SET_infoLevel', infoLevel + 1)
-          details = getDetails(obj, menu, rdata.data[0])
-          obj.$store.commit('SET_info', details)
-          break
-        case 'DRG规则':
-          obj.$store.commit('SET_infoLevel', infoLevel + 1)
-          details = getDetails(obj, menu, rdata.data[0])
-          obj.$store.commit('SET_info', details)
-          break
-        case 'ICD10-亚目':
+      if (['ADRG规则', 'DRG规则', 'ICD10-亚目', 'ICD10-细目', 'ICD9-亚目', 'ICD9-细目'].includes(menu)) {
+        if (['ICD10-亚目', 'ICD9-亚目'].includes(menu)) {
           data.icd = rdata.data.map((x) => {
             x.name = x.desc
             return x
           })
-          obj.$store.commit('SET_infoLevel', infoLevel + 1)
           details = getDetails(obj, menu, data)
-          obj.$store.commit('SET_info', details)
-          break
-        case 'ICD10-细目':
-          obj.$store.commit('SET_infoLevel', infoLevel + 1)
+        } else {
           details = getDetails(obj, menu, rdata.data[0])
-          obj.$store.commit('SET_info', details)
-          break
-        case 'ICD9-亚目':
-          data.icd = rdata.data.map((x) => {
-            x.name = x.desc
-            return x
-          })
-          obj.$store.commit('SET_infoLevel', infoLevel + 1)
-          details = getDetails(obj, menu, data)
-          obj.$store.commit('SET_info', details)
-          break
-        case 'ICD9-细目':
-          obj.$store.commit('SET_infoLevel', infoLevel + 1)
-          details = getDetails(obj, menu, rdata.data[0])
-          obj.$store.commit('SET_info', details)
-          break
-        default:
-          data = obj.$store.state.Library.rule
-          data = data.concat(rdata.data)
-          obj.$store.commit('SET_rule', data)
-          break
+        }
+        obj.$store.commit('SET_info', details)
+        obj.$store.commit('SET_infoLevel', infoLevel + 1)
+      } else {
+        data = obj.$store.state.Library.rule
+        data = data.concat(rdata.data)
+        obj.$store.commit('SET_rule', data)
       }
       break
     case 3:
-      switch (menu) {
-        case 'ADRG分析':
-          obj.$store.commit('SET_infoLevel', infoLevel + 1)
-          details = getDetails(obj, menu, rdata.data[0])
-          obj.$store.commit('SET_info', details)
-          break
-        case 'DRG分析':
-          obj.$store.commit('SET_infoLevel', infoLevel + 1)
-          details = getDetails(obj, menu, rdata.data[0])
-          obj.$store.commit('SET_info', details)
-          break
-        case '诊断基础-亚目':
-          obj.$store.commit('SET_infoLevel', infoLevel + 1)
-          details = getDetails(obj, menu, rdata.data[0])
-          obj.$store.commit('SET_info', details)
-          break
-        case '诊断DRG分析':
-          obj.$store.commit('SET_infoLevel', infoLevel + 1)
-          details = getDetails(obj, menu, rdata.data[0])
-          obj.$store.commit('SET_info', details)
-          break
-        case '手术基础-亚目':
-          obj.$store.commit('SET_infoLevel', infoLevel + 1)
-          details = getDetails(obj, menu, rdata.data[0])
-          obj.$store.commit('SET_info', details)
-          break
-        case '手术DRG分析':
-          obj.$store.commit('SET_infoLevel', infoLevel + 1)
-          details = getDetails(obj, menu, rdata.data[0])
-          obj.$store.commit('SET_info', details)
-          break
-        default:
-          if (['DRG机构分析-年', 'DRG机构分析-半年', 'DRG机构分析-季度', 'DRG机构分析-月'].includes(menu)) {
-            rdata.data = rdata.data.map((x) => {
-              x.name1 = `机构：${x.name}`
-              return x
-            })
-          } else if (['主诊未入组', '手术QY'].includes(menu)) {
-            rdata.data = rdata.data.map((x) => {
-              x.name1 = `病历数：${x.num_sum}`
-              return x
-            })
-          } else {
-            rdata.data = rdata.data.map((x) => {
-              x.name1 = x.name
-              return x
-            })
-          }
-          data = obj.$store.state.Stat.statDrg
-          data = data.concat(rdata.data)
-          obj.$store.commit('SET_statDrg', data)
-          break
+      if (['ADRG分析', 'DRG分析', '诊断基础-亚目', '诊断DRG分析', '手术基础-亚目', '手术DRG分析'].includes(menu)) {
+        obj.$store.commit('SET_infoLevel', infoLevel + 1)
+        details = getDetails(obj, menu, rdata.data[0])
+        obj.$store.commit('SET_info', details)
+      } else {
+        if (['DRG机构分析-年', 'DRG机构分析-半年', 'DRG机构分析-季度', 'DRG机构分析-月'].includes(menu)) {
+          rdata.data = rdata.data.map((x) => {
+            x.name1 = `机构：${x.name}`
+            return x
+          })
+        } else if (['主诊未入组', '手术QY'].includes(menu)) {
+          rdata.data = rdata.data.map((x) => {
+            x.name1 = `病历数：${x.num_sum}`
+            return x
+          })
+        } else {
+          rdata.data = rdata.data.map((x) => {
+            x.name1 = x.name
+            return x
+          })
+        }
+        data = obj.$store.state.Stat.statDrg
+        data = data.concat(rdata.data)
+        obj.$store.commit('SET_statDrg', data)
       }
       break
     case 4:
@@ -216,6 +149,7 @@ function setStore (obj, activeTab, menu, rdata) {
   }
   // 判断是否有更多数据
   if (rdata.data.length === 0) {
+    modal.toast({ message: '没有更多内容了', duration: 1 })
     obj.$store.commit('SET_showMore', false)
   } else {
     obj.$store.commit('SET_showData', true)

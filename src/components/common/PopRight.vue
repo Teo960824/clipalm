@@ -43,13 +43,14 @@
         </am-list>
       </cell>
       <cell style="height:200px">
-        <!-- <am-nav-bar
+        <am-nav-bar
+          v-if="showMore"
           mode="light"
           title="加载更多"
           :left-btn="[]"
           :right-btn="[]"
           @click="fetch">
-        </am-nav-bar> -->
+        </am-nav-bar>
       </cell>
       <cell v-if="infoPage.log">
         <category title="分组日志"></category>
@@ -110,11 +111,17 @@ export default {
       if (!infoPage) {
         infoPage = {}
       }
-      // modal.toast({ 'message': infoPage.info, 'duration': 1 })
       return infoPage
     },
     title () {
       return this.infoPage.title
+    },
+    showMore () {
+      let show = false
+      if (['未入组病历列表', 'QY病历列表', '低风险死亡病历列表', '费用异常病历列表'].includes(this.infoPage.title)) {
+        show = true
+      }
+      return show
     },
     panel () {
       const tabPageHeight = weex.config.env.deviceHeight
@@ -138,13 +145,14 @@ export default {
   },
   methods: {
     fetch () {
-      // this.infoPage.
-      // this.$store.commit('SET_wt4Page', this.$store.state.Edit.wt4Page + 1)
-      // if (this.menu === '自定义查询结果') {
-      //   customSearch(this, this.$store.state.Home.customQuery[0].query)
-      // } else {
-      //   getServer(this, this.activeTab, this.menu)
-      // }
+      let e = null
+      if (this.infoPage.subRule.rules && this.infoPage.subRule.rules[0] && this.infoPage.subRule.rules[0].all) {
+        if (['未入组病历列表', 'QY病历列表', '低风险死亡病历列表', '费用异常病历列表'].includes(this.infoPage.title)) {
+          this.$store.commit('SET_wt4PopRightPage', this.$store.state.Edit.wt4PopRightPage + 1)
+          e = this.infoPage.subRule.rules[0].all
+          getServer(this, this.activeTab, this.infoPage.title, e)
+        }
+      }
     },
     wxcCellClicked (e) {
       const infoLevel = this.$store.state.Home.infoLevel[this.activeTab]

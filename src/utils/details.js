@@ -228,7 +228,7 @@ function wt4 (menu, data) {
       {'title': '入组DRG', 'desc': data.drg, 'hasArrow': 'empty'},
       {'title': '病案ID', 'desc': data.b_wt4_v1_id, 'hasArrow': 'empty'},
       {'title': '主要诊断', 'desc': data.disease_code, 'hasArrow': 'empty'},
-      {'title': '其他诊断', 'desc': data.diags_code, 'hasArrow': 'empty'},
+      {'title': '其他诊断', 'desc': data.diags_code === '' ? '无' : data.diags_code, 'hasArrow': 'empty'},
       {'title': '手术/操作', 'desc': data.opers_code, 'hasArrow': 'empty'},
       {'title': '住院天数', 'desc': data.acctual_days, 'hasArrow': 'empty'},
       {'title': '住院总费用', 'desc': data.total_expense, 'hasArrow': 'empty'},

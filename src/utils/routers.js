@@ -130,20 +130,20 @@ const routers = function (obj, activeTab, menu, value) {
   } else {
     switch (menu) {
       case '未入组病历列表':
-        url = `wt4_clipalm2?type=0000&page=${obj.$store.state.Edit.wt4Page}&version=${version}&code=${value.code_s}`
+        url = `wt4_clipalm2?type=0000&page=${obj.$store.state.Edit.wt4PopRightPage}&version=${version}&code=${value.code_s}`
         router = 'drgwork_wt4'
         break
       case 'QY病历列表':
-        url = `wt4_clipalm2?type=QY&page=${obj.$store.state.Edit.wt4Page}&version=${version}&code=${value.code_s}`
+        url = `wt4_clipalm2?type=QY&page=${obj.$store.state.Edit.wt4PopRightPage}&version=${version}&code=${value.code_s}`
         // url = `wt4_clipalm2?type=0000&page=${obj.$store.state.Edit.wt4Page}&version=${version}&code=${value.code_s}`
         router = 'drgwork_wt4'
         break
       case '低风险死亡病历列表':
-        url = `wt4_clipalm2?type=sf0108&page=${obj.$store.state.Edit.wt4Page}&version=${version}&code=${value.code_s}`
+        url = `wt4_clipalm2?type=sf0108&page=${obj.$store.state.Edit.wt4PopRightPage}&version=${version}&code=${value.code_s}`
         router = 'drgwork_wt4'
         break
       case '费用异常病历列表':
-        url = `wt4_clipalm2?type=cv&page=${obj.$store.state.Edit.wt4Page}&version=${version}&code=${value.code_s}`
+        url = `wt4_clipalm2?type=cv&page=${obj.$store.state.Edit.wt4PopRightPage}&version=${version}&code=${value.code_s}`
         router = 'drgwork_wt4'
         break
       case 'ADRG规则':
