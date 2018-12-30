@@ -6,15 +6,23 @@
       <am-list-item
         title="用户名"
         arrow="empty"
+        :thumb="usernames"
         :extra="`${user.username}`">
       </am-list-item>
       <am-list-item
         title="积分"
         :extra="`${user.bp}`"
         arrow="empty"
+        :thumb="integral"
         ></am-list-item>
       <div style="height:25px;"></div>
-      <am-picker
+      <am-list-item
+        title="用户类型"
+        :extra="`${user.type}`"
+        arrow="empty"
+        :thumb="choice"
+        ></am-list-item>
+      <!-- <am-picker
         title="请选择"
         :placeholder="user.type"
         :data="types"
@@ -24,9 +32,10 @@
           slot-scope="{ extra, show }"
           title="用户类型"
           :extra="extra"
+          :thumb="choice"
           @click="show">
         </am-list-item>
-      </am-picker>
+      </am-picker> -->
       <div style="height:25px;"></div>
       <am-picker
         title="请选择"
@@ -37,6 +46,7 @@
         <am-list-item
           slot-scope="{ extra, show }"
           title="ICD"
+          :thumb="icd"
           :extra="extra"
           @click="show">
         </am-list-item>
@@ -50,6 +60,7 @@
         <am-list-item
           slot-scope="{ extra, show }"
           title="版本"
+          :thumb="version"
           :extra="extra"
           @click="show">
         </am-list-item>
@@ -62,13 +73,15 @@
         @hide="onHide">
         <am-list-item
           slot-scope="{ extra, show }"
-          title="时间"
+          title="年份"
+          :thumb="time"
           :extra="extra"
           @click="show">
         </am-list-item>
       </am-picker>
       <div style="height:25px;"></div>
       <am-list-item
+        :thumb="supplement"
         title="完善用户信息"
         @click="click"></am-list-item>
       <div style="height:25px;"></div>
@@ -90,7 +103,9 @@ import { WxcMinibar, WxcGridSelect, WxcButton, WxcCell } from 'weex-ui'
 import Category from '../common/category.vue'
 import MiniBar from '../common/MiniBar.vue'
 import { userLogout, updateUser } from '../../utils/user'
+// import { defaultCoreCipherList } from 'constants';
 const modal = weex.requireModule('modal')
+const icon = require('../../utils/icon.js')
 
 export default {
   name: 'user-doc',
@@ -110,6 +125,13 @@ export default {
       checkedBackgroundColor: '#1E90FF'
     },
     show: false,
+    time: icon('time'),
+    usernames: icon('usernames'),
+    integral: icon('integral'),
+    choice: icon('choice'),
+    icd: icon('icd'),
+    version: icon('version'),
+    supplement: icon('supplement'),
     types: [{ value: '专家用户', label: '专家用户' }, { value: '机构用户', label: '机构用户' }, { value: '个人用户', label: '个人用户' }],
     versions: [{ label: 'BJ编码版', value: 'BJ编码版' }, { label: 'GB编码版', value: 'GB编码版' }, { label: '术语版', value: '术语版' }],
     icds: [{ label: 'ICD10 6.0', value: 'ICD10 6.0' }, { label: 'ICD10 5.0', value: 'ICD10 5.0' }],
@@ -169,7 +191,7 @@ export default {
     margin-left: 0px;
     border-color: #BBBBBB;
     padding-top: 0;
-    background-color: #F8F8FF;
+    /* background-color: #F8F8FF; */
     width: 750px;
   }
   .text {

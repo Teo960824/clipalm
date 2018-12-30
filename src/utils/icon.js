@@ -20,10 +20,10 @@ const images = {
   '单条分组': 'wt4_comp.png',
   '我的病案': 'wt4_my.png',
   'CN-DRG': 'library_cndrg.png',
-  '疾病分类/诊断术语': 'library_icd10_diss2.png',
+  '疾病/诊断术语': 'library_icd10_diss2.png',
   'GB-ICD10': 'library_icd10_gb2.png',
   'BJ-ICD10': 'library_icd10_bj2.png',
-  '临床手术/操作术语': 'library_icd9_diss2.png',
+  '手术/操作术语': 'library_icd9_diss2.png',
   'GB-ICD9': 'library_icd9_gb2.png',
   'BJ-ICD9': 'library_icd9_bj2.png',
   'DRG基础': 'stat_drg2.png',
@@ -41,7 +41,14 @@ const images = {
   'DRG分析': 'forum_stat.png',
   '论坛建议': 'forum_info.png',
   '我的帖子': 'forum_my.png',
-  '最新帖子': 'forum_last.png'
+  '最新帖子': 'forum_last.png',
+  'usernames': 'usernames.jpg',
+  'integral': 'integral.jpg',
+  'choice': 'choice.png',
+  'icd': 'icd.png',
+  'version': 'version.jpg',
+  'time': 'time.png',
+  'supplement': 'supplement.jpg'
 }
 
 module.exports = function (iconName) {

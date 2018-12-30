@@ -5,35 +5,47 @@
       <wxc-cell v-for="(item, index) in customQuery" v-bind:key="index"
                 v-if="item !== undefined"
                 :title="index"
-                :desc="`${item}`"
-                :cell-style="cellStyle"
-                :extraContent="aa(customQuery, index)"></wxc-cell>
+                :desc="`${item}`"></wxc-cell>
     </div>
     <list @loadmore="fetch" loadmoreoffset="0" v-if="showData">
       <cell class="cell" v-for="(stat, index) in stats" v-bind:key="index">
-        <wxc-cell :label="stat.code"
-            @wxcCellClicked="wxcIndexlistItemClicked(stat)"
-            :has-margin="false"
-            :has-arrow="true"
-            :extraContent="stat.name1"></wxc-cell>
+        <am-list :no-border="false">
+          <am-list-item
+          v-if="menu.includes('机构分析')"
+          :title="stat.code"
+          @click="wxcIndexlistItemClicked(stat)"
+          :cell-style="cellStyle"
+          :brief="`机构ID：${stat.name}`"></am-list-item>
+          <am-list-item
+          v-else
+          :title="stat.code"
+          @click="wxcIndexlistItemClicked(stat)"
+          :cell-style="cellStyle"
+          :brief="stat.name"></am-list-item>
+        </am-list>
       </cell>
       <cell style="height:200px" v-if="showMore">
-        <wxc-button text="加载更多"
-          class="submits"
-          size="big"
-          @wxcButtonClicked="fetch"></wxc-button>
+        <am-nav-bar
+          mode="light"
+          title="加载更多"
+          :left-btn="[]"
+          :right-btn="[]"
+          @click="fetch">
+        </am-nav-bar>
       </cell>
     </list>
     <list class="list" loadmoreoffset="20" v-else>
       <cell>
         <div class="panel">
-          <wxc-cell
+        <am-list :no-border="false">
+          <am-list-item
             title="此版本无数据"
-            :has-margin="false"
-            :has-arrow="false"
-            :desc="`当前版本:${user.clipalm_year}-${user.clipalm_version}  用户类型:${user.type}`"
-            :arrow-icon="arrawSrc">
-          </wxc-cell>
+            arrow="empty"></am-list-item>
+          <am-list-item
+            title="修改年份或版本试试?"
+            arrow="empty"
+            :brief="`当前版本:${user.clipalm_year}-${user.clipalm_version}  用户类型:${user.type}`"></am-list-item>
+        </am-list>
         </div>
       </cell>
     </list>
@@ -44,11 +56,12 @@
 <script>
 import { WxcIndexlist, WxcPopup, WxcCell, WxcButton } from 'weex-ui'
 import { getDetails } from '../../utils/details'
+import { AmListItem, AmList, AmNavBar } from 'weex-amui'
 import { getServer, customSearch } from '../../utils/server'
 import MiniBar from '../common/MiniBar.vue'
 const icon = require('../../utils/icon.js')
 export default {
-  components: { WxcIndexlist, WxcPopup, WxcCell, MiniBar, WxcButton },
+  components: { WxcIndexlist, AmListItem, AmList, WxcPopup, WxcCell, MiniBar, WxcButton, AmNavBar },
   created: function () {
     this.getData()
   },
@@ -99,6 +112,7 @@ export default {
       return show
     },
     stats () {
+      console.log(this.$store.state.Stat.statDrg)
       return this.$store.state.Stat.statDrg
     },
     panel () {
@@ -119,24 +133,25 @@ export default {
     },
     wxcIndexlistItemClicked (e) {
       this.$store.commit('SET_infoLevel', 1)
-      const details = getDetails(this, this.menu, e)
+      let type = ''
+      if (this.menu === 'DRG基础') {
+        type = 'MDC分析'
+      } else if (['DRG机构分析-年', 'DRG机构分析-半年', 'DRG机构分析-季度', 'DRG机构分析-月'].includes(this.menu)) {
+        type = 'DRG机构分析'
+      } else {
+        type = this.menu
+      }
+      const details = getDetails(this, type, e)
       this.$store.commit('SET_info', details)
     },
     fetch () {
       this.$store.commit('SET_statPage', this.$store.state.Stat.statPage + 1)
-      if (this.menu === '自定义查询结果') {
-        customSearch(this, this.$store.state.Home.customQuery[2].query)
-      } else {
-        getServer(this, this.activeTab, this.menu)
-      }
-    },
-    aa (title, index) {
-      const keys = Object.keys(title)
-      const lastKey = keys[keys.length - 1]
-      if (lastKey === index) {
-        return ''
-      } else {
-        return '       |'
+      if (this.menu !== 'DRG基础') {
+        if (this.menu === '自定义查询结果') {
+          customSearch(this, this.$store.state.Home.customQuery[2].query)
+        } else {
+          getServer(this, this.activeTab, this.menu)
+        }
       }
     }
   }
@@ -148,7 +163,7 @@ export default {
     width: 750px;
   }
   .count1 {
-    margin-top: 91px;
+    margin-top: 90px;
   }
   .submits{
     position: relative;

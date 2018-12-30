@@ -2,7 +2,7 @@ const state = {
   activeTab: 0,
   menus: [],
   // 各个页面默认菜单
-  menu: ['用户登录', '病案', '字典', 'DRG分析', '论坛'],
+  menu: ['个人信息', '病案', '字典', 'DRG分析', '论坛'],
   infoPages: [[], [], [], [], []],
   infoLevel: [0, 0, 0, 0, 0],
   user: { loginResult: '', login: false, data: { clipalm_version: 'BJ编码版' } },
@@ -11,9 +11,10 @@ const state = {
   userAnalyse: null,
   isLoadingShow: false,
   // 发布版本修改
-  version: '1.0.2',
-  serverVersion: { version: '1.0.2' },
-  customQuery: [{show: false, query: {}}, {show: false, query: {}}, {show: false, query: {}}]
+  version: '1.0.3',
+  serverVersion: { version: '1.0.3' },
+  customQuery: [{show: false, query: {}}, {show: false, query: {}}, {show: false, query: {}}],
+  forumInfo: {}
 }
 
 const mutations = {
@@ -89,11 +90,15 @@ const mutations = {
   },
   SET_customQuery (state, x) {
     state.customQuery[x[0]] = x[1]
+  },
+  SET_forumInfo (state, x) {
+    state.forumInfo = x
   }
 }
 
 const actions = {
   someAsyncTask ({ commit }) {
+    commit('SET_forumInfo')
     commit('SET_userMenu')
     commit('SET_miniBarTitle')
     commit('SET_serverVersion')

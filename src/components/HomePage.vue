@@ -55,6 +55,7 @@
       <Forum v-else></Forum>
     </div>
   </wxc-tab-bar>
+  <div v-if="Object.keys(forumInfo).length < 0">{{forumInfo}}</div>
   <!-- <mini-bar></mini-bar> -->
 </div>
 </template>
@@ -100,7 +101,7 @@
           activeIcon: `${urlConfig.static}/images/edit_fill.png`
         }, {
           title: '字典',
-          menu: [{'DRG': ['CN-DRG'], '疾病': ['疾病分类/诊断术语', 'GB-ICD10', 'BJ-ICD10'], '手术': ['临床手术/操作术语', 'GB-ICD9', 'BJ-ICD9']}],
+          menu: [{'DRG': ['CN-DRG'], '疾病': ['疾病/诊断术语', 'GB-ICD10', 'BJ-ICD10'], '手术': ['手术/操作术语', 'GB-ICD9', 'BJ-ICD9']}],
           icon: `${urlConfig.static}/images/library.png`,
           activeIcon: `${urlConfig.static}/images/library_fill.png`
         }, {
@@ -130,6 +131,13 @@
       }
     }),
     computed: {
+      forumInfo () {
+        const forumInfo = this.$store.state.Home.forumInfo
+        // if (Object.keys(forumInfo).length > 0) {
+        //   this.setPage(4)
+        // }
+        return forumInfo
+      },
       activeTab () {
         return this.$store.state.Home.activeTab
       },
@@ -175,6 +183,14 @@
         return style
       }
     },
+    beforeCreate: function () {
+      storage.getItem('userState', e => {
+        if (e.result === 'success') {
+          const edata = JSON.parse(e.data)
+          obj.$store.commit('SET_user', edata)
+        }
+      })
+    },
     created: function () {
       this.newVersion()
       storage.getItem('user', e => {
@@ -196,17 +212,17 @@
       const { tabStyles } = this
       this.contentStyle = { height: (tabPageHeight - tabStyles.height) + 'px' }
     },
-    beforeMount: function () {
-    },
     mounted: function () {
-      this.wxcTabBarCurrentTabSelected({ page: 0 })
+      // this.wxcTabBarCurrentTabSelected({ page: 0 })
     },
     methods: {
       newVersion () {
         getLastVersion(this)
       },
       setPage (num) {
-        this.$refs['wxc-tab-bar'].setPage(num)
+        if (this.$refs['wxc-tab-bar']) {
+          this.$refs['wxc-tab-bar'].setPage(num)
+        }
       },
       wxcTabBarCurrentTabSelected (e) {
         const i = e.page

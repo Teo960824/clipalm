@@ -3,39 +3,43 @@
     <div class="count1"></div>
     <div class="count" v-if="customQueryShowType">
       <wxc-cell v-for="(item, index) in customQuery" v-bind:key="index"
-        v-if="item !== undefined"
-        :title="index"
-        :desc="`${item}`"
-        :cell-style="cellStyle"
-        :extraContent="aa(customQuery, index)"></wxc-cell>
+                v-if="item !== undefined"
+                :title="index"
+                :desc="`${item}`"
+                :cell-style="cellStyle"></wxc-cell>
     </div>
     <list @loadmore="fetch" loadmoreoffset="20" v-if="showData">
       <cell class="cell" v-for="(rule, index) in rules" v-bind:key="index">
-        <wxc-cell :label="rule.code"
-                  @wxcCellClicked="wxcIndexlistItemClicked(rule)"
-                  :has-margin="false"
-                  :has-arrow="true"
-                  :arrow-icon="arrawSrc"
-                  :extraContent="rule.name"></wxc-cell>
+        <am-list :no-border="false">
+          <am-list-item
+            :title="rule.code"
+            :brief="rule.desc"
+            @click="wxcIndexlistItemClicked(rule)"></am-list-item>
+        </am-list>
       </cell>
       <cell style="height:200px">
-        <wxc-button text="加载更多"
-          class="submits"
-          size="big"
+        <am-nav-bar
+          mode="light"
+          title="加载更多"
           v-if="showMore"
-          @wxcButtonClicked="fetch"></wxc-button>
+          :left-btn="[]"
+          :right-btn="[]"
+          @click="fetch">
+        </am-nav-bar>
       </cell>
     </list>
     <list class="list" loadmoreoffset="20" v-else>
       <cell>
-        <div class="panel" @longpress="longpress(wt4)">
-          <wxc-cell
-            title="此版本无数据"
-            :desc="`当前版本:${user.clipalm_year}-${user.clipalm_version}  用户类型:${user.type}`"
-            :has-margin="false"
-            :has-arrow="false"
-            :arrow-icon="arrawSrc">
-          </wxc-cell>
+        <div class="panel" @longpress="longpress(wt4)" style="font-size:10px;">
+          <am-list :no-border="false">
+            <am-list-item
+              title="此版本无数据"
+              arrow="empty"></am-list-item>
+            <am-list-item
+              title="修改年份或版本试试?"
+              arrow="empty"
+              :brief="`当前版本:${user.clipalm_year}-${user.clipalm_version}  用户类型:${user.type}`"></am-list-item>
+          </am-list>
         </div>
       </cell>
     </list>
@@ -45,6 +49,7 @@
 
 <script>
 import { WxcCell, WxcButton } from 'weex-ui'
+import { AmListItem, AmList, AmNavBar } from 'weex-amui'
 import { getDetails } from '../../utils/details'
 import { getServer, customSearch } from '../../utils/server'
 import MiniBar from '../common/MiniBar.vue'
@@ -52,7 +57,7 @@ import PopRight from '../common/PopRight.vue'
 // const modal = weex.requireModule('modal')
 const icon = require('../../utils/icon.js')
 export default {
-  components: { WxcCell, MiniBar, PopRight, WxcButton },
+  components: { WxcCell, MiniBar, PopRight, AmListItem, WxcButton, AmList, AmNavBar },
   data () {
     return {
       height: 400,
@@ -120,12 +125,14 @@ export default {
     },
     wxcIndexlistItemClicked (e) {
       let type = ''
-      switch (this.menu) {
-        case 'CN-DRG':
-          type = 'MDC'
-          break
-        default:
-          type = this.menu
+      if (this.menu === 'CN-DRG') {
+        type = 'MDC规则'
+      } else if (['疾病/诊断术语', 'GB-ICD10', 'BJ-ICD10'].includes(this.menu)) {
+        type = 'ICD10'
+      } else if (['手术/操作术语', 'GB-ICD9', 'BJ-ICD9'].includes(this.menu)) {
+        type = 'ICD9'
+      } else {
+        type = this.menu
       }
       const details = getDetails(this, type, e)
       this.show = true
@@ -137,20 +144,10 @@ export default {
       if (this.menu !== 'MDC') {
         this.$store.commit('SET_libraryPage', this.$store.state.Library.page + 1)
         if (this.menu === '自定义查询结果') {
-          console.log(this.$store.state.Home.customQuery)
           customSearch(this, this.$store.state.Home.customQuery[1].query)
         } else {
           getServer(this, this.activeTab, this.menu)
         }
-      }
-    },
-    aa (title, index) {
-      const keys = Object.keys(title)
-      const lastKey = keys[keys.length - 1]
-      if (lastKey === index) {
-        return ''
-      } else {
-        return '       |'
       }
     }
   }
@@ -173,12 +170,10 @@ export default {
     justify-content: space-around;
     background-color: #F8F8FF;
     margin-top: 91px;
-    margin-buttom: 0px;
   }
   .count {
     flex-direction: row;
     justify-content: space-around;
     background-color: #F8F8FF;
-    margin-buttom: 0px;
   }
 </style>

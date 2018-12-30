@@ -3,15 +3,17 @@
     <scroller>
       <div>
         <div style="height: 91px;"></div>
+        <div>
+          <text style="height: 55px;font-size: 35px;text-align: center;">所在机构</text>
+          <input type="text" placeholder="请输入所在机构" class="input" :autofocus=false v-model="personal.org" />
+        </div>
           <text style="height: 55px;font-size: 35px;text-align: center;">科室信息</text>
           <input type="text" placeholder="请输入科室信息" class="input" :autofocus=false value="" v-model="personal.Department" />
           <text style="height: 55px;font-size: 35px;text-align: center;">职称</text>
           <input type="text" placeholder="请输入职称" class="input" :autofocus=false value="" v-model="personal.Title" />
+          <text style="height: 55px;font-size: 35px;text-align: center;">姓名</text>
+          <input type="text" placeholder="请输入姓名" class="input" :autofocus=false value="" v-model="personal.Name" />
           <!--<wxc-radio :list="list" @wxcRadioListChecked="wxcRadioListChecked"></wxc-radio>-->
-      </div>
-      <div>
-          <text style="height: 55px;font-size: 35px;text-align: center;">所在机构</text>
-        <input type="text" placeholder="请输入所在机构" class="input" :autofocus=false v-model="personal.org" />
       </div>
       <wxc-button text="提交"
               type="blue"
@@ -38,7 +40,7 @@ export default {
       { title: '女', value: 2, checked: true }
     ],
     checkedInfo: { title: '女', value: 2 },
-    personal: { Department: '', org: '', Title: '' }
+    personal: { Department: '', org: '', Title: '', Name: '' }
   }),
   computed: {
     userAnalyse: {
@@ -80,6 +82,11 @@ export default {
           message: '请输入所在机构',
           duration: 0.3
         })
+      } else if (this.personal.Name === '') {
+        modal.alert({
+          message: '请输入姓名',
+          duration: 0.3
+        })
       } else {
         updateUser(this, this.personal)
         console.log(this.personal)
@@ -94,7 +101,7 @@ export default {
     margin-left: 0px;
     border-color: #BBBBBB;
     padding-top: 0;
-    background-color: #F8F8FF;
+    /* background-color: #F8F8FF; */
   }
   .text {
     color: #666666;

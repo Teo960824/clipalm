@@ -1,20 +1,24 @@
 <template>
   <div class="demo"
     v-bind:style="panel">
-    <list class="list">
-      <!-- 当前规则详情 -->
-      <cell v-if="infoPage.showInfo">
-        <am-list :no-border="false">
-          <am-list-item
-            v-for="(info, index) in infoPage.info"
-            :key="index"
-            :title="info.title"
-            :brief="info.desc"
-            :arrow="info.hasArrow"></am-list-item>
-        </am-list>
-      </cell>
-      <!-- grid规则详情 -->
-      <cell>
+    <list class="list" :show="true">
+      <wxc-button text="相关发帖"
+              v-if="detailsStyle"
+              type="blue"
+              size="full"
+              class="submits"
+              @wxcButtonClicked="wxcButtonClicked"></wxc-button>
+      <cell class="cell">
+        <div v-for="(detail, index) in infoPage.details" :key="index">
+          <am-list :no-border="false">
+            <am-list-item
+              :key="index"
+              :title="detail.label"
+              :brief="`${infoPage.info[detail.title]}`"
+              arrow="empty"
+              @click="wxcCellClicked(detail)"></am-list-item>
+          </am-list>
+        </div>
         <div v-for="(g, index) in infoPage.grid"
               :key="index">
           <category :title="`${index}`"></category>
@@ -28,42 +32,48 @@
               :list="g"></wxc-grid-select>
           <text class="title" style="font-size: 20px;" v-else >无</text>
         </div>
-      </cell>
-    <!-- 子规则详情 -->
-      <cell v-if="infoPage.showSubRule">
-        <category v-if="infoPage.subRule.title !== ''" :title="`${infoPage.subRule.title}`"></category>
-        <am-list :no-border="false">
-          <am-list-item
-            v-for="(rule, index) in infoPage.subRule.rules"
-            :key="index"
+        <div v-if="infoPage.showSubRule" v-for="(subRule, index) in infoPage.subRules" :key="`subRules-${index}`">
+          <category :title="`${subRule.title}`"></category>
+          <am-list :no-border="false">
+            <am-list-item v-for="(rule, index) in subRule.rules"
+              :key="index"
+              :title="rule.label"
+              :brief="rule.title"
+              @click="wxcCellClicked1(rule)"></am-list-item>
+          </am-list>
+          <!-- <category v-if="infoPage.showSubRuleTitle2" :title="`--${infoPage.subRuleTitle2}--`"></category>
+          <wxc-cell v-for="(rule, index) in infoPage.subRule2"
+            :key="`sub2-${index}`"
+            :label="rule.label"
             :title="rule.title"
-            :brief="rule.desc"
-            :arrow="rule.hasArrow"
-            @click="wxcCellClicked(rule)"></am-list-item>
-        </am-list>
-      </cell>
-      <cell style="height:200px">
-        <!-- <am-nav-bar
-          mode="light"
-          title="加载更多"
-          :left-btn="[]"
-          :right-btn="[]"
-          @click="fetch">
-        </am-nav-bar> -->
-      </cell>
-      <cell v-if="infoPage.log">
-        <category title="分组日志"></category>
-        <wxc-simple-flow :list="infoPage.log" :themeColor="themeColor"></wxc-simple-flow>
-      </cell>
-      <!-- <cell>
+            :has-arrow="rule.hasArrow"
+            @wxcCellClicked="wxcCellClicked1(rule)">
+          </wxc-cell> -->
+        </div>
+        <!-- 部位表现特例 -->
+        <div v-if="infoPage.showDissRule">
+          <category :title="`--${infoPage.dissRuleTitle}--`"></category>
+          <wxc-grid-select
+            :single="true"
+            :cols="5"
+            :list="infoPage.dissRule"
+            @select="params => wxcCellClicked2(params)">
+          </wxc-grid-select>
+          </wxc-cell>
+          <category v-if="infoPage.showDissRuleTitle2" :title="`--${infoPage.dissRuleTitle2}--`"></category>
+          <wxc-grid-select
+              v-if="infoPage.showDissRuleTitle2"
+              :single="true"
+              :cols="5"
+              :list="infoPage.dissRule2"
+              @select="params => wxcCellClicked2(params)"></wxc-grid-select>
+        </div>
         <wxc-button text="相关发帖"
-                v-if="false"
-                type="blue"
-                size="full"
-                class="submits"
-                @wxcButtonClicked="wxcButtonClicked"></wxc-button>
-      </cell> -->
-      <cell>
+              v-if="detailsStyle"
+              type="blue"
+              size="full"
+              class="submits"
+              @wxcButtonClicked="wxcButtonClicked"></wxc-button>
         <div style="height:200px"></div>
       </cell>
     </list>
@@ -72,14 +82,13 @@
 </template>
 <script>
 import { WxcCell, WxcButton, WxcGridSelect, WxcSimpleFlow } from 'weex-ui'
-import { AmListItem, AmList, AmNavBar } from 'weex-amui'
+import { AmListItem, AmList } from 'weex-amui'
 import { getServer } from '../../utils/server'
 import MiniBar from '../common/MiniBar.vue'
 import Category from '../common/category.vue'
-import { getDetails } from '../../utils/details'
 // const modal = weex.requireModule('modal')
 export default {
-  components: { WxcCell, WxcButton, AmListItem, AmList, WxcGridSelect, WxcSimpleFlow, MiniBar, Category, AmNavBar },
+  components: { WxcCell, WxcButton, AmListItem, AmList, WxcGridSelect, WxcSimpleFlow, MiniBar, Category },
   props: {
     page: ''
   },
@@ -126,8 +135,8 @@ export default {
     detailsStyle () {
       let style = false
       if (this.activeTab !== 4) {
-        const infoPage = this.$store.state.Home.infoPages[this.activeTab][0]
-        if (infoPage.info && infoPage.info.length > 0) {
+        const details = this.$store.state.Home.infoPages[this.activeTab][0].details
+        if (details.length > 0) {
           style = true
         } else {
           style = false
@@ -137,41 +146,16 @@ export default {
     }
   },
   methods: {
-    fetch () {
-      // this.infoPage.
-      // this.$store.commit('SET_wt4Page', this.$store.state.Edit.wt4Page + 1)
-      // if (this.menu === '自定义查询结果') {
-      //   customSearch(this, this.$store.state.Home.customQuery[0].query)
-      // } else {
-      //   getServer(this, this.activeTab, this.menu)
+    wxcCellClicked (detail) {
+      console.log(detail)
+      // switch (detail.label) {
+      //   case '入组DRG':
+      //     const drg = this.infoPage.info[detail.title]
+      //     getServer(this, this.activeTab, 'statInfo', drg)
+      //     break
+      //   default:
+      //     break
       // }
-    },
-    wxcCellClicked (e) {
-      const infoLevel = this.$store.state.Home.infoLevel[this.activeTab]
-      if (['未入组病历列表详情', 'QY病历列表详情', '低风险死亡病历列表详情', '费用异常病历列表详情', '填报异常病历详情'].includes(e.menu)) {
-        let menu = ''
-        switch (e.menu) {
-          case '未入组病历列表详情':
-            menu = '未入组病历详情'
-            break
-          case 'QY病历列表详情':
-            menu = 'QY病历详情'
-            break
-          case '低风险死亡病历列表详情':
-            menu = '低风险死亡病历详情'
-            break
-          case '费用异常病历列表详情':
-            menu = '费用异常病历详情'
-            break
-          default:
-            menu = e.menu
-        }
-        const details = getDetails(this, menu, e.all)
-        this.$store.commit('SET_info', details)
-        this.$store.commit('SET_infoLevel', infoLevel + 1)
-      } else {
-        getServer(this, this.activeTab, `${e.menu}`, e.all)
-      }
     },
     wxcCellClicked1 (e) {
       getServer(this, this.activeTab, `${e.menu}`, e.all)
@@ -183,12 +167,12 @@ export default {
       const module = this.menu
       let name = ''
       let title = ''
-      const details = this.$store.state.Home.infoPages[this.activeTab][0].info
+      const details = this.$store.state.Home.infoPages[this.activeTab][0].details
       details.map((x) => {
-        if (x.title === '名称') {
-          name = this.infoPage.info[1].desc
-        } else if (x.title === '编码') {
-          title = this.infoPage.info[0].desc
+        if (x.label === '名称') {
+          name = this.infoPage.info[x.title]
+        } else if (x.label === '编码') {
+          title = this.infoPage.info[x.title]
         }
       })
       const forumInfo = { module, name, title }

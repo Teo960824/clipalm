@@ -1,7 +1,7 @@
 <template>
   <div class="container" v-bind:style="panel">
     <div v-if="showNew">
-      <input type="text" placeholder="输入帖子标题" class="top" :autofocus=true value="" @input="oninput"/>
+      <input type="text" placeholder="输入帖子标题" class="top" :autofocus=true value="" @input="oninput" v-model="forumInfo"/>
       <div class="wrapper">
         <textarea class="textarea" placeholder="输入帖子内容" @input="oninput2" value="" ></textarea>
       </div>
@@ -30,6 +30,19 @@
             :has-arrow="true"
             @wxcCellClicked="wxcRichTextLinkClick(index)">
           </wxc-cell>
+          <!-- <am-list :no-border="false">
+            <am-list-item
+              :title="`${post.username}`"
+              :extra="`第${index + 1}楼 | ${post.datetime}`"
+              arrow="empty"
+              :thumb="usernames"
+              @click="wxcRichTextLinkClick(index)"></am-list-item>
+            <am-list-item
+              :title="`        ${post.title}`"
+              arrow="empty"
+              :extra="`${post.content_count}条回复`"
+              @click="wxcRichTextLinkClick(index)"></am-list-item>
+          </am-list> -->
         </div>
       </cell>
     </list>
@@ -51,21 +64,36 @@
 
 <script>
 import { WxcSpecialRichText, WxcButton, WxcRichText, WxcCell } from 'weex-ui'
+import { AmListItem, AmListTextarea, AmList } from 'weex-amui'
 import MiniBar from '../common/MiniBar.vue'
 import { getServer } from '../../utils/server'
 import { createForum } from '../../utils/forum'
 const modal = weex.requireModule('modal')
 const icon = require('../../utils/icon.js')
 export default {
-  components: { WxcSpecialRichText, WxcButton, WxcRichText, MiniBar, WxcCell },
+  components: { WxcSpecialRichText, AmListTextarea, WxcButton, AmListItem, AmList, WxcRichText, MiniBar, WxcCell },
   data: () => ({
-    showNew: false,
+    // showNew: false,
     showNewButton: true,
     title: '',
     content: '',
+    usernames: icon('usernames'),
     arrawSrc: icon['message']
   }),
   computed: {
+    showNew: {
+      get () {
+        return this.$store.state.Forum.showNew
+      },
+      set () {}
+    },
+    forumInfo () {
+      let value = ''
+      if (this.$store.state.Home.forumInfo.module) {
+        value = `${this.$store.state.Home.forumInfo.module}/${this.$store.state.Home.forumInfo.title}/${this.$store.state.Home.forumInfo.name}`
+      }
+      return value
+    },
     user () {
       return this.$store.state.Home.user
     },
@@ -157,7 +185,8 @@ export default {
       this.content = event.value
     },
     wxcButtonClicked () {
-      this.showNew = true
+      this.$store.commit('SET_showNew', true)
+      // this.showNew = true
     },
     menuClicked (menu) {
       this.$store.commit('SET_forumModule', menu)
@@ -179,17 +208,18 @@ export default {
 
 <style scoped>
 .input {
-  border-width: 1px;
+  border-width: 1.5px;
   border-style: solid;
   border-color: #000000;
   height: 80px;
 }
 .top {
-  border-width: 1px;
+  border-width: 1.5px;
   border-style: solid;
   border-color: #000000;
   margin-top: 100px;
   height: 80px;
+  margin-bottom: 10px;
 }
 .container {
   width: 750px;
@@ -205,7 +235,7 @@ export default {
   margin-top: 100px;
 }
 .wrapper {
-  margin-top: 10px;
+  margin-top: 0px;
 }
 .textarea {
   font-size: 40px;

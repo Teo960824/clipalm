@@ -1,52 +1,57 @@
 <template>
   <div class="demo" v-bind:style="panel">
-    <div class="count" v-if="showStat">
+    <div class="count" v-if="showStat" style="backgroundColor: #FFFFFF">
       <wxc-cell v-for="(item, index) in stat" v-bind:key="index"
                 :title="index"
                 :desc="`${item}`"
-                :cell-style="cellStyle"
-                :extraContent="aa(stat, index)"></wxc-cell>
+                :cell-style="cellStyle"></wxc-cell>
     </div>
     <div class="count1" v-if="customQueryShowType">
       <wxc-cell v-for="(item, index) in customQuery" v-bind:key="index"
                 v-if="item !== undefined"
                 :title="index"
                 :desc="`${item}`"
-                :cell-style="cellStyle"
-                :extraContent="aa(customQuery, index)"></wxc-cell>
+                :cell-style="cellStyle"></wxc-cell>
     </div>
     <!-- <text class="demo-title"  v-if="wt4Case.length !== 0">{{title.count}}</text> -->
-    <list class="list" @loadmore="fetch" loadmoreoffset="20" v-if="showData">
-      <cell v-for="(wt4, index) in wt4Case" v-bind:key="index" @longpress="test">
-        <div class="panel" @longpress="longpress(wt4)">
-          <wxc-cell
+     <!-- @loadmore="fetch" -->
+    <list class="list" loadmoreoffset="20" v-if="showData">
+      <cell @longpress="test">
+        <am-list :no-border="false" v-if="menu==='填报异常病历'">
+          <am-list-item
+            v-for="(wt4, index) in wt4Case"
+            :key="index"
             :title="wt4.disease_code"
-            :desc="wt4.extraContent"
-            :has-margin="false"
-            :has-arrow="true"
-            :arrow-icon="arrawSrc"
-            @wxcCellClicked="wxcCellClicked(wt4)">
-          </wxc-cell>
-        </div>
+            :brief="`性别:${wt4.gender}·年龄:${wt4.age}·费用:${wt4.total_expense}·住院天数:${wt4.acctual_days}天`"
+            @click="wxcCellClicked(wt4)"></am-list-item>
+        </am-list>
+        <am-list :no-border="false" v-else>
+          <am-list-item
+            v-for="(wt4, index) in wt4Case"
+            :key="index"
+            :title="wt4.code"
+            :brief="`病历数:${wt4.num_sum}`"
+            @click="wxcCellClicked(wt4)"></am-list-item>
+        </am-list>
       </cell>
       <cell style="height:200px" v-if="showMore">
-        <wxc-button text="加载更多"
+        <!-- <wxc-button text="加载更多"
           class="submits"
           size="big"
-          @wxcButtonClicked="fetch"></wxc-button>
+          @wxcButtonClicked="fetch"></wxc-button> -->
       </cell>
     </list>
     <list class="list" loadmoreoffset="20" v-else>
-      <cell style="height:91px">
+      <cell style="height:90px">
       </cell>
       <cell>
         <div class="panel" @longpress="longpress(wt4)">
-          <wxc-cell
-            title="无数据"
-            :has-margin="false"
-            :has-arrow="false"
-            :arrow-icon="arrawSrc">
-          </wxc-cell>
+          <am-list :no-border="false">
+            <am-list-item
+              :title="`${user.data.type}无法查询卫生局病历数据`"
+              arrow="empty"
+              :brief="`当前版本:${user.data.clipalm_year}-${user.data.clipalm_version}  用户类型:${user.data.type}`"></am-list-item>
+          </am-list>
         </div>
       </cell>
     </list>
@@ -57,19 +62,19 @@
 <script>
 import { WxcRichText, WxcSpecialRichText, WxcPopup, WxcCell, WxcIndexlist, WxcLoading, WxcPartLoading, WxcButton } from 'weex-ui'
 import { getServer, customSearch } from '../../utils/server'
+import { AmListItem, AmList } from 'weex-amui'
 import { getDetails } from '../../utils/details'
 import MiniBar from '../common/MiniBar.vue'
 import Category from '../common/category.vue'
 const icon = require('../../utils/icon.js')
 export default {
-  components: { WxcIndexlist, WxcRichText, WxcSpecialRichText, WxcPopup, WxcCell, WxcLoading, WxcPartLoading, WxcButton, MiniBar, Category },
+  components: { WxcIndexlist, AmListItem, AmList, WxcRichText, WxcSpecialRichText, WxcPopup, WxcCell, WxcLoading, WxcPartLoading, WxcButton, MiniBar, Category },
   data () {
     return {
       forceValue: 0,
       refreshing: false,
       arrawSrc: icon['more'],
       cellStyle: {
-        backgroundColor: '#F8F8FF'
       },
       showData: true
     }
@@ -94,85 +99,14 @@ export default {
       })
       return obj
     },
-    specialConfigList () {
-      const configs = []
-      this.wt4Case.map((x) => {
-        const config = [
-          {
-            type: 'tag',
-            value: '诊断编码:',
-            style: {
-              fontSize: 34,
-              color: '#3D3D3D',
-              borderColor: '#FFC900',
-              backgroundColor: '#FFC900',
-              borderRadius: 14
-            }
-          },
-          {
-            type: 'text',
-            value: x.disease_code,
-            theme: 'black',
-            style: { fontSize: 35 }
-          },
-          {
-            type: 'tag',
-            value: '诊断名称:',
-            style: {
-              fontSize: 34,
-              color: '#3D3D3D',
-              borderColor: '#FFC900',
-              backgroundColor: '#FFC900',
-              borderRadius: 14
-            }
-          },
-          {
-            type: 'text',
-            value: x.disease_name,
-            theme: 'black',
-            style: { fontSize: 35 }
-          }
-        ]
-        configs.push(config)
-      })
-      return configs
-    },
     activeTab () {
       return this.$store.state.Home.activeTab
     },
     menu () {
       return this.$store.state.Home.menu[this.activeTab]
     },
-    wt4Case: {
-      get () {
-        const data = this.$store.state.Edit.wt4Case.map((x) => {
-          const obj = x
-          let extraContent = ''
-          switch (this.$store.state.Home.menu[1]) {
-            case '未入组病历':
-              extraContent = `其他诊断：${x.diags_code}`
-              break
-            case 'QY病历':
-              extraContent = `主要手术：${x.oper_code}; DRG：${x.drg}`
-              break
-            case '低风险死亡病历':
-              extraContent = `年龄：${x.age}; 其他诊断：${x.diags_code}; DRG：${x.drg}`
-              break
-            case '费用异常病历':
-              extraContent = `总费用：${x.total_expense}; 年龄：${x.age}; 其他诊断：${x.diags_code};住院日${x.acctual_days}; DRG：${x.drg}`
-              break
-            default:
-              extraContent = `性别：${x.gender}·年龄：${x.age}岁·费用：${x.total_expense}元·住院天数：${x.acctual_days}天·drg：${x.drg}`
-          }
-          if (extraContent === '') {
-            obj.extraContent = '无'
-          } else {
-            obj.extraContent = extraContent
-          }
-          return obj
-        })
-        return data
-      }
+    wt4Case () {
+      return this.$store.state.Edit.wt4Case
     },
     showStat () {
       let show = false
@@ -185,6 +119,7 @@ export default {
       return this.$store.state.Home.showMore
     },
     user () {
+      // console.log(this.$store.state.Home.user)
       return this.$store.state.Home.user
     },
     stat () {
@@ -213,9 +148,16 @@ export default {
       }
     },
     wxcCellClicked (e) {
-      this.$store.commit('SET_infoLevel', 1)
-      const details = getDetails(this, '病案详情', e)
-      this.$store.commit('SET_info', details)
+      // this.$store.commit('SET_infoLevel', 1)
+      // const details = getDetails(this, this.menu, e)
+      // this.$store.commit('SET_info', details)
+      if (['未入组病历', 'QY病历', '低风险死亡病历', '费用异常病历'].includes(this.menu)) {
+        getServer(this, this.activeTab, `${this.menu}列表`, e)
+      } else {
+        this.$store.commit('SET_infoLevel', 1)
+        const details = getDetails(this, this.menu, e)
+        this.$store.commit('SET_info', details)
+      }
     },
     fetch () {
       this.$store.commit('SET_wt4Page', this.$store.state.Edit.wt4Page + 1)
@@ -231,7 +173,7 @@ export default {
       if (lastKey === index) {
         return ''
       } else {
-        return '       |'
+        return '      |'
       }
     }
   }
@@ -251,11 +193,9 @@ export default {
     flex-direction: row;
     justify-content: space-around;
     margin-top: 91px;
-    background-color: #F8F8FF;
   }
   .count1 {
     flex-direction: row;
     justify-content: space-around;
-    background-color: #F8F8FF;
   }
-</style>
+</style> -->
