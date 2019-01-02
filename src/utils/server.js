@@ -90,12 +90,14 @@ function setStore (obj, activeTab, menu, rdata) {
             x.name = x.desc
             return x
           })
+          obj.$store.commit('SET_infoLevel', infoLevel + 1)
           details = getDetails(obj, menu, data)
+          obj.$store.commit('SET_info', details)
         } else {
+          obj.$store.commit('SET_infoLevel', infoLevel + 1)
           details = getDetails(obj, menu, rdata.data[0])
+          obj.$store.commit('SET_info', details)
         }
-        obj.$store.commit('SET_info', details)
-        obj.$store.commit('SET_infoLevel', infoLevel + 1)
       } else {
         data = obj.$store.state.Library.rule
         data = data.concat(rdata.data)
