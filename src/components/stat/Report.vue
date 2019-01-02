@@ -37,15 +37,15 @@
     <list class="list" loadmoreoffset="20" v-else>
       <cell>
         <div class="panel">
-        <am-list :no-border="false">
-          <am-list-item
-            title="此版本无数据"
-            arrow="empty"></am-list-item>
-          <am-list-item
-            title="修改年份或版本试试?"
-            arrow="empty"
-            :brief="`当前版本:${user.clipalm_year}-${user.clipalm_version}  用户类型:${user.type}`"></am-list-item>
-        </am-list>
+          <am-list :no-border="false">
+            <am-list-item
+              title="此版本无数据"
+              arrow="empty"></am-list-item>
+            <am-list-item
+              title="修改年份或版本试试?"
+              arrow="empty"
+              :brief="`当前版本:${user.clipalm_year}-${user.clipalm_version}  用户类型:${user.type}`"></am-list-item>
+          </am-list>
         </div>
       </cell>
     </list>
