@@ -24,6 +24,9 @@
         <wxc-button v-if="showRegister" text="注册" type="blue" size="null" :btnStyle="btnStyle" @wxcButtonClicked="register"></wxc-button>
         <wxc-button v-else type="blue" text="登录" size="null" :btnStyle="btnStyle" @wxcButtonClicked="login"></wxc-button>
       </div>
+      <div class="row">
+      <text v-if="showRegister" class="input-immediate" @click="returnLogin" style="color: rgb(0, 159, 240); paddingLeft: 30px; fontSize: 30px">-- 返回登录 --</text>
+      </div>
       <div class="row" v-if="!showRegister">
         <div class="col-md-5">
         <text class="input-forget" @click="retrieve">找回密码</text>
@@ -151,6 +154,9 @@ export default {
     },
     PwdOnInput (e) {
       this.user.password = e.value
+    },
+    returnLogin () {
+      this.$store.commit('SET_loginResult', '')
     }
   }
 }
