@@ -13,10 +13,10 @@
     @wxcTabBarCurrentTabSelected="wxcTabBarCurrentTabSelected">
     <!-- library页 -->
     <div class="panel" v-bind:class="panel">
-      <PopRight v-if="infoLevel[2] > 0"></PopRight>
-      <HomeMenu v-else-if="menu[2] === '字典'"></HomeMenu>
-      <Introduce v-else-if="menu[2] === '介绍'"></Introduce>
-      <CustomSelect v-else-if="menu[2] == '自定义查询'"></CustomSelect>
+      <PopRight v-if="infoLevel[0] > 0"></PopRight>
+      <HomeMenu v-else-if="menu[0] === '字典'"></HomeMenu>
+      <Introduce v-else-if="menu[0] === '介绍'"></Introduce>
+      <CustomSelect v-else-if="menu[0] == '自定义查询'"></CustomSelect>
       <Library v-else></Library>
     </div>
     <!-- edit页 -->
@@ -30,29 +30,29 @@
     </div>
     <!-- stat页 -->
     <div class="panel" v-bind:class="panel">
-      <PopRight v-if="infoLevel[3] > 0"></PopRight>
-      <HomeMenu v-else-if="menu[3] === 'DRG分析'"></HomeMenu>
-      <Introduce v-else-if="menu[3] === '介绍'"></Introduce>
+      <PopRight v-if="infoLevel[2] > 0"></PopRight>
+      <HomeMenu v-else-if="menu[2] === 'DRG分析'"></HomeMenu>
+      <Introduce v-else-if="menu[2] === '介绍'"></Introduce>
       <!-- <Charts v-else-if="menu[3] == '报表'"></Charts> -->
-      <CustomSelect v-else-if="menu[3] == '自定义查询'"></CustomSelect>
+      <CustomSelect v-else-if="menu[2] == '自定义查询'"></CustomSelect>
       <Report v-else></Report>
     </div>
     <!-- forum页 -->
     <div class="panel" v-bind:class="panel">
-      <ForumContent v-if="infoLevel[4] > 0"></ForumContent>
-      <HomeMenu v-else-if="menu[4] === '论坛'"></HomeMenu>
-      <Introduce v-else-if="menu[4] === '介绍'"></Introduce>
+      <ForumContent v-if="infoLevel[3] > 0"></ForumContent>
+      <HomeMenu v-else-if="menu[3] === '论坛'"></HomeMenu>
+      <Introduce v-else-if="menu[3] === '介绍'"></Introduce>
       <!-- <New v-else-if="menu[4] === '新建帖子'"></New> -->
       <!-- <ForumContent v-else-if="menu[4] === '帖子'"></ForumContent> -->
       <Forum v-else></Forum>
     </div>
     <!-- user页 -->
     <div class="panel" v-bind:class="panel">
-      <Analyse v-if="menu[0] == '用户统计'"></Analyse>
-      <Personal v-else-if="menu[0] == '完善个人信息'"></Personal>
-      <Login v-else-if="menu[0] == '用户登录'"></Login>
-      <User v-else-if="menu[0] == '个人信息'"></User>
-      <Retrieve v-else-if="menu[0] == '找回密码'"><text>></text></Retrieve>
+      <Analyse v-if="menu[4] == '用户统计'"></Analyse>
+      <Personal v-else-if="menu[4] == '完善个人信息'"></Personal>
+      <Login v-else-if="menu[4] == '用户登录'"></Login>
+      <User v-else-if="menu[4] == '个人信息'"></User>
+      <Retrieve v-else-if="menu[4] == '找回密码'"><text>></text></Retrieve>
     </div>
   </wxc-tab-bar>
   <div v-if="Object.keys(forumInfo).length < 0">{{forumInfo}}</div>
@@ -148,9 +148,9 @@
         return this.$store.state.Home.infoLevel
       },
       menu () {
-        if (this.activeTab === 3) {
-          this.setPage(this.activeTab)
-        }
+        // if (this.activeTab === 3) {
+        //   this.setPage(this.activeTab)
+        // }
         return this.$store.state.Home.menu
       },
       isLoadingShow () {
@@ -227,6 +227,7 @@
       wxcTabBarCurrentTabSelected (e) {
         const i = e.page
         const menus = this.tabs[i].menu
+        console.log(menus)
         const menu = this.$store.state.Home.menu[i]
         const activeTab = this.$store.state.Home.activeTab
         this.$store.commit('SET_activeTab', i)
@@ -235,7 +236,7 @@
         // 论坛
         if (i === 3 && menu === '介绍') {
           this.$store.commit('SET_menu', [i, menu])
-        } else if (i === 4) {
+        } else if (i === 3) {
           this.$store.commit('SET_menu', [i, menu])
           this.$store.commit('SET_forumLabel', this.$store.state.Home.menu[activeTab])
           // getServer(this, i, '帖子列表', { username: this.user.data.username })

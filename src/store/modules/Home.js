@@ -1,6 +1,6 @@
 const state = {
-  activeTab: 4,
-  menus: [],
+  activeTab: 0,
+  menus: [{'DRG': ['CN-DRG'], '疾病': ['疾病/诊断术语', 'GB-ICD10', 'BJ-ICD10'], '手术': ['手术/操作术语', 'GB-ICD9', 'BJ-ICD9']}],
   // 各个页面默认菜单
   menu: ['字典', '病案', 'DRG分析', '论坛', '个人信息'],
   infoPages: [[], [], [], [], []],
