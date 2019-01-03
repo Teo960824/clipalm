@@ -1,10 +1,10 @@
 <template>
   <div class="panel" v-bind:style="panel">
     <scroller>
-      <div>
+      <!-- <div> -->
         <div style="height: 91px;"></div>
-        <div>
-          <text style="height: 55px;font-size: 35px;text-align: center;">所在机构</text>
+        <!-- <div> -->
+          <!-- <text style="height: 55px;font-size: 35px;text-align: center;">所在机构</text>
           <input type="text" placeholder="请输入所在机构" class="input" :autofocus=false v-model="personal.org" />
         </div>
           <text style="height: 55px;font-size: 35px;text-align: center;">科室信息</text>
@@ -13,8 +13,14 @@
           <input type="text" placeholder="请输入职称" class="input" :autofocus=false value="" v-model="personal.title" />
           <text style="height: 55px;font-size: 35px;text-align: center;">姓名</text>
           <input type="text" placeholder="请输入姓名" class="input" :autofocus=false value="" v-model="personal.name" />
-          <!--<wxc-radio :list="list" @wxcRadioListChecked="wxcRadioListChecked"></wxc-radio>-->
-      </div>
+          <wxc-radio :list="list" @wxcRadioListChecked="wxcRadioListChecked"></wxc-radio>
+      </div> -->
+      <am-list :no-border="false">
+        <am-list-input v-model="personal.org" title="所在机构" placeholder="请输入所在机构"></am-list-input>
+        <am-list-input v-model="personal.department" title="科室信息" placeholder="请输入科室信息"></am-list-input>
+        <am-list-input v-model="personal.title" title="职称" placeholder="请输入职称"></am-list-input>
+        <am-list-input v-model="personal.name" title="姓名" placeholder="请输入姓名"></am-list-input>
+      </am-list>
       <wxc-button text="提交"
               type="blue"
               size="full"
@@ -27,13 +33,14 @@
 
 <script>
 import { WxcMinibar, WxcGridSelect, WxcButton, WxcRadio, WxcCell } from 'weex-ui'
+import { AmList, AmListInput } from 'weex-amui'
 import Category from '../common/category.vue'
 import MiniBar from '../common/MiniBar.vue'
 import { updateUser } from '../../utils/user'
 var modal = weex.requireModule('modal')
 export default {
   name: 'user-person',
-  components: { WxcMinibar, WxcGridSelect, Category, WxcRadio, WxcButton, WxcCell, MiniBar },
+  components: { WxcMinibar, WxcGridSelect, AmList, AmListInput, Category, WxcRadio, WxcButton, WxcCell, MiniBar },
   data: () => ({
     list: [
       { title: '男', value: 1 },
