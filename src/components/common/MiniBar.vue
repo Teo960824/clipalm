@@ -13,10 +13,10 @@
           <image :src="miniBarLeftIcon"
                  v-if="leftButtonShow"
                  slot="left"
-                 style="height: 48px;width: 88px;"></image>
+                 style="height: 36px;width: 36px;"></image>
           <image :src="miniBarRighttIcon"
                  slot="right"
-                 style="height: 48px;width: 88px;"></image>
+                 style="height: 36px;width: 36px;"></image>
         </wxc-minibar>
       </div>
     </scroller>
