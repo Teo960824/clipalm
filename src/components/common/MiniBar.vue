@@ -18,6 +18,7 @@
                  slot="right"
                  style="height: 36px;width: 36px;"></image>
         </wxc-minibar>
+         <am-icon type="left" size="lg" />
       </div>
     </scroller>
   </div>
@@ -25,10 +26,12 @@
 
 <script>
 import { WxcMinibar } from 'weex-ui'
+import { AmIcon } from './icon/index.js'
+import Icons from './icon/icon.js'
 const icon = require('../../utils/icon.js')
 
 export default {
-  components: { WxcMinibar },
+  components: { WxcMinibar, AmIcon },
   props: {
     title: {
       type: String,
