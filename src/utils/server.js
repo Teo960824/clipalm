@@ -17,6 +17,7 @@ export function getServer (obj, activeTab, menu, value = null) {
   // modal.toast({ message: url, duration: 1 })
   // console.log(url)
   storage.getItem(url, e => {
+    console.log(e.result)
     if (e.result === 'success!') {
       const edata = JSON.parse(e.data)
       setStore(obj, menu, 'type', edata)
@@ -30,6 +31,7 @@ export function getServer (obj, activeTab, menu, value = null) {
         responseType: 'json',
         url: url
       }, function (res) {
+        console.log(res.ok)
         if (res.ok) {
           storage.setItem(url, JSON.stringify(res.data))
           setStore(obj, activeTab, menu, res.data)

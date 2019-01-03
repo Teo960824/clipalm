@@ -8,9 +8,9 @@
       :customStyles="customStyles"
       :list="list"
       @select="params => onSelect(params)"></wxc-grid-select>
-    <category v-if="[2, 3].includes(activeTab)" title="请选择要查询的字典"></category>
+    <category v-if="[0, 2].includes(activeTab)" title="请选择要查询的字典"></category>
     <wxc-grid-select
-      v-if="[2, 3].includes(activeTab)"
+      v-if="[2, 0].includes(activeTab)"
       :single="true"
       :cols="5"
       :customStyles="customStyles"

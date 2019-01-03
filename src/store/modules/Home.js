@@ -1,8 +1,8 @@
 const state = {
-  activeTab: 0,
+  activeTab: 4,
   menus: [],
   // 各个页面默认菜单
-  menu: ['个人信息', '病案', '字典', 'DRG分析', '论坛'],
+  menu: ['字典', '病案', 'DRG分析', '论坛', '个人信息'],
   infoPages: [[], [], [], [], []],
   infoLevel: [0, 0, 0, 0, 0],
   user: { loginResult: '', login: false, data: { clipalm_version: 'BJ编码版' } },

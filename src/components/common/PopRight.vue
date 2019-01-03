@@ -131,7 +131,7 @@ export default {
     },
     detailsStyle () {
       let style = false
-      if (this.activeTab !== 4) {
+      if (this.activeTab !== 3) {
         const infoPage = this.$store.state.Home.infoPages[this.activeTab][0]
         if (infoPage.info && infoPage.info.length > 0) {
           style = true
@@ -202,13 +202,13 @@ export default {
       this.$store.commit('SET_forumInfo', forumInfo)
       switch (this.activeTab) {
         case 1:
-          this.$store.commit('SET_menu', [4, '病案讨论'])
+          this.$store.commit('SET_menu', [3, '病案讨论'])
+          break
+        case 0:
+          this.$store.commit('SET_menu', [3, '字典交流'])
           break
         case 2:
-          this.$store.commit('SET_menu', [4, '字典交流'])
-          break
-        case 3:
-          this.$store.commit('SET_menu', [4, 'DRG分析'])
+          this.$store.commit('SET_menu', [3, 'DRG分析'])
           break
       }
       this.$store.commit('SET_showNew', true)

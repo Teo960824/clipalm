@@ -96,15 +96,15 @@ export default {
           this.$store.commit('SET_wt4Page', 1)
           this.$store.commit('SET_wt4Case', [])
           break
-        case 2:
+        case 0:
           this.$store.commit('SET_libraryPage', 1)
           this.$store.commit('SET_rule', [])
           break
-        case 3:
+        case 2:
           this.$store.commit('SET_statPage', 1)
           this.$store.commit('SET_statDrg', [])
           break
-        case 4:
+        case 3:
           this.$store.commit('SET_post', [])
           this.$store.commit('SET_forumModule', menu)
           break

@@ -35,7 +35,7 @@ export function userLogin (obj, user) {
         obj.$store.commit('SET_user', res.data)
         storage.setItem('user', JSON.stringify(user))
         storage.setItem('userState', JSON.stringify(res.data))
-        obj.$store.commit('SET_menu_all', ['个人信息', '病案', '字典', 'DRG分析', '论坛'])
+        obj.$store.commit('SET_menu_all', ['病案', '字典', 'DRG分析', '论坛', '个人信息'])
         butyingPoint(user)
       } else {
         obj.$store.commit('SET_user', { loginResult: '账号或密码错误', login: false, data: { clipalm_version: 'BJ编码版' } })
@@ -52,7 +52,7 @@ export function userLogin (obj, user) {
           })
         }
       })
-      obj.$store.commit('SET_menu_all', ['用户登录', '介绍', '介绍', '介绍', '介绍'])
+      obj.$store.commit('SET_menu_all', ['介绍', '介绍', '介绍', '介绍', '用户登录'])
     }
   })
 }
@@ -79,7 +79,7 @@ export function register (obj, user) {
 }
 
 export function userLogout (obj) {
-  obj.$store.commit('SET_menu_all', ['用户登录', '介绍', '介绍', '介绍', '介绍'])
+  obj.$store.commit('SET_menu_all', ['介绍', '介绍', '介绍', '介绍', '用户登录'])
   obj.$store.commit('SET_user', { loginResult: '', login: false, data: { clipalm_version: 'BJ编码版' } })
   // 清空所有缓存
   storage.getAllKeys(event => {
@@ -103,10 +103,10 @@ export function updateUser (obj, user) {
   }, res => {
     if (res.ok) {
       obj.$store.commit('SET_userData', res.data.data)
-      obj.$store.commit('SET_menu', [3, 'DRG分析'])
-      obj.$store.commit('SET_onlyInfoLevel', [3, 0])
-      obj.$store.commit('SET_menu', [2, '字典'])
+      obj.$store.commit('SET_menu', [2, 'DRG分析'])
       obj.$store.commit('SET_onlyInfoLevel', [2, 0])
+      obj.$store.commit('SET_menu', [0, '字典'])
+      obj.$store.commit('SET_onlyInfoLevel', [0, 0])
       obj.$store.commit('SET_menu', [1, '病案'])
       obj.$store.commit('SET_onlyInfoLevel', [1, 0])
     } else {
@@ -128,7 +128,7 @@ export function forgetPassword (obj, user) {
     if (res.ok) {
       if (res.data.is_success) {
         modal.toast({ message: '密码修改成功', duration: 2 })
-        obj.$store.commit('SET_menu', [0, '用户登录'])
+        obj.$store.commit('SET_menu', [4, '用户登录'])
       } else {
         obj.$store.commit('SET_loginResult', res.data.log)
       }

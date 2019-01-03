@@ -101,7 +101,7 @@ export default {
           message: '信息提交成功',
           duration: 1
         })
-        this.$store.commit('SET_menu', [0, '个人信息'])
+        this.$store.commit('SET_menu', [4, '个人信息'])
       }
     }
   }

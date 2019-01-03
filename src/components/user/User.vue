@@ -159,7 +159,7 @@ export default {
   },
   methods: {
     minibarRightButtonClick (e) {
-      this.$store.commit('SET_menu', [0, '用户登录'])
+      this.$store.commit('SET_menu', [4, '用户登录'])
     },
     yearOk (year, labels) {
       updateUser(this, { clipalm_year: labels[0] })
@@ -178,7 +178,7 @@ export default {
       modal.toast({ message: `已设置${labels[0]}为默认版本`, duration: 1 })
     },
     click () {
-      this.$store.commit('SET_menu', [0, '完善个人信息'])
+      this.$store.commit('SET_menu', [4, '完善个人信息'])
     },
     onHide (type) {
       // console.log('hide', type)

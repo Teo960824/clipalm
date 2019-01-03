@@ -11,13 +11,13 @@
     title-type="icon"
     duration="10"
     @wxcTabBarCurrentTabSelected="wxcTabBarCurrentTabSelected">
-    <!-- user页 -->
+    <!-- library页 -->
     <div class="panel" v-bind:class="panel">
-      <Analyse v-if="menu[0] == '用户统计'"></Analyse>
-      <Personal v-else-if="menu[0] == '完善个人信息'"></Personal>
-      <Login v-else-if="menu[0] == '用户登录'"></Login>
-      <User v-else-if="menu[0] == '个人信息'"></User>
-      <Retrieve v-else-if="menu[0] == '找回密码'"><text>></text></Retrieve>
+      <PopRight v-if="infoLevel[2] > 0"></PopRight>
+      <HomeMenu v-else-if="menu[2] === '字典'"></HomeMenu>
+      <Introduce v-else-if="menu[2] === '介绍'"></Introduce>
+      <CustomSelect v-else-if="menu[2] == '自定义查询'"></CustomSelect>
+      <Library v-else></Library>
     </div>
     <!-- edit页 -->
     <div class="panel" v-bind:class="panel">
@@ -27,14 +27,6 @@
       <SingleGroup v-else-if="menu[1] == '单条分组'"></SingleGroup>
       <CustomSelect v-else-if="menu[1] == '自定义查询'"></CustomSelect>
       <Edit v-else></Edit>
-    </div>
-    <!-- library页 -->
-    <div class="panel" v-bind:class="panel">
-      <PopRight v-if="infoLevel[2] > 0"></PopRight>
-      <HomeMenu v-else-if="menu[2] === '字典'"></HomeMenu>
-      <Introduce v-else-if="menu[2] === '介绍'"></Introduce>
-      <CustomSelect v-else-if="menu[2] == '自定义查询'"></CustomSelect>
-      <Library v-else></Library>
     </div>
     <!-- stat页 -->
     <div class="panel" v-bind:class="panel">
@@ -53,6 +45,14 @@
       <!-- <New v-else-if="menu[4] === '新建帖子'"></New> -->
       <!-- <ForumContent v-else-if="menu[4] === '帖子'"></ForumContent> -->
       <Forum v-else></Forum>
+    </div>
+    <!-- user页 -->
+    <div class="panel" v-bind:class="panel">
+      <Analyse v-if="menu[0] == '用户统计'"></Analyse>
+      <Personal v-else-if="menu[0] == '完善个人信息'"></Personal>
+      <Login v-else-if="menu[0] == '用户登录'"></Login>
+      <User v-else-if="menu[0] == '个人信息'"></User>
+      <Retrieve v-else-if="menu[0] == '找回密码'"><text>></text></Retrieve>
     </div>
   </wxc-tab-bar>
   <div v-if="Object.keys(forumInfo).length < 0">{{forumInfo}}</div>
@@ -90,20 +90,15 @@
       Report, Forum, PopRight, ForumContent, Version, Charts, HomeMenu, Introduce, Analyse, CustomSelect, LoadingGif },
     data: () => ({
       tabs: [{
-        title: '用户',
-        menu:  [{'用户': ['用户登录', '个人信息', '完善个人信息', '找回密码']}],
-        icon: `${urlConfig.static}/images/user.png`,
-        activeIcon: `${urlConfig.static}/images/user_fill.png`
+          title: '字典',
+          menu: [{'DRG': ['CN-DRG'], '疾病': ['疾病/诊断术语', 'GB-ICD10', 'BJ-ICD10'], '手术': ['手术/操作术语', 'GB-ICD9', 'BJ-ICD9']}],
+          icon: `${urlConfig.static}/images/library.png`,
+          activeIcon: `${urlConfig.static}/images/library_fill.png`
         }, {
           title: '病案',
           menu: [{'病案查询': ['未入组病历', 'QY病历', '低风险死亡病历', '费用异常病历', '填报异常病历'], '单条分组': ['单条分组'], '我的病案': ['我的病案']}],
           icon: `${urlConfig.static}/images/edit.png`,
           activeIcon: `${urlConfig.static}/images/edit_fill.png`
-        }, {
-          title: '字典',
-          menu: [{'DRG': ['CN-DRG'], '疾病': ['疾病/诊断术语', 'GB-ICD10', 'BJ-ICD10'], '手术': ['手术/操作术语', 'GB-ICD9', 'BJ-ICD9']}],
-          icon: `${urlConfig.static}/images/library.png`,
-          activeIcon: `${urlConfig.static}/images/library_fill.png`
         }, {
           title: 'DRG分析',
           menu: [{'基础分析': ['DRG基础', '诊断基础', '手术基础'], 'DRG专家': ['主诊未入组', '手术QY'], 'DRG机构': ['年', '半年', '季度', '月']}],
@@ -114,6 +109,11 @@
           menu: [{'论坛版块': ['用户反馈', '病案讨论', '字典交流', 'DRG分析', '论坛建议'], '帖子': ['我的帖子', '最新帖子']}],
           icon: `${urlConfig.static}/images/forum.png`,
           activeIcon: `${urlConfig.static}/images/forum_fill.png`
+        }, {
+        title: '用户',
+        menu:  [{'用户': ['用户登录', '个人信息', '完善个人信息', '找回密码']}],
+        icon: `${urlConfig.static}/images/user.png`,
+        activeIcon: `${urlConfig.static}/images/user_fill.png`
         }],
       tabStyles: {
         bgColor: '#F8F8FF',
@@ -196,13 +196,13 @@
         if (e.result === 'success') {
           const edata = JSON.parse(e.data)
           if (edata.username && edata.password) {
-            this.$store.commit('SET_menu_all', ['个人信息', '病案', '字典', 'DRG分析', '论坛'])
+            this.$store.commit('SET_menu_all', [ '字典', '病案', 'DRG分析', '论坛', '个人信息'])
             userLogin(this, edata)
           } else {
-            this.$store.commit('SET_menu_all', ['用户登录', '介绍', '介绍', '介绍', '介绍'])
+            this.$store.commit('SET_menu_all', ['介绍', '介绍', '介绍', '介绍', '用户登录'])
           }
         } else {
-          this.$store.commit('SET_menu_all', ['用户登录', '介绍', '介绍', '介绍', '介绍'])
+          this.$store.commit('SET_menu_all', ['介绍', '介绍', '介绍', '介绍', '用户登录'])
         }
       })
       this.newVersion()
@@ -233,7 +233,7 @@
         this.$store.commit('SET_menus', menus)
         this.$store.commit('SET_menu', [i, menu])
         // 论坛
-        if (i === 4 && menu === '介绍') {
+        if (i === 3 && menu === '介绍') {
           this.$store.commit('SET_menu', [i, menu])
         } else if (i === 4) {
           this.$store.commit('SET_menu', [i, menu])
