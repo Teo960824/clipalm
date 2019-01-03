@@ -192,7 +192,6 @@
       })
     },
     created: function () {
-      this.newVersion()
       storage.getItem('user', e => {
         if (e.result === 'success') {
           const edata = JSON.parse(e.data)
@@ -206,6 +205,7 @@
           this.$store.commit('SET_menu_all', ['用户登录', '介绍', '介绍', '介绍', '介绍'])
         }
       })
+      this.newVersion()
       const tabPageHeight = Utils.env.getPageHeight();
       // 如果页面没有导航栏，可以用下面这个计算高度的方法
       // const tabPageHeight = env.deviceHeight / env.deviceWidth * 750;

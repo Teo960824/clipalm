@@ -152,6 +152,7 @@ export default {
     },
     wxcCellClicked (e) {
       if (['未入组病历', 'QY病历', '低风险死亡病历', '费用异常病历'].includes(this.menu)) {
+        this.$store.commit('SET_wt4PopRight', [])
         getServer(this, this.activeTab, `${this.menu}列表`, e)
       } else {
         this.$store.commit('SET_infoLevel', 1)

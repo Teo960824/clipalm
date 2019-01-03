@@ -238,7 +238,7 @@ function wt4 (menu, data) {
       {'title': '新生儿体重', 'desc': data.sf0102 === undefined || data.sf0102 === '-1' ? '未填写' : `${data.sf0102}`, 'hasArrow': 'empty'},
       {'title': '呼吸机使用时间', 'desc': data.sf0104 === undefined || data.sf0104 === '-1' ? '未填写' : `${data.sf0104}`, 'hasArrow': 'empty'},
       {'title': '出院转归', 'desc': data.sf0108, 'hasArrow': 'empty'},
-      {'title': '错误日志', 'desc': data.error_log, 'hasArrow': 'empty'}]
+      {'title': '错误日志', 'desc': data.error_log === '' ? '未填写' : `${data.error_log}`, 'hasArrow': 'empty'}]
   }
   // 子规则
   if (data.wt4) {
@@ -251,8 +251,8 @@ function wt4 (menu, data) {
       let title = ''
       switch (menu) {
         case '未入组病历列表':
-          title = x.diags_code === '' ? '-' : x.diags_code
-          desc = `病案ID:${x.b_wt4_v1_id}`
+          title = '其他诊断'
+          desc = `${x.diags_code === '' ? '-' : x.diags_code}`
           break
         case 'QY病历列表':
           title = x.disease_code
