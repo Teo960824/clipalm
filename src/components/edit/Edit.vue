@@ -15,7 +15,7 @@
     </div>
     <!-- <text class="demo-title"  v-if="wt4Case.length !== 0">{{title.count}}</text> -->
      <!-- @loadmore="fetch" -->
-    <list class="list" loadmoreoffset="20" v-if="showData">
+    <list class="list" @loadmore="fetch" loadmoreoffset="20" v-if="showData">
       <cell @longpress="test">
         <am-list :no-border="false" v-if="menu==='填报异常病历'">
           <am-list-item

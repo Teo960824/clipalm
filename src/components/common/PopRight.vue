@@ -1,7 +1,7 @@
 <template>
   <div class="demo"
     v-bind:style="panel">
-    <list class="list">
+    <list class="list" @loadmore="fetch">
       <!-- 当前规则详情 -->
       <cell v-if="infoPage.showInfo">
         <am-list :no-border="false">
@@ -42,7 +42,7 @@
             @click="wxcCellClicked(rule)"></am-list-item>
         </am-list>
       </cell>
-      <cell style="height:200px">
+      <cell>
         <am-nav-bar
           v-if="showMore"
           mode="light"
@@ -65,7 +65,7 @@
                 @wxcButtonClicked="wxcButtonClicked"></wxc-button>
       </cell> -->
       <cell>
-        <div style="height:200px"></div>
+        <div style="height:120px"></div>
       </cell>
     </list>
     <mini-bar :title="title" rightIcon="home" leftIcon="back"></mini-bar>
