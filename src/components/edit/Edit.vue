@@ -34,7 +34,7 @@
             @click="wxcCellClicked(wt4)"></am-list-item>
         </am-list>
       </cell>
-      <cell style="height:200px" v-if="showMore">
+      <cell v-if="showMore">
         <am-nav-bar
           mode="light"
           title="加载更多"
@@ -42,6 +42,8 @@
           :right-btn="[]"
           @click="fetch">
         </am-nav-bar>
+      </cell>
+      <cell style="height:120px">
       </cell>
     </list>
     <list class="list" loadmoreoffset="20" v-else>

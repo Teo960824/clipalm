@@ -64,8 +64,7 @@
                 class="submits"
                 @wxcButtonClicked="wxcButtonClicked"></wxc-button>
       </cell> -->
-      <cell>
-        <div style="height:120px"></div>
+      <cell style="height:120px">
       </cell>
     </list>
     <mini-bar :title="title" rightIcon="home" leftIcon="back"></mini-bar>
