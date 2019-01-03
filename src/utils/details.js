@@ -251,8 +251,8 @@ function wt4 (menu, data) {
       let title = ''
       switch (menu) {
         case '未入组病历列表':
-          title = '其他诊断'
-          desc = `${x.diags_code === '' ? '-' : x.diags_code}`
+          title = `其他诊断:${x.diags_code === '' ? '-' : x.diags_code}`
+          desc = `手术/操作:${x.opers_code}`
           break
         case 'QY病历列表':
           title = x.disease_code
