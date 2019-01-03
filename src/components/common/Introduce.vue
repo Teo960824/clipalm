@@ -672,7 +672,7 @@ export default {
             { header: this.caseConfigHeader18, content: [] },
             { header: this.caseConfigHeader19, content: [this.caseConfigContent19] }]
           break
-        case 2:
+        case 0:
           data.title = this.libConfigTitle
           data.text = this.libConfigString
           data.contents = [
@@ -680,7 +680,7 @@ export default {
             { header: this.libConfigHeader2, content: [this.libConfigContent2] },
             { header: this.libConfigHeader3, content: [this.libConfigContent3] }]
           break
-        case 3:
+        case 2:
           data.title = this.drgConfigTitle
           data.text = this.drgConfigString
           data.contents = [
@@ -688,7 +688,7 @@ export default {
             { header: this.drgConfigHeader2, content: [this.drgConfigContent2] },
             { header: this.drgConfigHeader3, content: [this.drgConfigContent3] }]
           break
-        case 4:
+        case 3:
           data.title = this.forConfigTitle
           data.text = this.forConfigString
           data.contents = [

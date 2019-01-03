@@ -68,7 +68,7 @@ export default {
       let show = true
       if (this.menu === '介绍') {
         show = false
-      } else if (this.activeTab === 0 && this.menu === '用户登录') {
+      } else if (this.activeTab === 4 && this.menu === '用户登录') {
         show = false
       }
       return show
@@ -91,13 +91,13 @@ export default {
   },
   methods: {
     homeButtonClick () {
-      const menus = ['个人信息', '病案', '字典', 'DRG分析', '论坛']
+      const menus = ['字典', '病案', 'DRG分析', '论坛', '个人信息']
       if (this.menu === '个人信息') {
-        this.$store.commit('SET_menu', [0, '用户统计'])
+        this.$store.commit('SET_menu', [4, '用户统计'])
       } else if (this.menu === '找回密码') {
-        this.$store.commit('SET_menu', [0, '用户登录'])
+        this.$store.commit('SET_menu', [4, '用户登录'])
       } else if (this.menu === '用户统计') {
-        this.$store.commit('SET_menu', [0, '个人信息'])
+        this.$store.commit('SET_menu', [4, '个人信息'])
       } else if (this.infoLevel === 0) {
         this.$store.commit('SET_menu', [this.activeTab, menus[this.activeTab]])
       } else {
@@ -109,13 +109,13 @@ export default {
       if (this.leftIcon === 'search') {
         this.$store.commit('SET_menu', [this.activeTab, '自定义查询'])
       } else {
-        const menus = ['个人信息', '病案', '字典', 'DRG分析', '论坛']
+        const menus = ['字典', '病案', 'DRG分析', '论坛', '个人信息']
         if (this.menu === '个人信息') {
-          this.$store.commit('SET_menu', [0, '完善个人信息'])
+          this.$store.commit('SET_menu', [4, '完善个人信息'])
         } else if (this.menu === '找回密码') {
-          this.$store.commit('SET_menu', [0, '用户登录'])
+          this.$store.commit('SET_menu', [4, '用户登录'])
         } else if (this.menu === '用户统计') {
-          this.$store.commit('SET_menu', [0, '个人信息'])
+          this.$store.commit('SET_menu', [4, '个人信息'])
         } else if (this.menu === '自定义查询结果' && this.infoLevel === 0) {
           this.$store.commit('SET_menu', [this.activeTab, '自定义查询'])
         } else if (this.infoLevel === 0) {

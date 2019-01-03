@@ -48,7 +48,8 @@ const images = {
   'icd': 'icd.png',
   'version': 'version.jpg',
   'time': 'time.png',
-  'supplement': 'supplement.jpg'
+  'supplement': 'supplement.jpg',
+  'title': 'title.png'
 }
 
 module.exports = function (iconName) {

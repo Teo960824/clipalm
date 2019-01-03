@@ -1,9 +1,9 @@
 <template>
   <div class="panel" v-bind:style="panel">
     <scroller>
-      <div>
+      <!-- <div> -->
         <div style="height: 91px;"></div>
-          <text style="height: 55px;font-size: 35px;">手机号码</text>
+          <!-- <text style="height: 55px;font-size: 35px;">手机号码</text>
         <input type="text" placeholder="请输入手机号" class="input" :autofocus=true value="" v-model="user.username" />
       </div>
       <div>
@@ -17,8 +17,14 @@
       <div>
           <text style="height: 55px;font-size: 35px;">确认密码</text>
         <input type="text" placeholder="再输一次密码" class="input" :autofocus=true value="" v-model="user.confirm"/>
-      </div>
-      <text style="color: red; paddingLeft: 30px; fontSize: 30px">* 密码为至少6位的任意字符</text>
+      </div> -->
+      <am-list :no-border="false">
+        <am-list-input v-model="user.username" title="手机号码" placeholder="请输入手机号码"></am-list-input>
+        <am-list-input v-model="user.email" title="邮箱" placeholder="请输入邮箱"></am-list-input>
+        <am-list-input v-model="user.password" title="密码" placeholder="请输入密码"></am-list-input>
+        <am-list-input v-model="user.confirm" title="确认密码" placeholder="请确认密码"></am-list-input>
+      </am-list>
+      <text style="color: red; paddingLeft: 30px; paddingLeft: 20px; fontSize: 30px">* 密码为至少6位的任意字符</text>
       <wxc-button text="提交"
               type="blue"
               size="full"
@@ -32,13 +38,14 @@
 
 <script>
 import { WxcMinibar, WxcGridSelect, WxcButton, WxcCell } from 'weex-ui'
+import { AmList, AmListInput } from 'weex-amui'
 import { forgetPassword } from '../../utils/user'
 import Category from '../common/category.vue'
 import MiniBar from '../common/MiniBar.vue'
 
 export default {
   name: 'user-psw',
-  components: { WxcMinibar, WxcGridSelect, Category, WxcButton, WxcCell, MiniBar },
+  components: { WxcMinibar, AmList, AmListInput, WxcGridSelect, Category, WxcButton, WxcCell, MiniBar },
   data: () => ({
     seen: true,
     user: { username: '', email: '', plat: '', password: '', confirm: '' },
@@ -124,7 +131,7 @@ export default {
     margin-left: 0px;
     border-color: #BBBBBB;
     padding-top: 0;
-    background-color: #F8F8FF;
+    /* background-color: #F8F8FF; */
   }
   .text {
     color: #666666;
@@ -136,6 +143,7 @@ export default {
   }
   .submits{
     position: relative;
+    margin-top: 20px;
     left: 23px;
     top: 1px;
   }

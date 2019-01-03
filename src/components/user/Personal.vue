@@ -1,20 +1,26 @@
 <template>
   <div class="panel" v-bind:style="panel">
     <scroller>
-      <div>
+      <!-- <div> -->
         <div style="height: 91px;"></div>
-        <div>
-          <text style="height: 55px;font-size: 35px;text-align: center;">所在机构</text>
+        <!-- <div> -->
+          <!-- <text style="height: 55px;font-size: 35px;text-align: center;">所在机构</text>
           <input type="text" placeholder="请输入所在机构" class="input" :autofocus=false v-model="personal.org" />
         </div>
           <text style="height: 55px;font-size: 35px;text-align: center;">科室信息</text>
-          <input type="text" placeholder="请输入科室信息" class="input" :autofocus=false value="" v-model="personal.Department" />
+          <input type="text" placeholder="请输入科室信息" class="input" :autofocus=false value="" v-model="personal.department" />
           <text style="height: 55px;font-size: 35px;text-align: center;">职称</text>
-          <input type="text" placeholder="请输入职称" class="input" :autofocus=false value="" v-model="personal.Title" />
+          <input type="text" placeholder="请输入职称" class="input" :autofocus=false value="" v-model="personal.title" />
           <text style="height: 55px;font-size: 35px;text-align: center;">姓名</text>
-          <input type="text" placeholder="请输入姓名" class="input" :autofocus=false value="" v-model="personal.Name" />
-          <!--<wxc-radio :list="list" @wxcRadioListChecked="wxcRadioListChecked"></wxc-radio>-->
-      </div>
+          <input type="text" placeholder="请输入姓名" class="input" :autofocus=false value="" v-model="personal.name" />
+          <wxc-radio :list="list" @wxcRadioListChecked="wxcRadioListChecked"></wxc-radio>
+      </div> -->
+      <am-list :no-border="false">
+        <am-list-input v-model="personal.org" title="所在机构" placeholder="请输入所在机构"></am-list-input>
+        <am-list-input v-model="personal.department" title="科室信息" placeholder="请输入科室信息"></am-list-input>
+        <am-list-input v-model="personal.title" title="职称" placeholder="请输入职称"></am-list-input>
+        <am-list-input v-model="personal.name" title="姓名" placeholder="请输入姓名"></am-list-input>
+      </am-list>
       <wxc-button text="提交"
               type="blue"
               size="full"
@@ -27,20 +33,21 @@
 
 <script>
 import { WxcMinibar, WxcGridSelect, WxcButton, WxcRadio, WxcCell } from 'weex-ui'
+import { AmList, AmListInput } from 'weex-amui'
 import Category from '../common/category.vue'
 import MiniBar from '../common/MiniBar.vue'
 import { updateUser } from '../../utils/user'
 var modal = weex.requireModule('modal')
 export default {
   name: 'user-person',
-  components: { WxcMinibar, WxcGridSelect, Category, WxcRadio, WxcButton, WxcCell, MiniBar },
+  components: { WxcMinibar, WxcGridSelect, AmList, AmListInput, Category, WxcRadio, WxcButton, WxcCell, MiniBar },
   data: () => ({
     list: [
       { title: '男', value: 1 },
       { title: '女', value: 2, checked: true }
     ],
     checkedInfo: { title: '女', value: 2 },
-    personal: { Department: '', org: '', Title: '', Name: '' }
+    personal: { department: '', org: '', title: '', name: '' }
   }),
   computed: {
     userAnalyse: {
@@ -67,29 +74,34 @@ export default {
       this.personal.gender = e.title
     },
     wxcButtonClicked () {
-      if (this.personal.Department === '') {
-        modal.alert({
-          message: '请输入科室信息',
-          duration: 0.3
-        })
-      } else if (this.personal.Title === '') {
-        modal.alert({
-          message: '请输入职称',
-          duration: 0.3
-        })
-      } else if (this.personal.org === '') {
-        modal.alert({
+      if (this.personal.org === '') {
+        modal.toast({
           message: '请输入所在机构',
           duration: 0.3
         })
-      } else if (this.personal.Name === '') {
-        modal.alert({
+      } else if (this.personal.department === '') {
+        modal.toast({
+          message: '请输入科室信息',
+          duration: 0.3
+        })
+      } else if (this.personal.title === '') {
+        modal.toast({
+          message: '请输入职称',
+          duration: 0.3
+        })
+      } else if (this.personal.name === '') {
+        modal.toast({
           message: '请输入姓名',
           duration: 0.3
         })
       } else {
         updateUser(this, this.personal)
         console.log(this.personal)
+        modal.toast({
+          message: '信息提交成功',
+          duration: 1
+        })
+        this.$store.commit('SET_menu', [4, '个人信息'])
       }
     }
   }

@@ -15,7 +15,7 @@
     </div>
     <!-- <text class="demo-title"  v-if="wt4Case.length !== 0">{{title.count}}</text> -->
      <!-- @loadmore="fetch" -->
-    <list class="list" loadmoreoffset="20" v-if="showData">
+    <list class="list" @loadmore="fetch" loadmoreoffset="20" v-if="showData">
       <cell @longpress="test">
         <am-list :no-border="false" v-if="menu==='填报异常病历'">
           <am-list-item
@@ -34,11 +34,16 @@
             @click="wxcCellClicked(wt4)"></am-list-item>
         </am-list>
       </cell>
-      <cell style="height:200px" v-if="showMore">
-        <!-- <wxc-button text="加载更多"
-          class="submits"
-          size="big"
-          @wxcButtonClicked="fetch"></wxc-button> -->
+      <cell v-if="showMore">
+        <am-nav-bar
+          mode="light"
+          title="加载更多"
+          :left-btn="[]"
+          :right-btn="[]"
+          @click="fetch">
+        </am-nav-bar>
+      </cell>
+      <cell style="height:120px">
       </cell>
     </list>
     <list class="list" loadmoreoffset="20" v-else>
@@ -62,13 +67,13 @@
 <script>
 import { WxcRichText, WxcSpecialRichText, WxcPopup, WxcCell, WxcIndexlist, WxcLoading, WxcPartLoading, WxcButton } from 'weex-ui'
 import { getServer, customSearch } from '../../utils/server'
-import { AmListItem, AmList } from 'weex-amui'
+import { AmListItem, AmList, AmNavBar } from 'weex-amui'
 import { getDetails } from '../../utils/details'
 import MiniBar from '../common/MiniBar.vue'
 import Category from '../common/category.vue'
 const icon = require('../../utils/icon.js')
 export default {
-  components: { WxcIndexlist, AmListItem, AmList, WxcRichText, WxcSpecialRichText, WxcPopup, WxcCell, WxcLoading, WxcPartLoading, WxcButton, MiniBar, Category },
+  components: { WxcIndexlist, AmListItem, AmList, AmNavBar, WxcRichText, WxcSpecialRichText, WxcPopup, WxcCell, WxcLoading, WxcPartLoading, WxcButton, MiniBar, Category },
   data () {
     return {
       forceValue: 0,
@@ -148,10 +153,8 @@ export default {
       }
     },
     wxcCellClicked (e) {
-      // this.$store.commit('SET_infoLevel', 1)
-      // const details = getDetails(this, this.menu, e)
-      // this.$store.commit('SET_info', details)
       if (['未入组病历', 'QY病历', '低风险死亡病历', '费用异常病历'].includes(this.menu)) {
+        this.$store.commit('SET_wt4PopRight', [])
         getServer(this, this.activeTab, `${this.menu}列表`, e)
       } else {
         this.$store.commit('SET_infoLevel', 1)

@@ -1,7 +1,7 @@
 <template>
   <div class="demo"
     v-bind:style="panel">
-    <list class="list">
+    <list class="list" @loadmore="fetch">
       <!-- 当前规则详情 -->
       <cell v-if="infoPage.showInfo">
         <am-list :no-border="false">
@@ -42,14 +42,15 @@
             @click="wxcCellClicked(rule)"></am-list-item>
         </am-list>
       </cell>
-      <cell style="height:200px">
-        <!-- <am-nav-bar
+      <cell>
+        <am-nav-bar
+          v-if="showMore"
           mode="light"
           title="加载更多"
           :left-btn="[]"
           :right-btn="[]"
           @click="fetch">
-        </am-nav-bar> -->
+        </am-nav-bar>
       </cell>
       <cell v-if="infoPage.log">
         <category title="分组日志"></category>
@@ -63,8 +64,7 @@
                 class="submits"
                 @wxcButtonClicked="wxcButtonClicked"></wxc-button>
       </cell> -->
-      <cell>
-        <div style="height:200px"></div>
+      <cell style="height:120px">
       </cell>
     </list>
     <mini-bar :title="title" rightIcon="home" leftIcon="back"></mini-bar>
@@ -110,11 +110,17 @@ export default {
       if (!infoPage) {
         infoPage = {}
       }
-      // modal.toast({ 'message': infoPage.info, 'duration': 1 })
       return infoPage
     },
     title () {
       return this.infoPage.title
+    },
+    showMore () {
+      let show = false
+      if (['未入组病历列表', 'QY病历列表', '低风险死亡病历列表', '费用异常病历列表'].includes(this.infoPage.title)) {
+        show = true
+      }
+      return show
     },
     panel () {
       const tabPageHeight = weex.config.env.deviceHeight
@@ -125,7 +131,7 @@ export default {
     },
     detailsStyle () {
       let style = false
-      if (this.activeTab !== 4) {
+      if (this.activeTab !== 3) {
         const infoPage = this.$store.state.Home.infoPages[this.activeTab][0]
         if (infoPage.info && infoPage.info.length > 0) {
           style = true
@@ -138,13 +144,14 @@ export default {
   },
   methods: {
     fetch () {
-      // this.infoPage.
-      // this.$store.commit('SET_wt4Page', this.$store.state.Edit.wt4Page + 1)
-      // if (this.menu === '自定义查询结果') {
-      //   customSearch(this, this.$store.state.Home.customQuery[0].query)
-      // } else {
-      //   getServer(this, this.activeTab, this.menu)
-      // }
+      let e = null
+      if (this.infoPage.subRule.rules && this.infoPage.subRule.rules[0] && this.infoPage.subRule.rules[0].all) {
+        if (['未入组病历列表', 'QY病历列表', '低风险死亡病历列表', '费用异常病历列表'].includes(this.infoPage.title)) {
+          this.$store.commit('SET_wt4PopRightPage', this.$store.state.Edit.wt4PopRightPage + 1)
+          e = this.infoPage.subRule.rules[0].all
+          getServer(this, this.activeTab, this.infoPage.title, e)
+        }
+      }
     },
     wxcCellClicked (e) {
       const infoLevel = this.$store.state.Home.infoLevel[this.activeTab]
@@ -195,13 +202,13 @@ export default {
       this.$store.commit('SET_forumInfo', forumInfo)
       switch (this.activeTab) {
         case 1:
-          this.$store.commit('SET_menu', [4, '病案讨论'])
+          this.$store.commit('SET_menu', [3, '病案讨论'])
+          break
+        case 0:
+          this.$store.commit('SET_menu', [3, '字典交流'])
           break
         case 2:
-          this.$store.commit('SET_menu', [4, '字典交流'])
-          break
-        case 3:
-          this.$store.commit('SET_menu', [4, 'DRG分析'])
+          this.$store.commit('SET_menu', [3, 'DRG分析'])
           break
       }
       this.$store.commit('SET_showNew', true)

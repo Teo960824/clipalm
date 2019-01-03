@@ -3,6 +3,7 @@
     <div style="height: 91px;"></div>
     <am-list style="width:750px;">
       <div style="height:20px;"></div>
+      <am-list :no-border="false">
       <am-list-item
         title="用户名"
         arrow="empty"
@@ -22,6 +23,7 @@
         arrow="empty"
         :thumb="choice"
         ></am-list-item>
+      </am-list>
       <!-- <am-picker
         title="请选择"
         :placeholder="user.type"
@@ -37,6 +39,7 @@
         </am-list-item>
       </am-picker> -->
       <div style="height:25px;"></div>
+      <am-list :no-border="false">
       <am-picker
         title="请选择"
         :placeholder="`${user.clipalm_icd}`"
@@ -84,6 +87,7 @@
         :thumb="supplement"
         title="完善用户信息"
         @click="click"></am-list-item>
+      </am-list>
       <div style="height:25px;"></div>
     <am-nav-bar
       mode="light"
@@ -155,7 +159,7 @@ export default {
   },
   methods: {
     minibarRightButtonClick (e) {
-      this.$store.commit('SET_menu', [0, '用户登录'])
+      this.$store.commit('SET_menu', [4, '用户登录'])
     },
     yearOk (year, labels) {
       updateUser(this, { clipalm_year: labels[0] })
@@ -174,7 +178,7 @@ export default {
       modal.toast({ message: `已设置${labels[0]}为默认版本`, duration: 1 })
     },
     click () {
-      this.$store.commit('SET_menu', [0, '完善个人信息'])
+      this.$store.commit('SET_menu', [4, '完善个人信息'])
     },
     onHide (type) {
       // console.log('hide', type)

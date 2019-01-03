@@ -4,6 +4,25 @@
     <div class="bigdiv" v-for="(v, i) in menus" :key="`menus${i}`">
       <div v-for="(text, i) in v" :key="`menus${i}`">
         <category :title="i"></category>
+        <!-- <div class="demos">
+          <wxc-cell :has-arrow="false"
+                    :has-top-border="false"
+                    :auto-accessible="false">
+            <image class="image"
+                  slot="label"
+                  :src="title"></image>
+            <text class="red"
+                  style="backgroud-color: white;"
+                  slot="title">{{i}}
+            </text>
+          </wxc-cell>
+        </div> -->
+        <!-- <am-list style="width:750px;">
+          <am-list-item
+            :title="    i"
+            arrow="empty">
+          </am-list-item>
+        </am-list> -->
         <am-grid
           @click="wxcButtonClicked"
           :data="genGrid(text)"
@@ -16,20 +35,19 @@
 
 <script>
 import { Utils, WxcSpecialRichText, WxcButton, WxcRichText, WxcPopover, WxcCell, WxcTag, WxcIcon, WxcGridSelect } from 'weex-ui'
-import { AmGrid } from 'weex-amui'
+import { AmGrid, AmList, AmListItem } from 'weex-amui'
 import MiniBar from '../common/MiniBar.vue'
 import Category from '../common/category.vue'
 import { getServer } from '../../utils/server'
 const modal = weex.requireModule('modal')
 const icon = require('../../utils/icon.js')
 export default {
-  components: { AmGrid, WxcButton, WxcSpecialRichText, WxcRichText, Category, MiniBar, WxcPopover, WxcCell, WxcTag, WxcIcon, WxcGridSelect },
+  components: { AmGrid, WxcButton, AmList, AmListItem, WxcSpecialRichText, WxcRichText, Category, MiniBar, WxcPopover, WxcCell, WxcTag, WxcIcon, WxcGridSelect },
   data () {
     return {
       height: Utils.env.getPageHeight() - 120,
       customStyles: {
         lineSpacing: '14px',
-        icon: '',
         color: '#333333',
         checkedColor: '#ffffff',
         disabledColor: '#eeeeee',
@@ -37,7 +55,8 @@ export default {
         backgroundColor: '#ffffff',
         checkedBackgroundColor: '#ffb200'
       },
-      selection: []
+      selection: [],
+      title: icon('title')
     }
   },
   computed: {
@@ -77,15 +96,15 @@ export default {
           this.$store.commit('SET_wt4Page', 1)
           this.$store.commit('SET_wt4Case', [])
           break
-        case 2:
+        case 0:
           this.$store.commit('SET_libraryPage', 1)
           this.$store.commit('SET_rule', [])
           break
-        case 3:
+        case 2:
           this.$store.commit('SET_statPage', 1)
           this.$store.commit('SET_statDrg', [])
           break
-        case 4:
+        case 3:
           this.$store.commit('SET_post', [])
           this.$store.commit('SET_forumModule', menu)
           break
@@ -119,5 +138,15 @@ export default {
   .bigdiv {
     margin-top: 90px;
     /* width: 550px; */
+  }
+  .demos {
+    font-size: 50px;
+    height: 50px;
+    text-align: center;
+  }
+  .image {
+    width: 7px;
+    height: 27px;
+    margin-right: 20px;
   }
 </style>

@@ -82,12 +82,23 @@ function icdrule (menu, data) {
   // 规则详情
   if (menu === 'ICD10-细目') {
     result.showInfo = true
-    result.info = [
-      {'title': '编码', 'desc': data.code, 'hasArrow': 'empty'},
-      {'title': '年份', 'desc': data.year, 'hasArrow': 'empty'},
-      {'title': 'MCC', 'desc': data.mcc ? '是' : '否', 'hasArrow': 'empty'},
-      {'title': 'CC', 'desc': data.cc ? '是' : '否', 'hasArrow': 'empty'}]
+    if (data.version === 'CN') {
+      result.info = [
+        {'title': '名称', 'desc': data.name, 'hasArrow': 'empty'},
+        {'title': '编码', 'desc': data.codes.join(' / '), 'hasArrow': 'empty'},
+        {'title': '年份', 'desc': data.year, 'hasArrow': 'empty'},
+        {'title': 'MCC', 'desc': data.mcc ? '是' : '否', 'hasArrow': 'empty'},
+        {'title': 'CC', 'desc': data.cc ? '是' : '否', 'hasArrow': 'empty'}]
+    } else {
+      result.info = [
+        {'title': '编码', 'desc': data.code, 'hasArrow': 'empty'},
+        {'title': '名称', 'desc': data.name, 'hasArrow': 'empty'},
+        {'title': '年份', 'desc': data.year, 'hasArrow': 'empty'},
+        {'title': 'MCC', 'desc': data.mcc ? '是' : '否', 'hasArrow': 'empty'},
+        {'title': 'CC', 'desc': data.cc ? '是' : '否', 'hasArrow': 'empty'}]
+    }
   } else if (menu === 'ICD9-细目') {
+    console.log(data)
     result.showInfo = true
     result.info = [
       {'title': '编码', 'desc': data.code, 'hasArrow': 'empty'},
@@ -224,12 +235,13 @@ function wt4 (menu, data) {
       const obj = { date: '', desc: '', highlight: false, title: x }
       return obj
     })
+    console.log(data)
     result.info = [
       {'title': '入组DRG', 'desc': data.drg, 'hasArrow': 'empty'},
       {'title': '病案ID', 'desc': data.b_wt4_v1_id, 'hasArrow': 'empty'},
       {'title': '主要诊断', 'desc': data.disease_code, 'hasArrow': 'empty'},
-      {'title': '其他诊断', 'desc': data.diags_code, 'hasArrow': 'empty'},
-      {'title': '手术/操作', 'desc': data.opers_code, 'hasArrow': 'empty'},
+      {'title': '其他诊断', 'desc': data.diags_code === '' ? '无' : data.diags_code, 'hasArrow': 'empty'},
+      {'title': '手术/操作', 'desc': data.opers_code === '' ? '无' : data.opers_code, 'hasArrow': 'empty'},
       {'title': '住院天数', 'desc': data.acctual_days, 'hasArrow': 'empty'},
       {'title': '住院总费用', 'desc': data.total_expense, 'hasArrow': 'empty'},
       {'title': '性别', 'desc': data.gender, 'hasArrow': 'empty'},
@@ -238,7 +250,7 @@ function wt4 (menu, data) {
       {'title': '新生儿体重', 'desc': data.sf0102 === undefined || data.sf0102 === '-1' ? '未填写' : `${data.sf0102}`, 'hasArrow': 'empty'},
       {'title': '呼吸机使用时间', 'desc': data.sf0104 === undefined || data.sf0104 === '-1' ? '未填写' : `${data.sf0104}`, 'hasArrow': 'empty'},
       {'title': '出院转归', 'desc': data.sf0108, 'hasArrow': 'empty'},
-      {'title': '错误日志', 'desc': data.error_log, 'hasArrow': 'empty'}]
+      {'title': '错误日志', 'desc': data.error_log === undefined || data.error_log === '' ? '-' : `${data.error_log}`, 'hasArrow': 'empty'}]
   }
   // 子规则
   if (data.wt4) {
@@ -251,8 +263,8 @@ function wt4 (menu, data) {
       let title = ''
       switch (menu) {
         case '未入组病历列表':
-          title = x.diags_code === '' ? '-' : x.diags_code
-          desc = `病案ID:${x.b_wt4_v1_id}`
+          title = `其他诊断:${x.diags_code === '' ? '-' : x.diags_code}`
+          desc = `手术/操作:${x.opers_code}`
           break
         case 'QY病历列表':
           title = x.disease_code
