@@ -35,7 +35,7 @@ export function userLogin (obj, user) {
         obj.$store.commit('SET_user', res.data)
         storage.setItem('user', JSON.stringify(user))
         storage.setItem('userState', JSON.stringify(res.data))
-        obj.$store.commit('SET_menu_all', ['病案', '字典', 'DRG分析', '论坛', '个人信息'])
+        obj.$store.commit('SET_menu_all', ['字典', '病案', 'DRG分析', '论坛', '个人信息'])
         butyingPoint(user)
       } else {
         obj.$store.commit('SET_user', { loginResult: '账号或密码错误', login: false, data: { clipalm_version: 'BJ编码版' } })
