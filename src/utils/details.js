@@ -82,12 +82,23 @@ function icdrule (menu, data) {
   // 规则详情
   if (menu === 'ICD10-细目') {
     result.showInfo = true
-    result.info = [
-      {'title': '编码', 'desc': data.code, 'hasArrow': 'empty'},
-      {'title': '年份', 'desc': data.year, 'hasArrow': 'empty'},
-      {'title': 'MCC', 'desc': data.mcc ? '是' : '否', 'hasArrow': 'empty'},
-      {'title': 'CC', 'desc': data.cc ? '是' : '否', 'hasArrow': 'empty'}]
+    if (data.version === 'CN') {
+      result.info = [
+        {'title': '名称', 'desc': data.name, 'hasArrow': 'empty'},
+        {'title': '编码', 'desc': data.codes.join(' / '), 'hasArrow': 'empty'},
+        {'title': '年份', 'desc': data.year, 'hasArrow': 'empty'},
+        {'title': 'MCC', 'desc': data.mcc ? '是' : '否', 'hasArrow': 'empty'},
+        {'title': 'CC', 'desc': data.cc ? '是' : '否', 'hasArrow': 'empty'}]
+    } else {
+      result.info = [
+        {'title': '编码', 'desc': data.code, 'hasArrow': 'empty'},
+        {'title': '名称', 'desc': data.name, 'hasArrow': 'empty'},
+        {'title': '年份', 'desc': data.year, 'hasArrow': 'empty'},
+        {'title': 'MCC', 'desc': data.mcc ? '是' : '否', 'hasArrow': 'empty'},
+        {'title': 'CC', 'desc': data.cc ? '是' : '否', 'hasArrow': 'empty'}]
+    }
   } else if (menu === 'ICD9-细目') {
+    console.log(data)
     result.showInfo = true
     result.info = [
       {'title': '编码', 'desc': data.code, 'hasArrow': 'empty'},
