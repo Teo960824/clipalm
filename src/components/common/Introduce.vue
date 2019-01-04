@@ -1,6 +1,7 @@
 <template>
   <scroller v-bind:style="scroller">
     <div class="panel" v-bind:style="panel">
+      {{show}}
       <div v-if="show">
         <wxc-rich-text :config-list='introduce.title'
                     :has-text-margin="true"
@@ -634,7 +635,7 @@ export default {
       return this.$store.state.Home.activeTab
     },
     show () {
-      if (this.activeTab === 0) {
+      if (this.activeTab === 4) {
         return false
       } else {
         return true
