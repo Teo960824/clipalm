@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div class="wxc-demo">
     <scroller class="scroller">
       <div class="demo">
@@ -22,16 +22,24 @@
       </div>
     </scroller>
   </div>
+</template> -->
+<template>
+  <div>
+    <am-nav-bar
+      :title="title"
+      :left-btn="['left']"
+      :right-btn="['search', 'home']"
+      @click="handleClick"
+    ></am-nav-bar>
+  </div>
 </template>
-
 <script>
 import { WxcMinibar } from 'weex-ui'
-import AmIcon from './icon'
-import Icons from './icon/icon.js'
+import { AmNavBar } from './packages'
 const icon = require('../../utils/icon.js')
 
 export default {
-  components: { WxcMinibar, AmIcon },
+  components: { WxcMinibar, AmNavBar },
   props: {
     title: {
       type: String,
@@ -52,8 +60,7 @@ export default {
       leftButton: '',
       isBottomShow: false,
       miniBarLeftIcon: icon(this.leftIcon),
-      miniBarRighttIcon: icon(this.rightIcon),
-      Icons: Icons
+      miniBarRighttIcon: icon(this.rightIcon)
     }
   },
   created () {
@@ -94,6 +101,9 @@ export default {
     }
   },
   methods: {
+    handleClick (value) {
+      console.log(value)
+    },
     homeButtonClick () {
       const menus = ['字典', '病案', 'DRG分析', '论坛', '个人信息']
       if (this.menu === '个人信息') {
