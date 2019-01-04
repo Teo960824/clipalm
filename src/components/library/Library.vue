@@ -1,6 +1,6 @@
 <template>
   <div class="container" v-bind:class="container">
-    <mini-bar :title="menu" rightIcon="home" leftIcon="back"></mini-bar>
+    <mini-bar :title="menu" :rightIcon="['home']" :leftIcon="['left']"></mini-bar>
     <div class="count1"></div>
     <div class="count" v-if="customQueryShowType">
       <wxc-cell v-for="(item, index) in customQuery" v-bind:key="index"

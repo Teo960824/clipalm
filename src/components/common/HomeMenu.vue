@@ -1,6 +1,6 @@
 <template>
   <div class="demo" v-bind:style="panel">
-    <mini-bar :title="menu" rightIcon="home" leftIcon="search"></mini-bar>
+    <mini-bar :title="menu" :rightIcon="['search', 'home']" :leftIcon="[]"></mini-bar>
     <div v-for="(v, i) in menus" :key="`menus${i}`">
       <div v-for="(text, i) in v" :key="`menus${i}`">
         <category :title="i"></category>

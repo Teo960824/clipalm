@@ -1,6 +1,6 @@
 <template>
   <div class="panel" v-bind:style="panel">
-    <mini-bar title="用户信息" rightIcon="user_stat" leftIcon="setting" :rightButtonShow="rightButtonShow"></mini-bar>
+    <mini-bar style="width:750px;"  title="用户信息" :rightIcon="['stat-card']" :leftIcon="['setting']" :rightButtonShow="rightButtonShow"></mini-bar>
     <am-list style="width:750px;">
       <am-list :no-border="false">
       <am-list-item

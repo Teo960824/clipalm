@@ -1,6 +1,6 @@
 <template>
   <div class="demo" v-bind:style="panel">
-    <mini-bar :title="menu" rightIcon="home" leftIcon="back"></mini-bar>
+    <mini-bar :title="menu" :rightIcon="['home']" :leftIcon="['left']"></mini-bar>
     <div class="count" v-if="showStat" style="backgroundColor: #FFFFFF">
       <wxc-cell v-for="(item, index) in stat" v-bind:key="index"
                 :title="index"

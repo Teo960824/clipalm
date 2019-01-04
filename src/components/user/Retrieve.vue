@@ -1,6 +1,6 @@
 <template>
   <div class="panel" v-bind:style="panel">
-    <mini-bar title="找回密码" rightIcon="home" leftIcon="back"></mini-bar>
+    <mini-bar title="找回密码" :rightIcon="['home']" :leftIcon="['left']"></mini-bar>
     <scroller>
       <!-- <div> -->
         <!-- <div style="height: 91px;"></div> -->

@@ -1,6 +1,6 @@
 <template>
   <div class="demo" v-bind:style="panel" v-if="infoLevel === 1">
-    <mini-bar :title="menu" rightIcon="home" leftIcon="back"></mini-bar>
+    <mini-bar :title="menu" :rightIcon="['home']" :leftIcon="['left']"></mini-bar>
     <!-- <div style="height:90px;"></div> -->
     <category class="category" :title="forum.title"></category>
     <list class="list" loadmoreoffset="20">

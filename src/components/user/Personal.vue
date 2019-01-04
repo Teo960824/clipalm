@@ -1,6 +1,6 @@
 <template>
   <div class="panel" v-bind:style="panel">
-    <mini-bar title="完善个人信息" rightIcon="home" leftIcon="back"></mini-bar>
+    <mini-bar style="width:750px;" title="完善个人信息" :rightIcon="['home']" :leftIcon="['left']"></mini-bar>
     <scroller>
       <!-- <div> -->
         <!-- <div style="height: 91px;"></div> -->

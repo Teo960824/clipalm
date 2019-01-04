@@ -27,8 +27,8 @@
   <div>
     <am-nav-bar
       :title="title"
-      :left-btn="['left']"
-      :right-btn="['search', 'home']"
+      :left-btn="leftIcon"
+      :right-btn="rightIcon"
       @click="handleClick"
     ></am-nav-bar>
   </div>
@@ -46,12 +46,12 @@ export default {
       default: () => ' '
     },
     rightIcon: {
-      type: String,
-      default: () => 'home'
+      type: Array,
+      default: () => ['home']
     },
     leftIcon: {
-      type: String,
-      default: () => 'setting'
+      type: Array,
+      default: () => ['left']
     }
   },
   data () {
@@ -109,10 +109,10 @@ export default {
   methods: {
     handleClick (value) {
       switch (value) {
-        case 'left':
+        case 'left': case 'setting':
           this.leftButtonClick()
           break
-        case 'home':
+        case 'home': case 'stat-card':
           this.homeButtonClick()
           break
         case 'search':
@@ -139,6 +139,7 @@ export default {
     },
     leftButtonClick () {
       const menus = ['字典', '病案', 'DRG分析', '论坛', '个人信息']
+      console.log(this.menu)
       if (this.menu === '个人信息') {
         this.$store.commit('SET_menu', [4, '完善个人信息'])
       } else if (this.menu === '找回密码') {

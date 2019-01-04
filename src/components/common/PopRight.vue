@@ -1,7 +1,7 @@
 <template>
   <div class="demo"
     v-bind:style="panel">
-    <mini-bar :title="title" rightIcon="home" leftIcon="back"></mini-bar>
+    <mini-bar :title="title" :rightIcon="['home']" :leftIcon="['left']"></mini-bar>
     <list @loadmore="fetch">
       <!-- 当前规则详情 -->
       <cell v-if="infoPage.showInfo">
