@@ -108,7 +108,19 @@ export default {
   },
   methods: {
     handleClick (value) {
-      console.log(value)
+      switch (value) {
+        case 'left':
+          this.leftButtonClick()
+          break
+        case 'home':
+          this.homeButtonClick()
+          break
+        case 'search':
+          this.$store.commit('SET_menu', [this.activeTab, '自定义查询'])
+          break
+        default:
+          break
+      }
     },
     homeButtonClick () {
       const menus = ['字典', '病案', 'DRG分析', '论坛', '个人信息']
@@ -126,23 +138,19 @@ export default {
       }
     },
     leftButtonClick () {
-      if (this.leftIcon === 'search') {
+      const menus = ['字典', '病案', 'DRG分析', '论坛', '个人信息']
+      if (this.menu === '个人信息') {
+        this.$store.commit('SET_menu', [4, '完善个人信息'])
+      } else if (this.menu === '找回密码') {
+        this.$store.commit('SET_menu', [4, '用户登录'])
+      } else if (this.menu === '用户统计') {
+        this.$store.commit('SET_menu', [4, '个人信息'])
+      } else if (this.menu === '自定义查询结果' && this.infoLevel === 0) {
         this.$store.commit('SET_menu', [this.activeTab, '自定义查询'])
+      } else if (this.infoLevel === 0) {
+        this.$store.commit('SET_menu', [this.activeTab, menus[this.activeTab]])
       } else {
-        const menus = ['字典', '病案', 'DRG分析', '论坛', '个人信息']
-        if (this.menu === '个人信息') {
-          this.$store.commit('SET_menu', [4, '完善个人信息'])
-        } else if (this.menu === '找回密码') {
-          this.$store.commit('SET_menu', [4, '用户登录'])
-        } else if (this.menu === '用户统计') {
-          this.$store.commit('SET_menu', [4, '个人信息'])
-        } else if (this.menu === '自定义查询结果' && this.infoLevel === 0) {
-          this.$store.commit('SET_menu', [this.activeTab, '自定义查询'])
-        } else if (this.infoLevel === 0) {
-          this.$store.commit('SET_menu', [this.activeTab, menus[this.activeTab]])
-        } else {
-          this.$store.commit('SET_infoLevel', this.infoLevel - 1)
-        }
+        this.$store.commit('SET_infoLevel', this.infoLevel - 1)
       }
     }
   }

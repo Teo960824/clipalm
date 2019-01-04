@@ -2,7 +2,6 @@
   <div class="demo" v-bind:style="panel">
     <mini-bar :title="menu" rightIcon="home" leftIcon="back"></mini-bar>
     <wxc-grid-select
-      class="bigdiv"
       :single="false"
       :cols="5"
       :customStyles="customStyles"
@@ -182,9 +181,6 @@ export default {
 <style scoped>
   .demo {
     width: 750px;
-  }
-  .bigdiv {
-    margin-top: 91px;
   }
   .input {
     width: 750px;
