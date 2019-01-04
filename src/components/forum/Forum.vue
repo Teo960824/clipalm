@@ -1,5 +1,6 @@
 <template>
   <div class="container" v-bind:style="panel">
+    <mini-bar :title="forumModule" rightIcon="home" leftIcon="back"></mini-bar>
     <div v-if="showNew">
       <input type="text" placeholder="输入帖子标题" class="top" :autofocus=true value="" @input="oninput" v-model="forumInfo"/>
       <div class="wrapper">
@@ -58,7 +59,6 @@
         </div>
       </cell>
     </list>
-    <mini-bar :title="forumModule" rightIcon="home" leftIcon="back"></mini-bar>
   </div>
 </template>
 

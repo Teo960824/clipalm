@@ -1,5 +1,6 @@
 <template>
   <div class="panel" v-bind:style="panel">
+    <mini-bar title="用户统计" rightIcon="home" leftIcon="back"></mini-bar>
     <list class="list">
       <cell v-for="(value, key) in userAnalyse" v-bind:key="key">
         <category class="category" :title="`--${key}--`"></category>
@@ -15,7 +16,6 @@
       </cell>
       <cell style="height:100px"> </cell>
     </list>
-    <mini-bar title="用户统计" rightIcon="home" leftIcon="back"></mini-bar>
   </div>
 </template>
 

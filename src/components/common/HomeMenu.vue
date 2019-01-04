@@ -1,7 +1,7 @@
 <template>
   <div class="demo" v-bind:style="panel">
     <mini-bar :title="menu" rightIcon="home" leftIcon="search"></mini-bar>
-    <div class="bigdiv" v-for="(v, i) in menus" :key="`menus${i}`">
+    <div v-for="(v, i) in menus" :key="`menus${i}`">
       <div v-for="(text, i) in v" :key="`menus${i}`">
         <category :title="i"></category>
         <!-- <div class="demos">
@@ -134,10 +134,6 @@ export default {
     /* flex-direction: column;
     align-items: center; */
     /* justify-content: center; */
-  }
-  .bigdiv {
-    margin-top: 90px;
-    /* width: 550px; */
   }
   .demos {
     font-size: 50px;

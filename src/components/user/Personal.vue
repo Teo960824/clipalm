@@ -1,5 +1,6 @@
 <template>
   <div class="panel" v-bind:style="panel">
+    <mini-bar title="完善个人信息" rightIcon="home" leftIcon="back"></mini-bar>
     <scroller>
       <!-- <div> -->
         <div style="height: 91px;"></div>
@@ -27,7 +28,6 @@
               class="submits"
               @wxcButtonClicked="wxcButtonClicked"></wxc-button>
     </scroller>
-    <mini-bar title="完善个人信息" rightIcon="home" leftIcon="back"></mini-bar>
   </div>
 </template>
 

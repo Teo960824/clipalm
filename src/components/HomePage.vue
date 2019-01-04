@@ -56,7 +56,6 @@
     </div>
   </wxc-tab-bar>
   <div v-if="Object.keys(forumInfo).length < 0">{{forumInfo}}</div>
-  <!-- <mini-bar></mini-bar> -->
 </div>
 </template>
 

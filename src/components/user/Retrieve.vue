@@ -1,5 +1,6 @@
 <template>
   <div class="panel" v-bind:style="panel">
+    <mini-bar title="找回密码" rightIcon="home" leftIcon="back"></mini-bar>
     <scroller>
       <!-- <div> -->
         <div style="height: 91px;"></div>
@@ -32,7 +33,6 @@
               @wxcButtonClicked="wxcButtonClicked"></wxc-button>
       <wxc-button :text="loginResult" size="full" :textStyle="textStyle" :btnStyle="btnStyle2"></wxc-button>
     </scroller>
-        <mini-bar title="找回密码" rightIcon="home" leftIcon="back"></mini-bar>
   </div>
 </template>
 

@@ -1,7 +1,8 @@
 <template>
   <div class="demo"
     v-bind:style="panel">
-    <list class="list" @loadmore="fetch">
+    <mini-bar :title="title" rightIcon="home" leftIcon="back"></mini-bar>
+    <list @loadmore="fetch">
       <!-- 当前规则详情 -->
       <cell v-if="infoPage.showInfo">
         <am-list :no-border="false">
@@ -67,7 +68,6 @@
       <cell style="height:120px">
       </cell>
     </list>
-    <mini-bar :title="title" rightIcon="home" leftIcon="back"></mini-bar>
   </div>
 </template>
 <script>
@@ -230,9 +230,6 @@ export default {
   }
   .btns {
     margin-left: 200px;
-  }
-  .list {
-    margin-top: 91px;
   }
   .submits {
     position: relative;

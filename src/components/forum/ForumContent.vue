@@ -1,5 +1,6 @@
 <template>
   <div class="demo" v-bind:style="panel" v-if="infoLevel === 1">
+    <mini-bar :title="menu" rightIcon="home" leftIcon="back"></mini-bar>
     <div style="height:90px;"></div>
     <category class="category" :title="forum.title"></category>
     <list class="list" loadmoreoffset="20">
@@ -46,10 +47,10 @@
           @wxcButtonClicked="wxcDeleteButtonClicked"></wxc-button>
       </cell>
     </list>
-    <mini-bar :title="menu" rightIcon="home" leftIcon="back"></mini-bar>
   </div>
 
   <div class="demo" v-bind:style="panel" v-else>
+    <mini-bar :title="menu" rightIcon="home" leftIcon="back"></mini-bar>
     <div style="height:90px;"></div>
       <!-- <wxc-cell
         :label="`${replyIndex + 1}#`"
@@ -116,7 +117,6 @@
           @wxcButtonClicked="wxcButtonClicked"></wxc-button>
       </cell>
     </list>
-    <mini-bar :title="menu" rightIcon="home" leftIcon="back"></mini-bar>
   </div>
 </template>
 <script>

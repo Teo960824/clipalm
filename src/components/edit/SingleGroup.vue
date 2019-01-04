@@ -1,5 +1,6 @@
 <template>
   <div class="container" v-bind:style="panel">
+    <mini-bar :title="menu" rightIcon="home" leftIcon="back"></mini-bar>
     <list class="panel">
       <cell>
         <div class="row">
@@ -72,7 +73,6 @@
         <div style="height:400px"></div>
       </cell>
     </list>
-    <mini-bar :title="menu" rightIcon="home" leftIcon="back"></mini-bar>
   </div>
 </template>
 

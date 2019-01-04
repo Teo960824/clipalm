@@ -1,8 +1,7 @@
 <template>
   <div class="panel" v-bind:style="panel">
-    <div style="height: 91px;"></div>
+    <mini-bar title="用户信息" rightIcon="user_stat" leftIcon="setting" :rightButtonShow="rightButtonShow"></mini-bar>
     <am-list style="width:750px;">
-      <div style="height:20px;"></div>
       <am-list :no-border="false">
       <am-list-item
         title="用户名"
@@ -97,7 +96,6 @@
       @click="wxcButtonClicked">
     </am-nav-bar>
   </am-list>
-  <mini-bar title="用户信息" rightIcon="user_stat" leftIcon="setting" :rightButtonShow="rightButtonShow"></mini-bar>
   </div>
   </template>
 
