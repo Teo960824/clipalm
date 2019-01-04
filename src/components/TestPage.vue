@@ -37,7 +37,7 @@
 </style>
 
 <script>
-import Waiting from './common/packages/loading'
+import Waiting from './common/packages/waiting'
 import { WxcButton } from 'weex-ui'
 export default {
   components: { Waiting, WxcButton },
@@ -52,9 +52,9 @@ export default {
     openCantClose () {
       this.canAutoClose = false
       this.$refs['fm-waiting'].active()
-      setTimeout(() => {
-        this.$refs['fm-waiting'].hide()
-      }, 6000);
+      // setTimeout(() => {
+      //   this.$refs['fm-waiting'].hide()
+      // }, 6000);
     }
   }
 };

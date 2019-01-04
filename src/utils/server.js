@@ -28,11 +28,11 @@ export function getServer (obj, activeTab, menu, value = null) {
         responseType: 'json',
         url: url
       }, function (res) {
+        obj.$store.commit('SET_isLoadingShow', false)
         if (res.ok) {
           storage.setItem(url, JSON.stringify(res.data))
           setStore(obj, activeTab, menu, res.data)
         } else {
-          obj.$store.commit('SET_isLoadingShow', false)
           modal.toast({ message: '- 网络连接超时 -', duration: 1 })
         }
       })
@@ -155,8 +155,6 @@ function setStore (obj, activeTab, menu, rdata) {
     obj.$store.commit('SET_showData', true)
     obj.$store.commit('SET_showMore', true)
   }
-  // 隐藏查询loading
-  obj.$store.commit('SET_isLoadingShow', false)
 }
 
 export function customSearch (obj, value) {

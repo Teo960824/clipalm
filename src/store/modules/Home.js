@@ -9,7 +9,7 @@ const state = {
   showData: true,
   showMore: true,
   userAnalyse: null,
-  isLoadingShow: false,
+  isLoadingShow: null,
   // 发布版本修改
   version: '1.0.5',
   serverVersion: { version: '1.0.5' },

@@ -3,7 +3,11 @@
   <Version></Version>
 </div>
 <div class="homepage" v-bind:class="homepage" v-else>
-  <loading-gif :show="isLoadingShow"></loading-gif>
+  <Waiting
+    :name="isLoadingShow"
+    ref="fm-waiting"
+    :can-auto-close="false"
+    title="正在查询"></Waiting>
   <wxc-tab-bar
     ref="wxc-tab-bar"
     :tab-titles="tabs"
@@ -62,12 +66,12 @@
 <script>
   import { WxcTabBar, Utils } from 'weex-ui'
   import { getServer, getLastVersion } from '../utils/server'
+  import Waiting from './common/packages/waiting'
   import Version from './common/Version'
   import CustomSelect from './common/CustomSelect'
   import PopRight from './common/PopRight'
   import HomeMenu from './common/HomeMenu'
   import Introduce from './common/Introduce'
-  import LoadingGif from './common/LoadingGif'
   import Edit from './edit/Edit'
   import SingleGroup from './edit/SingleGroup'
   import ForumContent from './forum/ForumContent'
@@ -86,7 +90,7 @@
   const urlConfig = require('../utils/config.js')
   export default {
     components: { WxcTabBar, User, Login, Personal, Retrieve, Edit, SingleGroup, Library,
-      Report, Forum, PopRight, ForumContent, Version, Charts, HomeMenu, Introduce, Analyse, CustomSelect, LoadingGif },
+      Report, Forum, PopRight, ForumContent, Version, Charts, HomeMenu, Introduce, Analyse, CustomSelect, Waiting },
     data: () => ({
       tabs: [{
           title: '字典',
@@ -153,6 +157,13 @@
         return this.$store.state.Home.menu
       },
       isLoadingShow () {
+        if (this.$store.state.Home.isLoadingShow === true) {
+          this.$refs['fm-waiting'].active()
+        } else if (this.$store.state.Home.isLoadingShow === false) {
+          setTimeout(() => {
+            this.$refs['fm-waiting'].hide()
+          }, 300)
+        }
         return this.$store.state.Home.isLoadingShow
       },
       showNewVersion () {

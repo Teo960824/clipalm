@@ -248,8 +248,8 @@ export default {
       }
       this.show = false
       let timeout = 0
-      if (new Date().getTime() - this.loadingStart <= 100000) {
-        timeout = 100000
+      if (new Date().getTime() - this.loadingStart <= 500) {
+        timeout = 500
       }
       setTimeout(() => {
         this.appear(false)
