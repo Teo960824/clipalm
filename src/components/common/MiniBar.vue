@@ -65,6 +65,12 @@ export default {
   },
   created () {
   },
+  // beforeCreate () {
+  //   dom.addRule('fontFace', {
+  //     'fontFamily': 'AMUIIconFont',
+  //     'src': "url('https://at.alicdn.com/t/font_942818_pfnuxuocl2.ttf')"
+  //   })
+  // },
   computed: {
     activeTab () {
       return this.$store.state.Home.activeTab
