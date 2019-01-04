@@ -26,7 +26,7 @@
 
 <script>
 import { WxcMinibar } from 'weex-ui'
-import { AmIcon } from './icon/index.js'
+import AmIcon from './icon'
 import Icons from './icon/icon.js'
 const icon = require('../../utils/icon.js')
 
@@ -52,7 +52,8 @@ export default {
       leftButton: '',
       isBottomShow: false,
       miniBarLeftIcon: icon(this.leftIcon),
-      miniBarRighttIcon: icon(this.rightIcon)
+      miniBarRighttIcon: icon(this.rightIcon),
+      Icons: Icons
     }
   },
   created () {

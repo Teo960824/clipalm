@@ -59,7 +59,7 @@ export default {
   beforeCreate () {
     dom.addRule('fontFace', {
       'fontFamily': 'AMUIIconFont',
-      'src': "url('https://at.alicdn.com/t/font_666184_6i47o5l7pbiysyvi.ttf')"
+      'src': "url('https://at.alicdn.com/t/font_942818_pfnuxuocl2.ttf')"
     })
   }
 }
