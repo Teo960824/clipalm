@@ -3,7 +3,7 @@
     <mini-bar title="完善个人信息" rightIcon="home" leftIcon="back"></mini-bar>
     <scroller>
       <!-- <div> -->
-        <div style="height: 91px;"></div>
+        <!-- <div style="height: 91px;"></div> -->
         <!-- <div> -->
           <!-- <text style="height: 55px;font-size: 35px;text-align: center;">所在机构</text>
           <input type="text" placeholder="请输入所在机构" class="input" :autofocus=false v-model="personal.org" />

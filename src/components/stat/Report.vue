@@ -162,9 +162,6 @@ export default {
   .container {
     width: 750px;
   }
-  .count1 {
-    margin-top: 90px;
-  }
   .submits{
     position: relative;
     left: 210px;

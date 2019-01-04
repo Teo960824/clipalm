@@ -232,7 +232,7 @@ export default {
   margin-left: 17px;
   margin-bottom: 12px;
   margin-bottom: 12px;
-  margin-top: 100px;
+  margin-top: 10px;
 }
 .wrapper {
   margin-top: 0px;

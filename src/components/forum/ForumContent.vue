@@ -1,7 +1,7 @@
 <template>
   <div class="demo" v-bind:style="panel" v-if="infoLevel === 1">
     <mini-bar :title="menu" rightIcon="home" leftIcon="back"></mini-bar>
-    <div style="height:90px;"></div>
+    <!-- <div style="height:90px;"></div> -->
     <category class="category" :title="forum.title"></category>
     <list class="list" loadmoreoffset="20">
       <cell v-for="(data, index) in content" v-bind:key="index">
