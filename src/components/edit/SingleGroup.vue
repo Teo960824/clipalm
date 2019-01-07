@@ -91,7 +91,7 @@ export default {
       { label: '医嘱转入社区', value: '医嘱转入社区' },
       { label: '非医嘱离院', value: '非医嘱离院' },
       { label: '死亡', value: '死亡' },
-      { titlabelle: '其他', value: '其他' }],
+      { label: '其他', value: '其他' }],
     testData2: [{ title: '男', checked: true }, { title: '女' }]
   }),
   computed: {
