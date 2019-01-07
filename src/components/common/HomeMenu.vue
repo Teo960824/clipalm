@@ -1,28 +1,9 @@
 <template>
   <div class="demo" v-bind:style="panel">
-    <mini-bar :title="menu" :rightIcon="['search', 'home']" :leftIcon="[]"></mini-bar>
+    <mini-bar :title="menu" :rightIcon="['home']" :leftIcon="['search']"></mini-bar>
     <div v-for="(v, i) in menus" :key="`menus${i}`">
       <div v-for="(text, i) in v" :key="`menus${i}`">
         <category :title="i"></category>
-        <!-- <div class="demos">
-          <wxc-cell :has-arrow="false"
-                    :has-top-border="false"
-                    :auto-accessible="false">
-            <image class="image"
-                  slot="label"
-                  :src="title"></image>
-            <text class="red"
-                  style="backgroud-color: white;"
-                  slot="title">{{i}}
-            </text>
-          </wxc-cell>
-        </div> -->
-        <!-- <am-list style="width:750px;">
-          <am-list-item
-            :title="    i"
-            arrow="empty">
-          </am-list-item>
-        </am-list> -->
         <am-grid
           @click="wxcButtonClicked"
           :data="genGrid(text)"

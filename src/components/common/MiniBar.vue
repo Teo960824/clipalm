@@ -1,28 +1,3 @@
-<!-- <template>
-  <div class="wxc-demo">
-    <scroller class="scroller">
-      <div class="demo">
-        <wxc-minibar :title="title"
-                    background-color="#009ff0"
-                    text-color="#FFFFFF"
-                    :show="isShow"
-                    left-button=""
-                    :use-default-return="false"
-                    @wxcMinibarRightButtonClicked="homeButtonClick"
-                    @wxcMinibarLeftButtonClicked="leftButtonClick">
-          <image :src="miniBarLeftIcon"
-                 v-if="leftButtonShow"
-                 slot="left"
-                 style="height: 36px;width: 36px;"></image>
-          <image :src="miniBarRighttIcon"
-                 slot="right"
-                 style="height: 36px;width: 36px;"></image>
-        </wxc-minibar>
-         <am-icon type="left" size="lg" />
-      </div>
-    </scroller>
-  </div>
-</template> -->
 <template>
   <div>
     <nav-bar
@@ -99,10 +74,6 @@ export default {
     }
   },
   created () {
-    if (this.activeTab === 0) {
-      console.log(this.leftIcon)
-      console.log(this.rightIcon)
-    }
   },
   methods: {
     handleClick (value) {
