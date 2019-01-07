@@ -6,8 +6,6 @@
 
 <script>
 const icon = require('../../../../utils/icon.js')
-const dom = weex.requireModule('dom')
-
 export default {
   name: 'icon',
   props: {
@@ -17,7 +15,7 @@ export default {
     },
     size: {
       type: [String, Number],
-      default: 'xs' // xxs,xs,sm,md,lg
+      default: 'sm' // xxs,xs,sm,md,lg
     },
     color: {
       type: String,
@@ -52,16 +50,6 @@ export default {
       }
       return style
     }
-  },
-  beforeCreate () {
-    dom.addRule('fontFace', {
-      'fontFamily': 'AMUIIconFont',
-      'src': "url('http://127.0.0.1/images/font_942818_pfnuxuocl2.ttf')"
-    })
-  },
-  created () {
-    console.log(this.iconClass)
-    console.log(this.iconStyle)
   }
 }
 </script>

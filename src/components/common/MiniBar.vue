@@ -51,7 +51,7 @@ export default {
     },
     leftIcon: {
       type: Array,
-      default: () => ['left']
+      default: () => []
     }
   },
   data () {
@@ -63,15 +63,6 @@ export default {
       miniBarRighttIcon: icon(this.rightIcon)
     }
   },
-  created () {
-    console.log(this.miniBarLeftIcon)
-  },
-  // beforeCreate () {
-  //   dom.addRule('fontFace', {
-  //     'fontFamily': 'AMUIIconFont',
-  //     'src': "url('https://at.alicdn.com/t/font_942818_pfnuxuocl2.ttf')"
-  //   })
-  // },
   computed: {
     activeTab () {
       return this.$store.state.Home.activeTab
@@ -105,6 +96,12 @@ export default {
           break
       }
       return show
+    }
+  },
+  created () {
+    if (this.activeTab === 0) {
+      console.log(this.leftIcon)
+      console.log(this.rightIcon)
     }
   },
   methods: {
