@@ -1,17 +1,11 @@
 <template>
-  <!-- <text
-    v-if="type"
-    class="am-icon"
-    :class="iconClass"
-    :style="iconStyle"
-  >{{Icon['solution']}}</text> -->
-  <image :src="`http://192.168.0.79/images/${type}.png`"
+  <image :src="iconSrc"
          class="am-icon"
          :class="iconClass"></image>
 </template>
 
 <script>
-import Icon from './icon'
+const icon = require('../../../../utils/icon.js')
 const dom = weex.requireModule('dom')
 
 export default {
@@ -23,7 +17,7 @@ export default {
     },
     size: {
       type: [String, Number],
-      default: 'md' // xxs,xs,sm,md,lg
+      default: 'xs' // xxs,xs,sm,md,lg
     },
     color: {
       type: String,
@@ -36,7 +30,7 @@ export default {
   },
   data () {
     return {
-      Icon
+      iconSrc: icon(this.type)
     }
   },
   computed: {
