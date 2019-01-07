@@ -1,10 +1,13 @@
 <template>
-  <text
+  <!-- <text
     v-if="type"
     class="am-icon"
     :class="iconClass"
     :style="iconStyle"
-  >{{Icon[type] || type}}</text>
+  >{{Icon['solution']}}</text> -->
+  <image :src="`http://192.168.0.79/images/${type}.png`"
+         class="am-icon"
+         :class="iconClass"></image>
 </template>
 
 <script>
@@ -12,7 +15,7 @@ import Icon from './icon'
 const dom = weex.requireModule('dom')
 
 export default {
-  name: 'am-icon',
+  name: 'icon',
   props: {
     type: {
       type: String,
@@ -59,8 +62,12 @@ export default {
   beforeCreate () {
     dom.addRule('fontFace', {
       'fontFamily': 'AMUIIconFont',
-      'src': "url('https://at.alicdn.com/t/font_942818_pfnuxuocl2.ttf')"
+      'src': "url('http://127.0.0.1/images/font_942818_pfnuxuocl2.ttf')"
     })
+  },
+  created () {
+    console.log(this.iconClass)
+    console.log(this.iconStyle)
   }
 }
 </script>

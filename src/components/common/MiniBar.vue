@@ -25,21 +25,21 @@
 </template> -->
 <template>
   <div>
-    <am-nav-bar
+    <nav-bar
       :title="title"
       :left-btn="leftIcon"
       :right-btn="rightIcon"
       @click="handleClick"
-    ></am-nav-bar>
+    ></nav-bar>
   </div>
 </template>
 <script>
 import { WxcMinibar } from 'weex-ui'
-import { AmNavBar } from './packages'
+import { NavBar } from './packages'
 const icon = require('../../utils/icon.js')
 
 export default {
-  components: { WxcMinibar, AmNavBar },
+  components: { WxcMinibar, NavBar },
   props: {
     title: {
       type: String,
@@ -64,6 +64,7 @@ export default {
     }
   },
   created () {
+    console.log(this.miniBarLeftIcon)
   },
   // beforeCreate () {
   //   dom.addRule('fontFace', {

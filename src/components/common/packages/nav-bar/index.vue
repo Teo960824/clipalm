@@ -8,7 +8,7 @@
           :class="['am-nav-bar-btn', `am-nav-bar-${mode}-btn`]"
           @click="handleClick(item)"
         >
-          <am-icon
+          <icon
             v-if="item.is === 'icon'"
             :type="item.type"
             :class="['am-nav-bar-btn-icon', `am-nav-bar-${mode}-btn-icon`]"
@@ -32,7 +32,7 @@
           @click="handleClick(item)"
           :class="['am-nav-bar-btn', `am-nav-bar-${mode}-btn`]"
         >
-          <am-icon
+          <icon
             v-if="item.is === 'icon'"
             :type="item.type"
             :class="['am-nav-bar-btn-icon', `am-nav-bar-${mode}-btn-icon`]"
@@ -41,7 +41,6 @@
             v-else-if="item.is === 'text'"
             :class="['am-nav-bar-btn-text', `am-nav-bar-${mode}-btn-text`]"
           >{{item.text}}</text>
-          <!-- <image v-else-if="item.is === 'image'" :src="item.src"/> -->
         </div>
       </slot>
     </div>
@@ -50,11 +49,11 @@
 
 <script>
 // import Utils from './utils'
-import AmIcon from '../icon'
+import Icon from '../icon'
 const Navigator = weex.requireModule('navigator')
 
 export default {
-  name: 'am-nav-bar',
+  name: 'nav-bar',
   props: {
     mode: {
       type: String,
@@ -79,7 +78,7 @@ export default {
       default: () => []
     }
   },
-  components: { AmIcon },
+  components: { Icon },
   computed: {
     navBarClass () {
       return [

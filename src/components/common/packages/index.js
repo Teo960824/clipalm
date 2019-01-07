@@ -1,7 +1,7 @@
-import AmIcon from './icon'
-import AmNavBar from './nav-bar'
+import Icon from './icon'
+import NavBar from './nav-bar'
 
 export {
-  AmIcon,
-  AmNavBar
+  Icon,
+  NavBar
 }
