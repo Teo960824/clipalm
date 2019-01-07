@@ -10,16 +10,17 @@ const state = {
   showMore: true,
   userAnalyse: null,
   isLoadingShow: null,
+  customQuery: [{show: false, query: {}}, {show: false, query: {}}, {show: false, query: {}}],
+  forumInfo: {},
+  showFilter: false,
   // 发布版本修改
   version: '1.0.5',
-  serverVersion: { version: '1.0.5' },
-  customQuery: [{show: false, query: {}}, {show: false, query: {}}, {show: false, query: {}}],
-  forumInfo: {}
+  serverVersion: { version: '1.0.5' }
 }
 
 const mutations = {
-  SET_miniBarTitle (state, x) {
-    state.miniBarTitle = x
+  SET_showFilter (state, x) {
+    state.showFilter = x
   },
   SET_activeTab (state, x) {
     state.activeTab = x
@@ -100,7 +101,7 @@ const actions = {
   someAsyncTask ({ commit }) {
     commit('SET_forumInfo')
     commit('SET_userMenu')
-    commit('SET_miniBarTitle')
+    commit('SET_showFilter')
     commit('SET_serverVersion')
     commit('SET_activeTab')
     commit('SET_showData')

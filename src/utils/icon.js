@@ -7,6 +7,7 @@ const images = {
   'stat-card': 'solution400.png',
   'home': 'home400.png',
   'left': 'left400.png',
+  'filter': 'filter400.png',
   'search': 'search400.png',
   '用户登录': '用户登录.png',
   '完善个人信息': '完善个人信息.png',

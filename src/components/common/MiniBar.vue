@@ -87,6 +87,10 @@ export default {
         case 'search':
           this.$store.commit('SET_menu', [this.activeTab, '自定义查询'])
           break
+        case 'filter':
+          this.$store.commit('SET_showFilter', true)
+          // this.$store.commit('SET_menu', [this.activeTab, '自定义查询'])
+          break
         default:
           break
       }
