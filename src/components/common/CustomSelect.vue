@@ -1,5 +1,5 @@
 <template>
-  <div class="demo" v-bind:style="panel">
+  <!-- <div class="demo" v-bind:style="panel">
     <mini-bar :title="menu" :rightIcon="['home']" :leftIcon="['left']"></mini-bar>
     <wxc-grid-select
       :single="false"
@@ -36,6 +36,18 @@
               size="full"
               class="submits"
               @wxcButtonClicked="wxcButtonClicked"></wxc-button>
+  </div> -->
+  <div class="demo" v-bind:style="panel">
+    <mini-bar :title="menu" :rightIcon="['home']" :leftIcon="['left']"></mini-bar>
+    <div>
+      <text style="font-size: 35px;margin: 5px">查询条件：</text>
+      <input type="text" placeholder="查询条件" class="input" :autofocus=true v-model="condition"/>
+    </div>
+    <wxc-button text="查询"
+              type="blue"
+              size="full"
+              class="submits"
+              @wxcButtonClicked="wxcButtonClicked"></wxc-button>
   </div>
 </template>
 
@@ -61,7 +73,7 @@ export default {
       },
       selected: [],
       // selected1: [],
-      condition: {},
+      condition: '',
       conditions: { },
       showStyle: ['入组DRG', '主要诊断', '其他诊断', '编码', '名称', '年份', '版本'],
       library: [
@@ -148,32 +160,34 @@ export default {
       }
     },
     wxcButtonClicked () {
-      Object.keys(this.condition).map((key) => {
-        if (!this.showStyle.includes(key)) {
-          this.condition[key] = [this.conditions[`${key}1`], this.conditions[`${key}2`]]
-        }
-      })
-      if (this.activeTab === 2) {
-        this.condition['字典'] = this.drg
-      } else if (this.activeTab === 3) {
-        this.condition['分析'] = this.drg
-      }
-      switch (this.activeTab) {
-        case 1:
-          this.$store.commit('SET_wt4Page', 1)
-          this.$store.commit('SET_wt4Case', [])
-          break
-        case 2:
-          this.$store.commit('SET_libraryPage', 1)
-          this.$store.commit('SET_rule', [])
-          break
-        case 3:
-          this.$store.commit('SET_statPage', 1)
-          this.$store.commit('SET_statDrg', [])
-          break
-      }
-      customSearch(this, this.condition)
-      this.$store.commit('SET_customQuery', [this.activeTab - 1, {show: true, query: this.condition}])
+      // Object.keys(this.condition).map((key) => {
+      //   if (!this.showStyle.includes(key)) {
+      //     this.condition[key] = [this.conditions[`${key}1`], this.conditions[`${key}2`]]
+      //   }
+      // })
+      // if (this.activeTab === 2) {
+      //   this.condition['字典'] = this.drg
+      // } else if (this.activeTab === 3) {
+      //   this.condition['分析'] = this.drg
+      // }
+      // switch (this.activeTab) {
+      //   case 1:
+      //     this.$store.commit('SET_wt4Page', 1)
+      //     this.$store.commit('SET_wt4Case', [])
+      //     break
+      //   case 2:
+      //     this.$store.commit('SET_libraryPage', 1)
+      //     this.$store.commit('SET_rule', [])
+      //     break
+      //   case 3:
+      //     this.$store.commit('SET_statPage', 1)
+      //     this.$store.commit('SET_statDrg', [])
+      //     break
+      // }
+      // this.$store.commit('SET_customQuery', obj)
+      const obj = {}
+      obj['key'] = this.condition
+      customSearch(this, obj)
     }
   }
 }

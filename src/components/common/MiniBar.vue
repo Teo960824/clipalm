@@ -1,28 +1,3 @@
-<!-- <template>
-  <div class="wxc-demo">
-    <scroller class="scroller">
-      <div class="demo">
-        <wxc-minibar :title="title"
-                    background-color="#009ff0"
-                    text-color="#FFFFFF"
-                    :show="isShow"
-                    left-button=""
-                    :use-default-return="false"
-                    @wxcMinibarRightButtonClicked="homeButtonClick"
-                    @wxcMinibarLeftButtonClicked="leftButtonClick">
-          <image :src="miniBarLeftIcon"
-                 v-if="leftButtonShow"
-                 slot="left"
-                 style="height: 36px;width: 36px;"></image>
-          <image :src="miniBarRighttIcon"
-                 slot="right"
-                 style="height: 36px;width: 36px;"></image>
-        </wxc-minibar>
-         <am-icon type="left" size="lg" />
-      </div>
-    </scroller>
-  </div>
-</template> -->
 <template>
   <div>
     <nav-bar
@@ -51,7 +26,7 @@ export default {
     },
     leftIcon: {
       type: Array,
-      default: () => ['left']
+      default: () => []
     }
   },
   data () {
@@ -63,15 +38,6 @@ export default {
       miniBarRighttIcon: icon(this.rightIcon)
     }
   },
-  created () {
-    console.log(this.miniBarLeftIcon)
-  },
-  // beforeCreate () {
-  //   dom.addRule('fontFace', {
-  //     'fontFamily': 'AMUIIconFont',
-  //     'src': "url('https://at.alicdn.com/t/font_942818_pfnuxuocl2.ttf')"
-  //   })
-  // },
   computed: {
     activeTab () {
       return this.$store.state.Home.activeTab
@@ -107,6 +73,8 @@ export default {
       return show
     }
   },
+  created () {
+  },
   methods: {
     handleClick (value) {
       switch (value) {
@@ -118,6 +86,10 @@ export default {
           break
         case 'search':
           this.$store.commit('SET_menu', [this.activeTab, '自定义查询'])
+          break
+        case 'filter':
+          this.$store.commit('SET_showFilter', true)
+          // this.$store.commit('SET_menu', [this.activeTab, '自定义查询'])
           break
         default:
           break
