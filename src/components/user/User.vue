@@ -41,13 +41,27 @@
       <am-list :no-border="false">
       <am-picker
         title="请选择"
+        :placeholder="user.clipalm_year"
+        :data="year"
+        @ok="yearOk"
+        @hide="onHide">
+        <am-list-item
+          slot-scope="{ extra, show }"
+          title="优先使用年份"
+          :thumb="time"
+          :extra="extra"
+          @click="show">
+        </am-list-item>
+      </am-picker>
+      <am-picker
+        title="请选择"
         :placeholder="`${user.clipalm_icd}`"
         :data="icds"
         @ok="icdOk"
         @hide="onHide">
         <am-list-item
           slot-scope="{ extra, show }"
-          title="ICD"
+          title="优先使用ICD版本"
           :thumb="icd"
           :extra="extra"
           @click="show">
@@ -61,22 +75,8 @@
         @hide="onHide">
         <am-list-item
           slot-scope="{ extra, show }"
-          title="版本"
+          title="优先使用规则版本"
           :thumb="version"
-          :extra="extra"
-          @click="show">
-        </am-list-item>
-      </am-picker>
-      <am-picker
-        title="请选择"
-        :placeholder="user.clipalm_year"
-        :data="year"
-        @ok="yearOk"
-        @hide="onHide">
-        <am-list-item
-          slot-scope="{ extra, show }"
-          title="年份"
-          :thumb="time"
           :extra="extra"
           @click="show">
         </am-list-item>
